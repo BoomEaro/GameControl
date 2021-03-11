@@ -22,8 +22,8 @@ public interface IGameManager {
     public void leave(Player pl) throws ConsoleGameException, PlayerGameException;
     
     public IGamePlayer getGamePlayer(String name);
-    public Collection<IGamePlayer> getAllPlayers();
+    public Collection<? extends IGamePlayer> getAllPlayers();
     
     public IGameArena getGameArena(String name);
-    public Collection<IGameArena> getAllArenas();
+    public Collection<? extends IGameArena> getAllArenas();
 }

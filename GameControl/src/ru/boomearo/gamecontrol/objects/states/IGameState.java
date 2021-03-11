@@ -6,7 +6,9 @@ public interface IGameState {
 
     public String getName();
     
-    public void initState(IGameArena arena);
+    public IGameArena getArena();
     
-    public void autoUpdateHandler(IGameArena arena);
+    public void initState();
+    
+    public void autoUpdateHandler();
 }

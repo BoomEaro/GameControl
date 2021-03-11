@@ -11,15 +11,33 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.exceptions.PlayerGameException;
+import ru.boomearo.gamecontrol.objects.IGameArena;
 import ru.boomearo.gamecontrol.objects.IGameManager;
 import ru.boomearo.gamecontrol.objects.IGamePlayer;
+import ru.boomearo.gamecontrol.runnable.RegenPool;
 
 public final class GameManager {
 
     private final ConcurrentMap<Class<? extends JavaPlugin>, IGameManager> games = new ConcurrentHashMap<Class<? extends JavaPlugin>, IGameManager>();
     private final ConcurrentMap<String, IGamePlayer> players = new ConcurrentHashMap<String, IGamePlayer>();
     
+    private final RegenPool pool = new RegenPool();
+    
     private final Object lock = new Object();
+    
+    public RegenPool getRegenPool() {
+        return this.pool;
+    }
+    
+    public void queueRegenArena(IGameArena arena) {
+        if (arena == null) {
+            return;
+        }
+        
+        this.pool.addTask(() -> {
+            arena.regen();
+        });
+    }
     
     public void registerGame(Class<? extends JavaPlugin> clazz, IGameManager manager) throws ConsoleGameException {
         if (clazz == null || manager == null) {

@@ -29,6 +29,8 @@ public class GameControl extends JavaPlugin {
     
     @Override
     public void onDisable() {
+        this.manager.getRegenPool().stop();
+        
         for (Class<? extends JavaPlugin> cl : new HashSet<Class<? extends JavaPlugin>>(this.manager.getAllGameClasses())) {
             try {
                 this.manager.unregisterGame(cl);

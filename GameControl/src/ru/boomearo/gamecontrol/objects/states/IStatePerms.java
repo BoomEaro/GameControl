@@ -1,5 +1,5 @@
 package ru.boomearo.gamecontrol.objects.states;
 
-public interface IStateFlag {
+public interface IStatePerms {
 
 }
