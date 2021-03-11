@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
+import ru.boomearo.gamecontrol.exceptions.GameControlException;
 import ru.boomearo.gamecontrol.exceptions.PlayerGameException;
 import ru.boomearo.gamecontrol.objects.IGameArena;
 import ru.boomearo.gamecontrol.objects.IGameManager;
@@ -35,7 +36,11 @@ public final class GameManager {
         }
         
         this.pool.addTask(() -> {
+            GameControl.getInstance().getLogger().info("Начинаю регенерацию арены " + arena.getName() + " в игре " + arena.getManager().getGameName());
+            long start = System.currentTimeMillis();
             arena.regen();
+            long end = System.currentTimeMillis();
+            GameControl.getInstance().getLogger().info("Регенерация арены " + arena.getName() + " в игре " + arena.getManager().getGameName() + " успешно завершена за " + (end - start) + "мс.");
         });
     }
     
@@ -67,7 +72,16 @@ public final class GameManager {
             }
             
             this.games.remove(clazz);
-            GameControl.getInstance().getLogger().info("Класс " + clazz.getName() + " больше не зарегистрирован.");
+            
+            //Кикаем игроков из игры
+            for (IGamePlayer igma : igm.getAllPlayers()) {
+                try {
+                    leaveGame(igma.getPlayer());
+                } 
+                catch (GameControlException e) {}
+            }
+            
+            GameControl.getInstance().getLogger().info("Игра " + igm.getGameName() + " больше не зарегистрирована.");
         }
     }
     

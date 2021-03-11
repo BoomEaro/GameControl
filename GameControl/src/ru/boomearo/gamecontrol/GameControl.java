@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.listeners.PlayerListener;
 import ru.boomearo.gamecontrol.managers.GameManager;
+import ru.boomearo.gamecontrol.utils.Vault;
 
 public class GameControl extends JavaPlugin {
 
@@ -17,6 +18,8 @@ public class GameControl extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        
+        Vault.setupEconomy();
         
         if (this.manager == null) {
             this.manager = new GameManager();
