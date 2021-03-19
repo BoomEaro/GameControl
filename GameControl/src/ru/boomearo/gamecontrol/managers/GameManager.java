@@ -25,7 +25,7 @@ public final class GameManager {
     private final RegenPool pool = new RegenPool();
     
     private final Object lock = new Object();
-    
+   
     public RegenPool getRegenPool() {
         return this.pool;
     }

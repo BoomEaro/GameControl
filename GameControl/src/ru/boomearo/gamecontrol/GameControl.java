@@ -23,7 +23,7 @@ public class GameControl extends JavaPlugin {
     private Essentials ess = null;
     
     private static GameControl instance = null;
-
+    
     @Override
     public void onEnable() {
         instance = this;
@@ -43,7 +43,12 @@ public class GameControl extends JavaPlugin {
     
     @Override
     public void onDisable() {
-        this.manager.getRegenPool().stop();
+        try {
+            this.manager.getRegenPool().stop();
+        }
+        catch (InterruptedException e1) {
+            e1.printStackTrace();
+        }
         
         for (Class<? extends JavaPlugin> cl : new HashSet<Class<? extends JavaPlugin>>(this.manager.getAllGameClasses())) {
             try {

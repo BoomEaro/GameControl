@@ -1,9 +1,11 @@
 package ru.boomearo.gamecontrol.runnable;
 
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+import ru.boomearo.gamecontrol.GameControl;
 
 public abstract class AbstractPool {
 
@@ -17,12 +19,13 @@ public abstract class AbstractPool {
         this.pool.execute(task);
     }
     
-    public void stop() {
-        List<Runnable> ru = this.pool.shutdownNow();
-        //Выполняем оставшиеся задачи в момент выключения
-        for (Runnable r : ru) {
-            r.run();
-        }
+    public void stop() throws InterruptedException {
+        long start = System.currentTimeMillis();
+        GameControl.getInstance().getLogger().info("Ожидаем закрытия пула регенерации арен..");
+        this.pool.shutdown();
+        this.pool.awaitTermination(2, TimeUnit.MINUTES);
+        long end = System.currentTimeMillis();
+        GameControl.getInstance().getLogger().info("Пул регенераций закрыт за " + (end - start) + "мс");
     }
     
 }

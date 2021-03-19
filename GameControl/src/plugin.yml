@@ -4,4 +4,4 @@ version: 0.1
 author: BoomEaro
 description: GameControl
 api-version: 1.13
-depend: [Vault, Essentials]
+depend: [Vault, Essentials, FastAsyncWorldEdit]
