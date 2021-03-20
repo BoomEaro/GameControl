@@ -2,11 +2,15 @@ package ru.boomearo.gamecontrol.objects;
 
 import java.util.Collection;
 
+import org.bukkit.World;
+
 import ru.boomearo.gamecontrol.objects.states.IGameState;
 
 public interface IGameArena {
 
     public String getName();
+    
+    public World getWorld();
     
     public IGameManager getManager();
     
