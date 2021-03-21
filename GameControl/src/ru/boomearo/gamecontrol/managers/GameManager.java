@@ -129,10 +129,11 @@ public final class GameManager {
             if (igp == null) {
                 throw new PlayerGameException("Вы не в игре!");
             }
-
-            igp.getArena().getManager().leave(pl);
             
+            //Сначала удлаляем в общей, даже если произойдет исключение, выход из игры должен быть ВСЕГДА
             this.players.remove(pl.getName());
+            
+            igp.getArena().getManager().leave(pl);
         }
     }
     
