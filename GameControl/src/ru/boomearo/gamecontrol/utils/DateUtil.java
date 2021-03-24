@@ -95,7 +95,13 @@ public class DateUtil {
     }
     //Мой метод :3
     //Формирование текста для бана.
+    
+    
     public static String formatedTime(long time, boolean devide) {
+        return formatedTime(time, devide, false);
+    }
+    
+    public static String formatedTime(long time, boolean devide, boolean mini) {
         long timeSecond;
         if (devide) {
             timeSecond = time / 1000;
@@ -132,25 +138,25 @@ public class DateUtil {
 
         StringBuilder sb = new StringBuilder("");
         if (year > 0) {
-            sb.append(year + " " + convertSu(year, "год", "года", "лет") + (month > 0 || week > 0 || day > 0 || hour > 0 || min > 0 || sec > 0 ? " " : ""));
+            sb.append(year + " " + (mini ? "г." : convertSu(year, "год", "года", "лет")) + (month > 0 || week > 0 || day > 0 || hour > 0 || min > 0 || sec > 0 ? " " : ""));
         }
         if (month > 0) {
-            sb.append(month + " " + convertSu(month, "месяц", "месяца", "месяцев") + (week > 0 || day > 0 || hour > 0 || min > 0 || sec > 0 ? " " : ""));
+            sb.append(month + " " + (mini ? "М." :  convertSu(month, "месяц", "месяца", "месяцев")) + (week > 0 || day > 0 || hour > 0 || min > 0 || sec > 0 ? " " : ""));
         }
         if (week > 0) {
-            sb.append(week + " " + convertSu(week, "неделю", "недели", "недель") + (day > 0 || hour > 0 || min > 0 || sec > 0 ? " " : ""));
+            sb.append(week + " " + (mini ? "н." : convertSu(week, "неделю", "недели", "недель")) + (day > 0 || hour > 0 || min > 0 || sec > 0 ? " " : ""));
         }
         if (day > 0) {
-            sb.append(day + " " + convertSu(day, "день", "дня", "дней") + (hour > 0 || min > 0 || sec > 0 ? " " : ""));
+            sb.append(day + " " + (mini ? "д." : convertSu(day, "день", "дня", "дней"))  + (hour > 0 || min > 0 || sec > 0 ? " " : ""));
         }
         if (hour > 0) {
-            sb.append(hour + " " + convertSu(hour, "час", "часа", "часов") + (min > 0 || sec > 0 ? " " : ""));
+            sb.append(hour + " " + (mini ? "ч." : convertSu(hour, "час", "часа", "часов")) + (min > 0 || sec > 0 ? " " : ""));
         }
         if (min > 0) {
-            sb.append(min + " " + convertSu(min, "минуту", "минуты", "минут") + (sec > 0 ? " " : ""));
+            sb.append(min + " " + (mini ? "м." : convertSu(min, "минуту", "минуты", "минут")) + (sec > 0 ? " " : ""));
         }
         if (sec > 0) {
-            sb.append(sec + " " + convertSu(sec, "секунду", "секунды", "секунд"));
+            sb.append(sec + " " + (mini ? "с." : convertSu(sec, "секунду", "секунды", "секунд")));
         }
 
         return sb.toString();
