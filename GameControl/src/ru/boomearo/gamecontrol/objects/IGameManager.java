@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.exceptions.PlayerGameException;
+import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
 import ru.boomearo.gamecontrol.objects.statistics.IStatisticsManager;
 
 //Используется для подключаемых мини игр, чтобы легче определить действия
@@ -25,8 +26,8 @@ public interface IGameManager {
     public IGamePlayer getGamePlayer(String name);
     public Collection<? extends IGamePlayer> getAllPlayers();
     
-    public IGameArena getGameArena(String name);
-    public Collection<? extends IGameArena> getAllArenas();
+    public AbstractGameArena getGameArena(String name);
+    public Collection<? extends AbstractGameArena> getAllArenas();
     
     public IStatisticsManager getStatisticManager();
 }

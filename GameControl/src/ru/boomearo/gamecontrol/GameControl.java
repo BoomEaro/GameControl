@@ -32,6 +32,8 @@ public class GameControl extends JavaPlugin {
         
         if (this.manager == null) {
             this.manager = new GameManager();
+            
+            this.manager.initRegenPool();
         }
         
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
@@ -41,13 +43,6 @@ public class GameControl extends JavaPlugin {
     
     @Override
     public void onDisable() {
-        try {
-            this.manager.getRegenPool().stop();
-        }
-        catch (InterruptedException e1) {
-            e1.printStackTrace();
-        }
-        
         for (Class<? extends JavaPlugin> cl : new HashSet<Class<? extends JavaPlugin>>(this.manager.getAllGameClasses())) {
             try {
                 this.manager.unregisterGame(cl);

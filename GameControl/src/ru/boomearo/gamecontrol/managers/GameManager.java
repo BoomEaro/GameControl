@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,36 +14,47 @@ import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.exceptions.GameControlException;
 import ru.boomearo.gamecontrol.exceptions.PlayerGameException;
-import ru.boomearo.gamecontrol.objects.IGameArena;
 import ru.boomearo.gamecontrol.objects.IGameManager;
 import ru.boomearo.gamecontrol.objects.IGamePlayer;
-import ru.boomearo.gamecontrol.runnable.RegenPool;
+import ru.boomearo.gamecontrol.runnable.AdvThreadFactory;
+import ru.boomearo.gamecontrol.runnable.RegenTask;
 
 public final class GameManager {
 
     private final ConcurrentMap<Class<? extends JavaPlugin>, IGameManager> games = new ConcurrentHashMap<Class<? extends JavaPlugin>, IGameManager>();
     private final ConcurrentMap<String, IGamePlayer> players = new ConcurrentHashMap<String, IGamePlayer>();
     
-    private final RegenPool pool = new RegenPool();
+    private ThreadPoolExecutor regenPool = null;
     
     private final Object lock = new Object();
    
-    public RegenPool getRegenPool() {
-        return this.pool;
+    public void initRegenPool() {
+        if (this.regenPool == null) {
+            this.regenPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1, new AdvThreadFactory("ArenaRegen", 3));
+        }
     }
     
-    public void queueRegenArena(IGameArena arena) {
-        if (arena == null) {
-            return;
+    public void stopRegenPool() {
+        if (this.regenPool != null) {
+            this.regenPool.shutdown();
+        }
+    }
+    
+    //Добавляет в очередь реализацию runnable в которой требуется сама арены и действие после регенерации
+    public void queueRegenArena(RegenTask task) throws ConsoleGameException {
+        if (task == null) {
+            throw new ConsoleGameException("Задача не может быть нулем!");
+        }
+
+        if (this.regenPool == null) {
+            throw new ConsoleGameException("Пул регенераций не был инициализирован!");
         }
         
-        this.pool.addTask(() -> {
-            GameControl.getInstance().getLogger().info("Начинаю регенерацию арены " + arena.getName() + " в игре " + arena.getManager().getGameName());
-            long start = System.currentTimeMillis();
-            arena.regen();
-            long end = System.currentTimeMillis();
-            GameControl.getInstance().getLogger().info("Регенерация арены " + arena.getName() + " в игре " + arena.getManager().getGameName() + " успешно завершена за " + (end - start) + "мс.");
-        });
+        if (this.regenPool.isShutdown()) {
+            throw new ConsoleGameException("Пул регенераций выключился!");
+        }
+
+        this.regenPool.execute(task);
     }
     
     public void registerGame(Class<? extends JavaPlugin> clazz, IGameManager manager) throws ConsoleGameException {
