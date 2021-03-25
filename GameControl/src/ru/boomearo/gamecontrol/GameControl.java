@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.earth2me.essentials.spawn.EssentialsSpawn;
@@ -12,6 +13,7 @@ import ru.boomearo.gamecontrol.commands.gamecontrol.CmdExecutorGameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.listeners.PlayerListener;
 import ru.boomearo.gamecontrol.managers.GameManager;
+import ru.boomearo.gamecontrol.objects.region.CuboidRegion;
 import ru.boomearo.gamecontrol.utils.NumberUtils;
 import ru.boomearo.gamecontrol.utils.Vault;
 
@@ -26,6 +28,8 @@ public class GameControl extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        
+        ConfigurationSerialization.registerClass(CuboidRegion.class);
         
         this.essSpawn = (EssentialsSpawn) Bukkit.getPluginManager().getPlugin("EssentialsSpawn");
         
@@ -54,6 +58,9 @@ public class GameControl extends JavaPlugin {
                 e.printStackTrace();
             }
         }
+        
+        ConfigurationSerialization.unregisterClass(CuboidRegion.class);
+        
         getLogger().info("Плагин успешно выключен.");
     }
     
