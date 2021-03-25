@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.earth2me.essentials.spawn.EssentialsSpawn;
 
+import ru.boomearo.gamecontrol.commands.gamecontrol.CmdExecutorGameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.listeners.PlayerListener;
 import ru.boomearo.gamecontrol.managers.GameManager;
@@ -35,6 +36,8 @@ public class GameControl extends JavaPlugin {
             
             this.manager.initRegenPool();
         }
+        
+        getCommand("gamecontrol").setExecutor(new CmdExecutorGameControl());
         
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         

@@ -5,3 +5,7 @@ author: BoomEaro
 description: GameControl
 api-version: 1.13
 depend: [Vault, EssentialsSpawn, FastAsyncWorldEdit]
+commands:
+  gamecontrol:
+    usage: /gamecontrol
+    description: gamecontrol

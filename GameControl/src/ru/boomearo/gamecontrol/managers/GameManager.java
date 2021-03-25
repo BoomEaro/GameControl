@@ -21,12 +21,16 @@ import ru.boomearo.gamecontrol.runnable.RegenTask;
 
 public final class GameManager {
 
-    private final ConcurrentMap<Class<? extends JavaPlugin>, IGameManager> games = new ConcurrentHashMap<Class<? extends JavaPlugin>, IGameManager>();
+    private final ConcurrentMap<Class<? extends JavaPlugin>, IGameManager> gamesClasses = new ConcurrentHashMap<Class<? extends JavaPlugin>, IGameManager>();
+    private final ConcurrentMap<String, IGameManager> gamesNames = new ConcurrentHashMap<String, IGameManager>();
+    
     private final ConcurrentMap<String, IGamePlayer> players = new ConcurrentHashMap<String, IGamePlayer>();
     
     private ThreadPoolExecutor regenPool = null;
     
     private final Object lock = new Object();
+    
+    public static final String prefix = "§8[§9GameControl§8]: §7";
    
     public void initRegenPool() {
         if (this.regenPool == null) {
@@ -63,12 +67,13 @@ public final class GameManager {
         }
         
         synchronized (this.lock) {
-            IGameManager igm = this.games.get(clazz);
+            IGameManager igm = this.gamesClasses.get(clazz);
             if (igm != null) {
                 throw new ConsoleGameException("Игра " + igm.getGameName() + " уже зарегистрирована!");
             }
             
-            this.games.put(clazz, manager);
+            this.gamesClasses.put(clazz, manager);
+            this.gamesNames.put(manager.getGameName(), manager);
             GameControl.getInstance().getLogger().info("Игра " + manager.getGameName() + " успешно зарегистрирована!");
         }
     }
@@ -79,12 +84,13 @@ public final class GameManager {
         }
         
         synchronized (this.lock) {
-            IGameManager igm = this.games.get(clazz);
+            IGameManager igm = this.gamesClasses.get(clazz);
             if (igm == null) {
                 throw new ConsoleGameException("Класс " + clazz.getName() + " не был зарегистрирован!");
             }
             
-            this.games.remove(clazz);
+            this.gamesClasses.remove(clazz);
+            this.gamesNames.remove(igm.getGameName());
             
             //Кикаем игроков из игры
             for (IGamePlayer igma : igm.getAllPlayers()) {
@@ -99,13 +105,17 @@ public final class GameManager {
     }
     
     public IGameManager getGameByClass(Class<? extends JavaPlugin> clazz) {
-        return this.games.get(clazz);
+        return this.gamesClasses.get(clazz);
     }
     public Collection<IGameManager> getAllGameManagers() {
-        return this.games.values();
+        return this.gamesClasses.values();
     }
     public Set<Class<? extends JavaPlugin>> getAllGameClasses() {
-        return this.games.keySet();
+        return this.gamesClasses.keySet();
+    }
+    
+    public IGameManager getGameByName(String game) {
+        return this.gamesNames.get(game);
     }
     
     public void joinGame(Player pl, Class<? extends JavaPlugin> clazz, String arena) throws ConsoleGameException, PlayerGameException {
@@ -119,7 +129,7 @@ public final class GameManager {
                 throw new PlayerGameException("Вы уже в игре!");
             }
             
-            IGameManager igm = this.games.get(clazz);
+            IGameManager igm = this.gamesClasses.get(clazz);
             if (igm == null) {
                 throw new ConsoleGameException("Игра " + clazz.getName() + " не найдена!");
             }
