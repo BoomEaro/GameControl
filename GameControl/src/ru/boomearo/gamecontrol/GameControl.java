@@ -49,10 +49,10 @@ public class GameControl extends JavaPlugin {
         if (this.manager == null) {
             this.manager = new GameManager();
             
+            this.manager.loadRegenData();
+            
             this.manager.initRegenPool();
             this.manager.initSavePool();
-            
-            this.manager.loadRegenData();
         }
         
         getCommand("gamecontrol").setExecutor(new CmdExecutorGameControl());
