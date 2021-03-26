@@ -46,6 +46,7 @@ public class GameControl extends JavaPlugin {
             this.manager = new GameManager();
             
             this.manager.initRegenPool();
+            this.manager.initSavePool();
             
             this.manager.loadRegenData();
         }
@@ -60,6 +61,10 @@ public class GameControl extends JavaPlugin {
     @Override
     public void onDisable() {
         this.manager.saveRegenData();
+        
+        //this.manager.stopRegenPool();
+        this.manager.stopSavePool();
+        
         
         for (Class<? extends JavaPlugin> cl : new HashSet<Class<? extends JavaPlugin>>(this.manager.getAllGameClasses())) {
             try {

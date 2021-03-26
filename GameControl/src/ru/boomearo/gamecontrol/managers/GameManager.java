@@ -36,6 +36,8 @@ public final class GameManager {
     private ThreadPoolExecutor regenPool = null;
     private ConcurrentMap<String, RegenGame> regenData = new ConcurrentHashMap<String, RegenGame>();
     
+    private ThreadPoolExecutor savePool = null;
+    
     private final Object lock = new Object();
     
     public static final String prefix = "§8[§9GameControl§8]: §7";
@@ -49,6 +51,18 @@ public final class GameManager {
     public void stopRegenPool() {
         if (this.regenPool != null) {
             this.regenPool.shutdown();
+        }
+    }
+    
+    public void initSavePool() {
+        if (this.savePool == null) {
+            this.savePool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1, new AdvThreadFactory("SaveData", 3));
+        }
+    }
+    
+    public void stopSavePool() {
+        if (this.savePool != null) {
+            this.savePool.shutdown();
         }
     }
     
@@ -67,6 +81,22 @@ public final class GameManager {
         }
 
         this.regenPool.execute(task);
+    }
+    
+    public void queueSaveTask(Runnable task) throws ConsoleGameException {
+        if (task == null) {
+            throw new ConsoleGameException("Задача не может быть нулем!");
+        }
+        
+        if (this.savePool == null) {
+            throw new ConsoleGameException("Пул сохранений не был инициализирован!");
+        }
+        
+        if (this.savePool.isShutdown()) {
+            throw new ConsoleGameException("Пул сохранений выключился!");
+        }
+        
+        this.savePool.execute(task);
     }
     
     public void registerGame(Class<? extends JavaPlugin> clazz, IGameManager manager) throws ConsoleGameException {
@@ -229,8 +259,10 @@ public final class GameManager {
         
         ra.setNeedRegen(needRegen);
         
-        //TODO сделать в пуле
-        saveRegenData();
+        //Сохраняем это дело в другом потоке отведенным под это
+        queueSaveTask(() -> {
+            saveRegenData();
+        });
     }
    
     @SuppressWarnings("unchecked")
