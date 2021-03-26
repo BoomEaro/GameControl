@@ -24,7 +24,7 @@ public class RegenArena implements ConfigurationSerializable {
     }
     
     public void setNeedRegen(boolean need) {
-        this.needRegen = needRegen;
+        this.needRegen = need;
     }
     
     @Override
