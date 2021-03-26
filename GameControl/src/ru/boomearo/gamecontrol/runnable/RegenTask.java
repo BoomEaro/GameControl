@@ -51,6 +51,7 @@ public class RegenTask implements Runnable {
 
             World w = FaweAPI.getWorld(this.arena.getWorld().getName());
             
+            //Если при операции появляется исключение, прерываем выполнение всего
             try (EditSession es = new EditSessionBuilder(w).build()) {
                 Operation op = ch.createPaste(es)
                         .to(BlockVector3.at(loc.getX(), loc.getY(), loc.getZ()))
@@ -60,6 +61,9 @@ public class RegenTask implements Runnable {
                         .build();
 
                 Operations.complete(op);
+            }
+            catch (Throwable e) {
+                throw e;
             }
             
             long end = System.currentTimeMillis();
