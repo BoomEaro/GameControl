@@ -1,12 +1,15 @@
 package ru.boomearo.gamecontrol.managers;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,6 +19,10 @@ import ru.boomearo.gamecontrol.exceptions.GameControlException;
 import ru.boomearo.gamecontrol.exceptions.PlayerGameException;
 import ru.boomearo.gamecontrol.objects.IGameManager;
 import ru.boomearo.gamecontrol.objects.IGamePlayer;
+import ru.boomearo.gamecontrol.objects.RegenArena;
+import ru.boomearo.gamecontrol.objects.RegenGame;
+import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
+import ru.boomearo.gamecontrol.objects.arena.ClipboardRegenableGameArena;
 import ru.boomearo.gamecontrol.runnable.AdvThreadFactory;
 import ru.boomearo.gamecontrol.runnable.RegenTask;
 
@@ -27,6 +34,7 @@ public final class GameManager {
     private final ConcurrentMap<String, IGamePlayer> players = new ConcurrentHashMap<String, IGamePlayer>();
     
     private ThreadPoolExecutor regenPool = null;
+    private ConcurrentMap<String, RegenGame> regenData = new ConcurrentHashMap<String, RegenGame>();
     
     private final Object lock = new Object();
     
@@ -74,6 +82,33 @@ public final class GameManager {
             
             this.gamesClasses.put(clazz, manager);
             this.gamesNames.put(manager.getGameName(), manager);
+            
+            //Если находим эту игру в списке игр где есть инфа о регенерации
+            RegenGame rg = this.regenData.get(manager.getGameName());
+            if (rg != null) {
+                //Получаем все арены которые были записаны в этой игре для регенераций
+                for (RegenArena ra : rg.getAllArenas()) {
+                    //убеждаемся что арена есть, она поддерживает регенерацию и самое главное, требует ли регенереацию.
+                    AbstractGameArena aga = manager.getGameArena(ra.getName());
+                    if (aga == null) {
+                        continue;
+                    }
+                    
+                    if (!(aga instanceof ClipboardRegenableGameArena)) {
+                        continue;
+                    }
+                    
+                    if (!ra.isNeedRegen()) {
+                        continue;
+                    }
+                    
+                    //Добавляем в очередь задачу на регенерацию
+                    ClipboardRegenableGameArena crga = (ClipboardRegenableGameArena) aga;
+                    
+                    queueRegenArena(new RegenTask(crga, null));
+                }
+            }
+            
             GameControl.getInstance().getLogger().info("Игра " + manager.getGameName() + " успешно зарегистрирована!");
         }
     }
@@ -166,5 +201,64 @@ public final class GameManager {
     
     public Collection<IGamePlayer> getAllPlayers() {
         return this.players.values();
+    }
+    
+    public RegenGame getRegenGameByName(String name) {
+        return this.regenData.get(name);
+    }
+    
+    public void setRegenGame(ClipboardRegenableGameArena arena, boolean needRegen) throws ConsoleGameException {
+        if (arena == null) {
+            throw new ConsoleGameException("Арена не может быть нулем!");
+        }
+        
+        String gameName = arena.getManager().getGameName();
+        RegenGame rg = this.regenData.get(gameName);
+        if (rg == null) {
+            RegenGame newRg = new RegenGame(gameName, new ConcurrentHashMap<String, RegenArena>());
+            this.regenData.put(gameName, newRg);
+            rg = newRg;
+        }
+        
+        RegenArena ra = rg.getRegenArena(arena.getName());
+        if (ra == null) {
+            RegenArena newRa = new RegenArena(arena.getName(), false);
+            rg.addRegenArena(newRa);
+            ra = newRa;
+        }
+        
+        ra.setNeedRegen(needRegen);
+        
+        //TODO сделать в пуле
+        saveRegenData();
+    }
+   
+    @SuppressWarnings("unchecked")
+    public void loadRegenData() {
+        ConcurrentMap<String, RegenGame> regenData = new ConcurrentHashMap<String, RegenGame>();
+        
+        GameControl gc = GameControl.getInstance();
+        gc.reloadConfig();
+        
+        List<RegenGame> rg = (List<RegenGame>) gc.getConfig().getList("regenData");
+        if (rg != null) {
+            for (RegenGame rr : rg) {
+                regenData.put(rr.getName(), rr);
+            }
+        }
+        
+        this.regenData = regenData;
+    }
+    
+    public void saveRegenData() {
+        GameControl gc = GameControl.getInstance();
+        
+        FileConfiguration fc = gc.getConfig();
+        fc.set("regenData", null);
+        
+        List<RegenGame> rr = new ArrayList<RegenGame>(this.regenData.values());
+        fc.set("regenData", rr);
+        
+        gc.saveConfig();
     }
 }

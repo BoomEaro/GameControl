@@ -63,6 +63,10 @@ public class RegenTask implements Runnable {
             }
             
             long end = System.currentTimeMillis();
+            
+            //Меняем статус регенерации этой арены, довольно важно
+            GameControl.getInstance().getGameManager().setRegenGame(this.arena, false);
+            
             GameControl.getInstance().getLogger().info("Регенерация арены '" + this.arena.getName() + "' в игре '" + gameName + "' успешно завершена за " + (end - start) + "мс.");
         }
         catch (Throwable e) {

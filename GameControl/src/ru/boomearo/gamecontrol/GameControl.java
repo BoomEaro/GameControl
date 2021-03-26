@@ -1,5 +1,6 @@
 package ru.boomearo.gamecontrol;
 
+import java.io.File;
 import java.util.HashSet;
 
 import org.bukkit.Bukkit;
@@ -29,9 +30,15 @@ public class GameControl extends JavaPlugin {
     public void onEnable() {
         instance = this;
         
+        this.essSpawn = (EssentialsSpawn) Bukkit.getPluginManager().getPlugin("EssentialsSpawn");
+        
         ConfigurationSerialization.registerClass(CuboidRegion.class);
         
-        this.essSpawn = (EssentialsSpawn) Bukkit.getPluginManager().getPlugin("EssentialsSpawn");
+        File configFile = new File(getDataFolder() + File.separator + "config.yml");
+        if(!configFile.exists()) {
+            getLogger().info("Конфиг не найден, создаю новый...");
+            saveDefaultConfig();
+        }
         
         Vault.setupEconomy();
         
@@ -39,6 +46,8 @@ public class GameControl extends JavaPlugin {
             this.manager = new GameManager();
             
             this.manager.initRegenPool();
+            
+            this.manager.loadRegenData();
         }
         
         getCommand("gamecontrol").setExecutor(new CmdExecutorGameControl());
@@ -50,6 +59,8 @@ public class GameControl extends JavaPlugin {
     
     @Override
     public void onDisable() {
+        this.manager.saveRegenData();
+        
         for (Class<? extends JavaPlugin> cl : new HashSet<Class<? extends JavaPlugin>>(this.manager.getAllGameClasses())) {
             try {
                 this.manager.unregisterGame(cl);
