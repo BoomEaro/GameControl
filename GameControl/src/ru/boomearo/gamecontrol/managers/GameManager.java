@@ -62,7 +62,11 @@ public final class GameManager {
     
     public void stopSavePool() {
         if (this.savePool != null) {
-            this.savePool.shutdown();
+            List<Runnable> rs = this.savePool.shutdownNow();
+            //Выполняем оставшиеся задачи
+            for (Runnable r : rs) {
+                r.run();
+            }
         }
     }
     
