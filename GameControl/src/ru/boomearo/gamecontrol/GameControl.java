@@ -67,7 +67,12 @@ public class GameControl extends JavaPlugin {
         this.manager.saveRegenData();
         
         //this.manager.stopRegenPool();
-        this.manager.stopSavePool();
+        try {
+            this.manager.stopSavePool();
+        } 
+        catch (InterruptedException e1) {
+            e1.printStackTrace();
+        }
         
         
         for (Class<? extends JavaPlugin> cl : new HashSet<Class<? extends JavaPlugin>>(this.manager.getAllGameClasses())) {

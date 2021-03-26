@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -60,13 +61,10 @@ public final class GameManager {
         }
     }
     
-    public void stopSavePool() {
+    public void stopSavePool() throws InterruptedException {
         if (this.savePool != null) {
-            List<Runnable> rs = this.savePool.shutdownNow();
-            //Выполняем оставшиеся задачи
-            for (Runnable r : rs) {
-                r.run();
-            }
+           this.savePool.shutdown();
+           this.savePool.awaitTermination(1, TimeUnit.MINUTES);
         }
     }
     
