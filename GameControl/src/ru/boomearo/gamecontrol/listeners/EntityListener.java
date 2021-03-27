@@ -11,6 +11,7 @@ import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDropItemEvent;
 import org.bukkit.event.entity.EntityEnterBlockEvent;
 import org.bukkit.event.entity.EntityEnterLoveModeEvent;
@@ -97,6 +98,14 @@ public class EntityListener implements Listener {
                     return;
                 }
             }
+        }
+        e.setCancelled(true);
+    }
+    
+    @EventHandler
+    public void onEntityDamageEvent(EntityDamageEvent e) {
+        if (e.isCancelled()) {
+            return;
         }
         e.setCancelled(true);
     }
