@@ -22,7 +22,7 @@ public class InventoryListener implements Listener {
         e.setCancelled(true);
     }
     
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClickEvent(InventoryClickEvent e) {
         if (e.isCancelled()) {
             return;
@@ -41,7 +41,7 @@ public class InventoryListener implements Listener {
         e.setResult(Result.DENY);
     }
     
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryDragEvent(InventoryDragEvent e) {
         if (e.isCancelled()) {
             return;

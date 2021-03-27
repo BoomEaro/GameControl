@@ -16,7 +16,6 @@ import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockGrowEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockMultiPlaceEvent;
-import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -146,14 +145,6 @@ public class BlockListener implements Listener {
             return;
         }
         if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
-            return;
-        }
-        e.setCancelled(true);
-    }
-    
-    @EventHandler
-    public void onBlockPhysicsEvent(BlockPhysicsEvent e) {
-        if (e.isCancelled()) {
             return;
         }
         e.setCancelled(true);
