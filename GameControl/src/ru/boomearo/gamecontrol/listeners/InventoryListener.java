@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -37,6 +38,7 @@ public class InventoryListener implements Listener {
             }
         }
         e.setCancelled(true);
+        e.setResult(Result.DENY);
     }
     
     @EventHandler(priority = EventPriority.LOW)
@@ -55,6 +57,7 @@ public class InventoryListener implements Listener {
             }
         }
         e.setCancelled(true);
+        e.setResult(Result.DENY);
     }
     
     @EventHandler

@@ -3,6 +3,7 @@ package ru.boomearo.gamecontrol.listeners;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
@@ -22,6 +23,8 @@ import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.event.player.PlayerTakeLecternBookEvent;
 import org.bukkit.event.player.PlayerUnleashEntityEvent;
+
+import com.destroystokyo.paper.event.player.PlayerStartSpectatingEntityEvent;
 
 import ru.boomearo.gamecontrol.GameControl;
 
@@ -143,6 +146,8 @@ public class PlayerListener implements Listener {
             return;
         }
         e.setCancelled(true);
+        e.setUseInteractedBlock(Result.DENY);
+        e.setUseItemInHand(Result.DENY);
     }
     
     @EventHandler
@@ -207,6 +212,17 @@ public class PlayerListener implements Listener {
     
     @EventHandler
     public void onPlayerUnleashEntityEvent(PlayerUnleashEntityEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
+            return;
+        }
+        e.setCancelled(true);
+    }
+    
+    @EventHandler
+    public void onPlayerStartSpectatingEntityEvent(PlayerStartSpectatingEntityEvent e) {
         if (e.isCancelled()) {
             return;
         }

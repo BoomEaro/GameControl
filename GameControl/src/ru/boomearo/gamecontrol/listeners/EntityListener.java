@@ -1,5 +1,7 @@
 package ru.boomearo.gamecontrol.listeners;
 
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.BatToggleSleepEvent;
@@ -103,6 +105,16 @@ public class EntityListener implements Listener {
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
         if (e.isCancelled()) {
             return;
+        }
+        Entity en = e.getDamager();
+        if (en != null) {
+            if (en instanceof Player) {
+                Player pl = (Player) en;
+                
+                if (pl.hasPermission("gamecontrol.bypass")) {
+                    return;
+                }
+            }
         }
         e.setCancelled(true);
     }
