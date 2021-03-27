@@ -1,5 +1,7 @@
 package ru.boomearo.gamecontrol.listeners;
 
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -24,6 +26,16 @@ public class InventoryListener implements Listener {
         if (e.isCancelled()) {
             return;
         }
+        Entity en = e.getWhoClicked();
+        if (en != null) {
+            if (en instanceof Player) {
+                Player pl = (Player) en;
+                
+                if (pl.hasPermission("gamecontrol.bypass")) {
+                    return;
+                }
+            }
+        }
         e.setCancelled(true);
     }
     
@@ -31,6 +43,16 @@ public class InventoryListener implements Listener {
     public void onInventoryDragEvent(InventoryDragEvent e) {
         if (e.isCancelled()) {
             return;
+        }
+        Entity en = e.getWhoClicked();
+        if (en != null) {
+            if (en instanceof Player) {
+                Player pl = (Player) en;
+                
+                if (pl.hasPermission("gamecontrol.bypass")) {
+                    return;
+                }
+            }
         }
         e.setCancelled(true);
     }

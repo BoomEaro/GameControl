@@ -1,5 +1,7 @@
 package ru.boomearo.gamecontrol.listeners;
 
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
@@ -12,6 +14,16 @@ public class HangingListener implements Listener {
     public void onHangingBreakByEntityEvent(HangingBreakByEntityEvent e) {
         if (e.isCancelled()) {
             return;
+        }
+        Entity remover = e.getRemover();
+        if (remover != null) {
+            if (remover instanceof Player) {
+                Player pl = (Player) remover;
+                
+                if (pl.hasPermission("gamecontrol.bypass")) {
+                    return;
+                }
+            }
         }
         e.setCancelled(true);
     }
@@ -27,6 +39,9 @@ public class HangingListener implements Listener {
     @EventHandler
     public void onHangingPlaceEvent(HangingPlaceEvent e) {
         if (e.isCancelled()) {
+            return;
+        }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
             return;
         }
         e.setCancelled(true);

@@ -1,5 +1,7 @@
 package ru.boomearo.gamecontrol.listeners;
 
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.vehicle.VehicleCreateEvent;
@@ -23,6 +25,16 @@ public class VehicleListener implements Listener {
         if (e.isCancelled()) {
             return;
         }
+        Entity en = e.getAttacker();
+        if (en != null) {
+            if (en instanceof Player) {
+                Player pl = (Player) en;
+                
+                if (pl.hasPermission("gamecontrol.bypass")) {
+                    return;
+                }
+            }
+        }
         e.setCancelled(true);
     }
     
@@ -31,6 +43,16 @@ public class VehicleListener implements Listener {
         if (e.isCancelled()) {
             return;
         }
+        Entity en = e.getAttacker();
+        if (en != null) {
+            if (en instanceof Player) {
+                Player pl = (Player) en;
+                
+                if (pl.hasPermission("gamecontrol.bypass")) {
+                    return;
+                }
+            }
+        }
         e.setCancelled(true);
     }
     
@@ -38,6 +60,16 @@ public class VehicleListener implements Listener {
     public void onVehicleEnterEvent(VehicleEnterEvent e) {
         if (e.isCancelled()) {
             return;
+        }
+        Entity en = e.getEntered();
+        if (en != null) {
+            if (en instanceof Player) {
+                Player pl = (Player) en;
+                
+                if (pl.hasPermission("gamecontrol.bypass")) {
+                    return;
+                }
+            }
         }
         e.setCancelled(true);
     }

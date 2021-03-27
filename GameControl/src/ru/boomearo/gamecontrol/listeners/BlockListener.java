@@ -36,6 +36,9 @@ public class BlockListener implements Listener {
         if (e.isCancelled()) {
             return;
         }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
+            return;
+        }
         e.setCancelled(true);
     }
     
@@ -142,6 +145,9 @@ public class BlockListener implements Listener {
         if (e.isCancelled()) {
             return;
         }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
+            return;
+        }
         e.setCancelled(true);
     }
     
@@ -172,6 +178,9 @@ public class BlockListener implements Listener {
     @EventHandler
     public void onBlockPlaceEvent(BlockPlaceEvent e) {
         if (e.isCancelled()) {
+            return;
+        }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
             return;
         }
         e.setCancelled(true);
@@ -228,6 +237,9 @@ public class BlockListener implements Listener {
     @EventHandler
     public void onSignChangeEvent(SignChangeEvent e) {
         if (e.isCancelled()) {
+            return;
+        }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
             return;
         }
         e.setCancelled(true);

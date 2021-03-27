@@ -42,6 +42,9 @@ public class PlayerListener implements Listener {
         if (e.isCancelled()) {
             return;
         }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
+            return;
+        }
         e.setCancelled(true);
     }
     
@@ -59,12 +62,18 @@ public class PlayerListener implements Listener {
         if (e.isCancelled()) {
             return;
         }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
+            return;
+        }
         e.setCancelled(true);
     }
     
     @EventHandler
     public void onPlayerBucketFillEvent(PlayerBucketFillEvent e) {
         if (e.isCancelled()) {
+            return;
+        }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
             return;
         }
         e.setCancelled(true);
@@ -100,12 +109,18 @@ public class PlayerListener implements Listener {
         if (e.isCancelled()) {
             return;
         }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
+            return;
+        }
         e.setCancelled(true);
     }
     
     @EventHandler
     public void onPlayerInteractAtEntityEvent(PlayerInteractAtEntityEvent e) {
         if (e.isCancelled()) {
+            return;
+        }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
             return;
         }
         e.setCancelled(true);
@@ -116,17 +131,26 @@ public class PlayerListener implements Listener {
         if (e.isCancelled()) {
             return;
         }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
+            return;
+        }
         e.setCancelled(true);
     }
     
     @EventHandler
     public void onPlayerInteractEvent(PlayerInteractEvent e) {
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
+            return;
+        }
         e.setCancelled(true);
     }
     
     @EventHandler
     public void onPlayerItemConsumeEvent(PlayerItemConsumeEvent e) {
         if (e.isCancelled()) {
+            return;
+        }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
             return;
         }
         e.setCancelled(true);
@@ -153,12 +177,18 @@ public class PlayerListener implements Listener {
         if (e.isCancelled()) {
             return;
         }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
+            return;
+        }
         e.setCancelled(true);
     }
     
     @EventHandler
     public void onPlayerSwapHandItemsEvent(PlayerSwapHandItemsEvent e) {
         if (e.isCancelled()) {
+            return;
+        }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
             return;
         }
         e.setCancelled(true);
@@ -169,12 +199,18 @@ public class PlayerListener implements Listener {
         if (e.isCancelled()) {
             return;
         }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
+            return;
+        }
         e.setCancelled(true);
     }
     
     @EventHandler
     public void onPlayerUnleashEntityEvent(PlayerUnleashEntityEvent e) {
         if (e.isCancelled()) {
+            return;
+        }
+        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
             return;
         }
         e.setCancelled(true);
