@@ -12,7 +12,14 @@ import com.earth2me.essentials.spawn.EssentialsSpawn;
 
 import ru.boomearo.gamecontrol.commands.gamecontrol.CmdExecutorGameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
+import ru.boomearo.gamecontrol.listeners.BlockListener;
+import ru.boomearo.gamecontrol.listeners.EntityListener;
+import ru.boomearo.gamecontrol.listeners.HangingListener;
+import ru.boomearo.gamecontrol.listeners.InventoryListener;
 import ru.boomearo.gamecontrol.listeners.PlayerListener;
+import ru.boomearo.gamecontrol.listeners.RaidListener;
+import ru.boomearo.gamecontrol.listeners.VehicleListener;
+import ru.boomearo.gamecontrol.listeners.WeatherListener;
 import ru.boomearo.gamecontrol.managers.GameManager;
 import ru.boomearo.gamecontrol.objects.RegenArena;
 import ru.boomearo.gamecontrol.objects.RegenGame;
@@ -57,7 +64,14 @@ public class GameControl extends JavaPlugin {
         
         getCommand("gamecontrol").setExecutor(new CmdExecutorGameControl());
         
+        getServer().getPluginManager().registerEvents(new BlockListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityListener(), this);
+        getServer().getPluginManager().registerEvents(new HangingListener(), this);
+        getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        getServer().getPluginManager().registerEvents(new RaidListener(), this);
+        getServer().getPluginManager().registerEvents(new VehicleListener(), this);
+        getServer().getPluginManager().registerEvents(new WeatherListener(), this);
         
         getLogger().info("Плагин успешно запущен.");
     }
