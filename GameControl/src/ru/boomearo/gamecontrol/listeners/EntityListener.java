@@ -9,8 +9,6 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityBreakDoorEvent;
 import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
-import org.bukkit.event.entity.EntityCombustByEntityEvent;
-import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDropItemEvent;
@@ -71,22 +69,6 @@ public class EntityListener implements Listener {
     
     @EventHandler
     public void onEntityChangeBlockEvent(EntityChangeBlockEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-        e.setCancelled(true);
-    }
-    
-    @EventHandler
-    public void onEntityCombustByEntityEvent(EntityCombustByEntityEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-        e.setCancelled(true);
-    }
-    
-    @EventHandler
-    public void onEntityCombustEvent(EntityCombustEvent e) {
         if (e.isCancelled()) {
             return;
         }
