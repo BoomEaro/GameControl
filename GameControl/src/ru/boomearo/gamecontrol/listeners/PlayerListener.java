@@ -6,7 +6,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
-import org.bukkit.event.player.PlayerBucketEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerEditBookEvent;
@@ -57,14 +56,6 @@ public class PlayerListener implements Listener {
     
     @EventHandler
     public void onPlayerBucketEmptyEvent(PlayerBucketEmptyEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-        e.setCancelled(true);
-    }
-    
-    @EventHandler
-    public void onPlayerBucketEvent(PlayerBucketEvent e) {
         if (e.isCancelled()) {
             return;
         }
