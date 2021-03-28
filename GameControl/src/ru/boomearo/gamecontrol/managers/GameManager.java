@@ -24,6 +24,8 @@ import ru.boomearo.gamecontrol.objects.RegenArena;
 import ru.boomearo.gamecontrol.objects.RegenGame;
 import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
 import ru.boomearo.gamecontrol.objects.arena.ClipboardRegenableGameArena;
+import ru.boomearo.gamecontrol.objects.defactions.GameControlDefaultAction;
+import ru.boomearo.gamecontrol.objects.defactions.IDefaultAction;
 import ru.boomearo.gamecontrol.runnable.AdvThreadFactory;
 import ru.boomearo.gamecontrol.runnable.RegenTask;
 
@@ -39,10 +41,24 @@ public final class GameManager {
     
     private ThreadPoolExecutor savePool = null;
     
+    private IDefaultAction defaultAction = new GameControlDefaultAction();
+    
     private final Object lock = new Object();
     
     public static final String prefix = "§8[§9GameControl§8]: §7";
    
+    public IDefaultAction getDefaultAction() {
+        return this.defaultAction;
+    }
+    
+    public void setDefaultAction(IDefaultAction action) throws ConsoleGameException {
+        if (action == null) {
+            throw new ConsoleGameException("Действие по умолчанию не может быть нулем!");
+        }
+        
+        this.defaultAction = action;
+    }
+    
     public void initRegenPool() {
         if (this.regenPool == null) {
             this.regenPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1, new AdvThreadFactory("ArenaRegen", 3));
@@ -220,10 +236,14 @@ public final class GameManager {
                 throw new PlayerGameException("Вы не в игре!");
             }
             
-            //Сначала удлаляем в общей, даже если произойдет исключение, выход из игры должен быть ВСЕГДА
+            //Сначала удаляем в общей, даже если произойдет исключение, выход из игры должен быть ВСЕГДА
             this.players.remove(pl.getName());
             
+            //Выполняем выход самой мини игры
             igp.getArena().getManager().leave(pl);
+            
+            //Выполняем выход по умолчанию (например телепортация на спавн, выдача предмета)
+            this.defaultAction.performDefaultLeaveAction(pl);
         }
     }
     

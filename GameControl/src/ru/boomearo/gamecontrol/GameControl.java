@@ -117,10 +117,6 @@ public class GameControl extends JavaPlugin {
         return instance;
     }
     
-    public static Location getSpawnLocation() {
-        return GameControl.getInstance().getEssentialsSpawn().getSpawn("default");
-    }
-    
     public static String getFormatedEco(double price) {
         return miniForm(price, "§a") + "§a§lⵥ";
     }
