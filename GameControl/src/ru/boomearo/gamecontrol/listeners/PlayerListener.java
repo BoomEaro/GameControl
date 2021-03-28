@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
@@ -38,6 +39,14 @@ public class PlayerListener implements Listener {
             GameControl.getInstance().getGameManager().leaveGame(pl);
         } 
         catch (Exception e1) {}
+    }
+    
+    @EventHandler
+    public void onPlayerJoinEvent(PlayerJoinEvent e) {
+        Player pl = e.getPlayer();
+        
+        //Выполняем "выход" игрока, телепортируя на спавн и прочее на всякий случай
+        GameControl.getInstance().getGameManager().getDefaultAction().performDefaultLeaveAction(pl);
     }
     
     @EventHandler
