@@ -217,6 +217,8 @@ public final class GameManager {
                 throw new ConsoleGameException("Игра " + clazz.getName() + " не найдена!");
             }
             
+            //Готовим игрока для входа в игру
+            this.defaultAction.performDefaultJoinAction(pl);
             
             //Вернет игрока если удалось войти в игру. Если войти не удалось, должено быть любое исключение этого плагина.
             IGamePlayer newIgp = igm.join(pl, arena);

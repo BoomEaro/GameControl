@@ -8,5 +8,6 @@ public interface IDefaultAction {
 
     public Location getDefaultSpawnLocation();
     
+    public void performDefaultJoinAction(Player pl);
     public void performDefaultLeaveAction(Player pl);
 }

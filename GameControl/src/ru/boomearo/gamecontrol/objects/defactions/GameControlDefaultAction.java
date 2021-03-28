@@ -22,18 +22,52 @@ public class GameControlDefaultAction implements IDefaultAction {
     }
 
     @Override
-    public void performDefaultLeaveAction(Player pl) {
+    public void performDefaultJoinAction(Player pl) {
         if (Bukkit.isPrimaryThread()) {
-            task(pl);
+            taskJoin(pl);
             return;
         }
         
         Bukkit.getScheduler().runTask(GameControl.getInstance(), () -> {
-            task(pl);
+            taskJoin(pl);
         });
     }
     
-    private void task(Player pl) {
+    @Override
+    public void performDefaultLeaveAction(Player pl) {
+        if (Bukkit.isPrimaryThread()) {
+            taskLeave(pl);
+            return;
+        }
+        
+        Bukkit.getScheduler().runTask(GameControl.getInstance(), () -> {
+            taskLeave(pl);
+        });
+    }
+    
+    private void taskJoin(Player pl) {
+        for (PotionEffect pr : pl.getActivePotionEffects()) {
+            pl.removePotionEffect(pr.getType());
+        }
+        
+        pl.setFoodLevel(20);
+        pl.setExhaustion(2);
+        
+        pl.setHealth(pl.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+        pl.setFireTicks(0);
+        
+        pl.setArrowsInBody(0);
+        
+        pl.setGameMode(GameMode.ADVENTURE);
+        
+        ExpFix.setTotalExperience(pl, 0);
+        
+        pl.getInventory().clear();
+        
+        pl.closeInventory();
+    }
+    
+    private void taskLeave(Player pl) {
         pl.teleport(getDefaultSpawnLocation());
         
         for (PotionEffect pr : pl.getActivePotionEffects()) {
