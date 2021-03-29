@@ -1,5 +1,7 @@
 package ru.boomearo.gamecontrol.runnable;
 
+import java.io.File;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -35,9 +37,20 @@ public class RegenTask implements Runnable {
             
             GameControl.getInstance().getLogger().info("Начинаю регенерацию арены '" + this.arena.getName() + "' в игре '" + gameName + "'");
             long start = System.currentTimeMillis();
+
+            File schFile = new File(GameControl.getInstance().getDataFolder(), File.separator + "schematics" + File.separator + gameName + "_" + this.arena.getName() + ".schem");
             
-            Clipboard clipboard = arena.getClipboard();
-            if (clipboard == null) {
+            if (!schFile.exists()) {
+                throw new ConsoleGameException("Файл арены '" + this.arena.getName() + "' в игре '" + gameName + "' не найден!");
+            }
+            
+            if (!schFile.isFile()) {
+                throw new ConsoleGameException("Файл арены '" + this.arena.getName() + "' в игре '" + gameName + "' не является файлом!");
+            }
+            
+            Clipboard cb = FaweAPI.load(schFile);
+             
+            if (cb == null) {
                 throw new ConsoleGameException("Схема арены '" + this.arena.getName() + "' игры '" + gameName + "' является нулем!");
             }
 
@@ -47,7 +60,7 @@ public class RegenTask implements Runnable {
                 throw new ConsoleGameException("Центральная точка схемы арены '" + this.arena.getName() + "' игры '" + gameName + "' является нулем!");
             }
 
-            ClipboardHolder ch = new ClipboardHolder(clipboard);
+            ClipboardHolder ch = new ClipboardHolder(cb);
 
             World w = FaweAPI.getWorld(this.arena.getWorld().getName());
             
