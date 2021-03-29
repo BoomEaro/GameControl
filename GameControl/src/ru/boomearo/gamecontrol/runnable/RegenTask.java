@@ -38,7 +38,7 @@ public class RegenTask implements Runnable {
             GameControl.getInstance().getLogger().info("Начинаю регенерацию арены '" + this.arena.getName() + "' в игре '" + gameName + "'");
             long start = System.currentTimeMillis();
 
-            File schFile = new File(GameControl.getInstance().getDataFolder(), File.separator + "schematics" + File.separator + gameName + "_" + this.arena.getName() + ".schem");
+            File schFile = new File(GameControl.getInstance().getDataFolder(), File.separator + "schematics" + File.separator + gameName.toLowerCase() + "_" + this.arena.getName().toLowerCase() + ".schem");
             
             if (!schFile.exists()) {
                 throw new ConsoleGameException("Файл арены '" + this.arena.getName() + "' в игре '" + gameName + "' не найден!");
