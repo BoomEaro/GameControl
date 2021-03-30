@@ -2,6 +2,7 @@ package ru.boomearo.gamecontrol.objects;
 
 import java.util.Collection;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,6 +16,10 @@ public interface IGameManager {
 
     public String getGameName();
     public String getGameDisplayName();
+    
+    public ChatColor getMainColor();
+    public ChatColor getVariableColor();
+    public ChatColor getOtherColor();
     
     public JavaPlugin getPlugin();
     

@@ -2,6 +2,7 @@ package ru.boomearo.gamecontrol.objects.arena;
 
 import java.util.Collection;
 
+import org.bukkit.Material;
 import org.bukkit.World;
 
 import ru.boomearo.gamecontrol.objects.IGameManager;
@@ -13,9 +14,12 @@ public abstract class AbstractGameArena {
     private final String name;
     private final World world;
     
-    public AbstractGameArena(String name, World world) {
+    private final Material icon;
+    
+    public AbstractGameArena(String name, World world, Material icon) {
         this.name = name;
         this.world = world;
+        this.icon = icon;
     }
     
     public String getName() {
@@ -24,6 +28,10 @@ public abstract class AbstractGameArena {
     
     public World getWorld() {
         return this.world;
+    }
+    
+    public Material getIcon() {
+        return this.icon;
     }
     
     public abstract IGameManager getManager();
