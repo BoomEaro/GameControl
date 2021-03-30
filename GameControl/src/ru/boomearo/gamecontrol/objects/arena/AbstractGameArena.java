@@ -31,6 +31,10 @@ public abstract class AbstractGameArena {
     public abstract IGamePlayer getGamePlayer(String name);
     public abstract Collection<? extends IGamePlayer> getAllPlayers();
     
+    
+    public abstract int getMinPlayers();
+    public abstract int getMaxPlayers();
+    
     public abstract IGameState getState();
     
 }
