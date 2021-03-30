@@ -12,8 +12,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerHarvestBlockEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
@@ -118,28 +116,6 @@ public class PlayerListener implements Listener {
     
     @EventHandler
     public void onPlayerHarvestBlockEvent(PlayerHarvestBlockEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
-            return;
-        }
-        e.setCancelled(true);
-    }
-    
-    @EventHandler
-    public void onPlayerInteractAtEntityEvent(PlayerInteractAtEntityEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
-            return;
-        }
-        e.setCancelled(true);
-    }
-    
-    @EventHandler
-    public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent e) {
         if (e.isCancelled()) {
             return;
         }
