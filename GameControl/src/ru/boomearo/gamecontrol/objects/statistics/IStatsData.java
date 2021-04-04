@@ -7,6 +7,6 @@ public interface IStatsData {
     public String getName();
     
     public StatsPlayer getStatsPlayer(String name);
-    public Collection<StatsPlayer> getAllStatsPlayer();
+    public Collection<? extends StatsPlayer> getAllStatsPlayer();
     
 }

@@ -8,7 +8,6 @@ import org.bukkit.event.vehicle.VehicleCreateEvent;
 import org.bukkit.event.vehicle.VehicleDamageEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
-import org.bukkit.event.vehicle.VehicleEntityCollisionEvent;
 
 public class VehicleListener implements Listener {
  
@@ -73,12 +72,5 @@ public class VehicleListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
-    @EventHandler
-    public void onVehicleEntityCollisionEvent(VehicleEntityCollisionEvent e) {
-        if (e.isCancelled()) {
-            return;
-        }
-        e.setCancelled(true);
-    }
+
 }
