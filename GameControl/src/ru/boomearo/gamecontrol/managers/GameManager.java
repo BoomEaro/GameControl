@@ -1,5 +1,6 @@
 package ru.boomearo.gamecontrol.managers;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.md_5.bungee.api.ChatColor;
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.exceptions.GameControlException;
@@ -47,6 +49,8 @@ public final class GameManager {
     
     public static final String prefix = "§8[§9GameControl§8]: §7";
    
+    public static final ChatColor backgroundTextColor = ChatColor.of(new Color(215, 215, 215));
+    
     public IDefaultAction getDefaultAction() {
         return this.defaultAction;
     }
