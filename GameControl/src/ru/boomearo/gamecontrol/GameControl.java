@@ -118,7 +118,8 @@ public class GameControl extends JavaPlugin {
     }
     
     public static String getFormatedEco(double price) {
-        return miniForm(price, "§a") + "§a§lⵥ";
+        String c = GameManager.moneyColor.toString();
+        return miniForm(price, c) + c + "§lⵥ";
     }
 
     private static String miniForm(double money, String color) {
