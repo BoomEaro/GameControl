@@ -31,7 +31,7 @@ public class CmdExecutorGameControl extends AbstractExecutor {
 	        return empty;
 	    }
         if (arg3.length == 1) {
-            List<String> ss = new ArrayList<String>(Arrays.asList("list", "regen"));
+            List<String> ss = new ArrayList<String>(Arrays.asList("list", "regen", "forcestart"));
             List<String> matches = new ArrayList<>();
             String search = arg3[0].toLowerCase();
             for (String se : ss)

@@ -8,6 +8,7 @@ import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.commands.CmdInfo;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.managers.GameManager;
+import ru.boomearo.gamecontrol.objects.IForceStartable;
 import ru.boomearo.gamecontrol.objects.IGameManager;
 import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
 import ru.boomearo.gamecontrol.objects.arena.ClipboardRegenableGameArena;
@@ -82,6 +83,49 @@ public class GameControlUse {
             cs.sendMessage(GameManager.prefix + "§9Ошибка: §7" + e.getMessage());
         }
 
+        return true;
+    }
+    
+    @CmdInfo(name = "forcestart", description = "Принудительно начать игру в указанной арене.", usage = "/gamecontrol forcestart <игра> <арена>", permission = "gamecontrol.admin")
+    public boolean forcestart(CommandSender cs, String[] args) {
+        if (args.length < 2 || args.length > 2) {
+            return false;
+        }
+        
+        String g = args[0];
+
+        GameManager gm = GameControl.getInstance().getGameManager();
+        
+        IGameManager igm = gm.getGameByName(g);
+        if (igm == null) {
+            cs.sendMessage(GameManager.prefix + "Игра '§9" + g + "§7' не найдена!");
+            return true;
+        }
+        
+        String a = args[1];
+        
+        AbstractGameArena aga = igm.getGameArena(a);
+        if (aga == null) {
+            cs.sendMessage(GameManager.prefix + "Арена '§9" + a + "§7' не найдена!");
+            return true;
+        }
+        
+        if (!(aga instanceof IForceStartable)) {
+            cs.sendMessage(GameManager.prefix + "Арена '§9" + a + "§7' не поддерживает принудительный запуск игры!");
+            return true;
+        }
+        
+        IForceStartable ifs = (IForceStartable) aga;
+        
+        if (ifs.isForceStarted()) {
+            cs.sendMessage(GameManager.prefix + "Принудительный запуск уже установлен а арене '§9" + a + "§7'!");
+            return true;
+        }
+        
+        ifs.setForceStarted(true);
+        
+        cs.sendMessage(GameManager.prefix + "Игра успешно принудительно запущена в арене '§9" + a + "§7'!");
+        
         return true;
     }
 }
