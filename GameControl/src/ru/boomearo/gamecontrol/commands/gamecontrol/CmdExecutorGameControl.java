@@ -11,8 +11,10 @@ import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.commands.AbstractExecutor;
 import ru.boomearo.gamecontrol.commands.CmdList;
 import ru.boomearo.gamecontrol.managers.GameManager;
+import ru.boomearo.gamecontrol.objects.IForceStartable;
 import ru.boomearo.gamecontrol.objects.IGameManager;
 import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
+import ru.boomearo.gamecontrol.objects.arena.RegenableGameArena;
 
 public class CmdExecutorGameControl extends AbstractExecutor {
 
@@ -65,12 +67,35 @@ public class CmdExecutorGameControl extends AbstractExecutor {
             }
         }
         else if (arg3.length == 3) {
-            if (arg3[0].equalsIgnoreCase("regen") || arg3[0].equalsIgnoreCase("forcestart")) {
+            if (arg3[0].equalsIgnoreCase("regen")) {
                 IGameManager igm = GameControl.getInstance().getGameManager().getGameByName(arg3[1]);
                 if (igm != null) {
                     List<String> ss = new ArrayList<String>();
                     for (AbstractGameArena aga : igm.getAllArenas()) {
-                        ss.add(aga.getName());
+                        if (aga instanceof RegenableGameArena) {
+                            ss.add(aga.getName());
+                        }
+                    }
+                    List<String> matches = new ArrayList<>();
+                    String search = arg3[2].toLowerCase();
+                    for (String se : ss)
+                    {
+                        if (se.toLowerCase().startsWith(search))
+                        {
+                            matches.add(se);
+                        }
+                    }
+                    return matches;
+                }
+            }
+            else if (arg3[0].equalsIgnoreCase("forcestart")) {
+                IGameManager igm = GameControl.getInstance().getGameManager().getGameByName(arg3[1]);
+                if (igm != null) {
+                    List<String> ss = new ArrayList<String>();
+                    for (AbstractGameArena aga : igm.getAllArenas()) {
+                        if (aga instanceof IForceStartable) {
+                            ss.add(aga.getName());
+                        }
                     }
                     List<String> matches = new ArrayList<>();
                     String search = arg3[2].toLowerCase();
