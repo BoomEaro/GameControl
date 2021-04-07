@@ -7,9 +7,12 @@ import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.commands.AbstractExecutor;
 import ru.boomearo.gamecontrol.commands.CmdList;
 import ru.boomearo.gamecontrol.managers.GameManager;
+import ru.boomearo.gamecontrol.objects.IGameManager;
+import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
 
 public class CmdExecutorGameControl extends AbstractExecutor {
 
@@ -42,6 +45,45 @@ public class CmdExecutorGameControl extends AbstractExecutor {
                 }
             }
             return matches;
+        }
+        else if (arg3.length == 2) {
+            if (arg3[0].equalsIgnoreCase("regen") || arg3[0].equalsIgnoreCase("forcestart")) {
+                List<String> ss = new ArrayList<String>();
+                for (IGameManager igm : GameControl.getInstance().getGameManager().getAllGameManagers()) {
+                    ss.add(igm.getGameName());
+                }
+                List<String> matches = new ArrayList<>();
+                String search = arg3[1].toLowerCase();
+                for (String se : ss)
+                {
+                    if (se.toLowerCase().startsWith(search))
+                    {
+                        matches.add(se);
+                    }
+                }
+                return matches;
+            }
+        }
+        else if (arg3.length == 3) {
+            if (arg3[0].equalsIgnoreCase("regen") || arg3[0].equalsIgnoreCase("forcestart")) {
+                IGameManager igm = GameControl.getInstance().getGameManager().getGameByName(arg3[1]);
+                if (igm != null) {
+                    List<String> ss = new ArrayList<String>();
+                    for (AbstractGameArena aga : igm.getAllArenas()) {
+                        ss.add(aga.getName());
+                    }
+                    List<String> matches = new ArrayList<>();
+                    String search = arg3[2].toLowerCase();
+                    for (String se : ss)
+                    {
+                        if (se.toLowerCase().startsWith(search))
+                        {
+                            matches.add(se);
+                        }
+                    }
+                    return matches;
+                }
+            }
         }
         return empty;
 	}
