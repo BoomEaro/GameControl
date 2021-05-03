@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>groupId</groupId>
+    <artifactId>GameControl</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>Vault</groupId>
+            <artifactId>Vault</artifactId>
+            <version>1</version>
+            <scope>system</scope>
+            <systemPath>C:/Users/Valik2016/workspace/Vault.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>paper</groupId>
+            <artifactId>paper</artifactId>
+            <version>1</version>
+            <scope>system</scope>
+            <systemPath>C:/Users/Valik2016/workspace/paper-1.16.5.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>EssentialsSpawn</groupId>
+            <artifactId>EssentialsSpawn</artifactId>
+            <version>1</version>
+            <scope>system</scope>
+            <systemPath>C:/Users/Valik2016/workspace/EssentialsXSpawn-2.15.0.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>FAWE</groupId>
+            <artifactId>FAWE</artifactId>
+            <version>1</version>
+            <scope>system</scope>
+            <systemPath>C:/Users/Valik2016/workspace/FastAsyncWorldEdit-1.16-620.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+</project>
