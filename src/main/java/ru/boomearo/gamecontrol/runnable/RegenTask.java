@@ -2,11 +2,12 @@ package ru.boomearo.gamecontrol.runnable;
 
 import java.io.File;
 
+import com.fastasyncworldedit.core.FaweAPI;
+import com.fastasyncworldedit.core.util.EditSessionBuilder;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-import com.boydti.fawe.FaweAPI;
-import com.boydti.fawe.util.EditSessionBuilder;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.function.operation.Operation;
