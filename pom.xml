@@ -4,10 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.boomearo.gamecontrol</groupId>
+    <groupId>ru.boomearo</groupId>
     <artifactId>GameControl</artifactId>
     <version>1.0</version>
-	
+
+    <packaging>jar</packaging>
+
 	<name>GameControl</name>
 
     <properties>
@@ -17,46 +19,80 @@
     </properties>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <finalName>${project.name}</finalName>
-                </configuration>
-            </plugin>
-        </plugins>
+        <finalName>${project.name}</finalName>
     </build>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>papermc</id>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>essentials</id>
+            <url>https://repo.essentialsx.net/releases/</url>
+        </repository>
+        <repository>
+            <id>IntellectualSites Releases</id>
+            <url>https://mvn.intellectualsites.com/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>IntellectualSites Snapshots</id>
+            <url>https://mvn.intellectualsites.com/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>Vault</groupId>
-            <artifactId>Vault</artifactId>
-            <version>1</version>
-            <scope>system</scope>
-            <systemPath>C:/Users/Valik2016/workspace/Vault.jar</systemPath>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>paper</groupId>
-            <artifactId>paper</artifactId>
-            <version>1</version>
-            <scope>system</scope>
-            <systemPath>C:/Users/Valik2016/workspace/paper-1.16.5.jar</systemPath>
+            <groupId>net.essentialsx</groupId>
+            <artifactId>EssentialsXSpawn</artifactId>
+            <version>2.19.0</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>EssentialsSpawn</groupId>
-            <artifactId>EssentialsSpawn</artifactId>
-            <version>1</version>
-            <scope>system</scope>
-            <systemPath>C:/Users/Valik2016/workspace/EssentialsXSpawn-2.15.0.1.jar</systemPath>
+            <groupId>com.fastasyncworldedit</groupId>
+            <artifactId>FastAsyncWorldEdit-Core</artifactId>
+            <version>1.17-327</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>FAWE</groupId>
-            <artifactId>FAWE</artifactId>
-            <version>1</version>
-            <scope>system</scope>
-            <systemPath>C:/Users/Valik2016/workspace/FastAsyncWorldEdit-Bukkit-1.17-44.jar</systemPath>
+            <groupId>com.fastasyncworldedit</groupId>
+            <artifactId>FastAsyncWorldEdit-Bukkit</artifactId>
+            <version>1.17-327</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>FastAsyncWorldEdit-Core</artifactId>
+                    <groupId>*</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
