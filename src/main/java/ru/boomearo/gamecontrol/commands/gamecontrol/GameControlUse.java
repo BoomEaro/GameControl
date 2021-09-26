@@ -18,7 +18,7 @@ public class GameControlUse {
     
     @CmdInfo(name = "list", description = "Показать список всех игр.", usage = "/gamecontrol list", permission = "gamecontrol.admin")
     public boolean list(CommandSender cs, String[] args) {
-        if (args.length < 0 || args.length > 0) {
+        if (args.length != 0) {
             return false;
         }
         
@@ -43,7 +43,7 @@ public class GameControlUse {
     
     @CmdInfo(name = "regen", description = "Принудительно добавить арену в пул регенерации.", usage = "/gamecontrol regen <игра> <арена>", permission = "gamecontrol.admin")
     public boolean regen(CommandSender cs, String[] args) {
-        if (args.length < 2 || args.length > 2) {
+        if (args.length != 2) {
             return false;
         }
         
@@ -86,7 +86,7 @@ public class GameControlUse {
     
     @CmdInfo(name = "forcestart", description = "Принудительно начать игру в указанной арене.", usage = "/gamecontrol forcestart <игра> <арена>", permission = "gamecontrol.admin")
     public boolean forcestart(CommandSender cs, String[] args) {
-        if (args.length < 2 || args.length > 2) {
+        if (args.length != 2) {
             return false;
         }
         

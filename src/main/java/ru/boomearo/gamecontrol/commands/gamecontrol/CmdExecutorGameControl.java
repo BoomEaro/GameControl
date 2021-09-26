@@ -36,7 +36,7 @@ public class CmdExecutorGameControl extends AbstractExecutor {
 	        return empty;
 	    }
         if (arg3.length == 1) {
-            List<String> ss = new ArrayList<String>(Arrays.asList("list", "regen", "forcestart"));
+            List<String> ss = new ArrayList<>(Arrays.asList("list", "regen", "forcestart"));
             List<String> matches = new ArrayList<>();
             String search = arg3[0].toLowerCase();
             for (String se : ss)
@@ -50,7 +50,7 @@ public class CmdExecutorGameControl extends AbstractExecutor {
         }
         else if (arg3.length == 2) {
             if (arg3[0].equalsIgnoreCase("regen") || arg3[0].equalsIgnoreCase("forcestart")) {
-                List<String> ss = new ArrayList<String>();
+                List<String> ss = new ArrayList<>();
                 for (IGameManager igm : GameControl.getInstance().getGameManager().getAllGameManagers()) {
                     ss.add(igm.getGameName());
                 }
@@ -70,7 +70,7 @@ public class CmdExecutorGameControl extends AbstractExecutor {
             if (arg3[0].equalsIgnoreCase("regen")) {
                 IGameManager igm = GameControl.getInstance().getGameManager().getGameByName(arg3[1]);
                 if (igm != null) {
-                    List<String> ss = new ArrayList<String>();
+                    List<String> ss = new ArrayList<>();
                     for (AbstractGameArena aga : igm.getAllArenas()) {
                         if (aga instanceof RegenableGameArena) {
                             ss.add(aga.getName());
@@ -91,7 +91,7 @@ public class CmdExecutorGameControl extends AbstractExecutor {
             else if (arg3[0].equalsIgnoreCase("forcestart")) {
                 IGameManager igm = GameControl.getInstance().getGameManager().getGameByName(arg3[1]);
                 if (igm != null) {
-                    List<String> ss = new ArrayList<String>();
+                    List<String> ss = new ArrayList<>();
                     for (AbstractGameArena aga : igm.getAllArenas()) {
                         if (aga instanceof IForceStartable) {
                             ss.add(aga.getName());
