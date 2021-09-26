@@ -10,6 +10,9 @@ import org.bukkit.potion.PotionEffect;
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.utils.ExpFix;
 
+/**
+ * Реализация IDefaultAction, которая используется по умолчанию, если никакой плагин не зарегистрировал свою реализацию.
+ */
 public class GameControlDefaultAction implements IDefaultAction {
 
     @Override

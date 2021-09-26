@@ -21,8 +21,8 @@ import ru.boomearo.gamecontrol.listeners.RaidListener;
 import ru.boomearo.gamecontrol.listeners.VehicleListener;
 import ru.boomearo.gamecontrol.listeners.WeatherListener;
 import ru.boomearo.gamecontrol.managers.GameManager;
-import ru.boomearo.gamecontrol.objects.RegenArena;
-import ru.boomearo.gamecontrol.objects.RegenGame;
+import ru.boomearo.gamecontrol.objects.StoredRegenArena;
+import ru.boomearo.gamecontrol.objects.StoredRegenGame;
 import ru.boomearo.gamecontrol.objects.region.CuboidRegion;
 import ru.boomearo.gamecontrol.utils.NumberUtils;
 import ru.boomearo.gamecontrol.utils.Vault;
@@ -42,8 +42,8 @@ public class GameControl extends JavaPlugin {
         this.essSpawn = (EssentialsSpawn) Bukkit.getPluginManager().getPlugin("EssentialsSpawn");
         
         ConfigurationSerialization.registerClass(CuboidRegion.class);
-        ConfigurationSerialization.registerClass(RegenGame.class);
-        ConfigurationSerialization.registerClass(RegenArena.class);
+        ConfigurationSerialization.registerClass(StoredRegenGame.class);
+        ConfigurationSerialization.registerClass(StoredRegenArena.class);
         
         File configFile = new File(getDataFolder() + File.separator + "config.yml");
         if(!configFile.exists()) {
@@ -99,8 +99,8 @@ public class GameControl extends JavaPlugin {
         }
         
         ConfigurationSerialization.unregisterClass(CuboidRegion.class);
-        ConfigurationSerialization.unregisterClass(RegenGame.class);
-        ConfigurationSerialization.unregisterClass(RegenArena.class);
+        ConfigurationSerialization.unregisterClass(StoredRegenGame.class);
+        ConfigurationSerialization.unregisterClass(StoredRegenArena.class);
         
         getLogger().info("Плагин успешно выключен.");
     }

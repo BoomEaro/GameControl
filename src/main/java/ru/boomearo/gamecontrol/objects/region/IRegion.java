@@ -5,6 +5,9 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+/**
+ * Базовое представление региона, который используется в аренах для установки границ
+ */
 public interface IRegion {
 
     public boolean isInRegionPoint(Location loc);

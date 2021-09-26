@@ -22,8 +22,8 @@ import ru.boomearo.gamecontrol.exceptions.GameControlException;
 import ru.boomearo.gamecontrol.exceptions.PlayerGameException;
 import ru.boomearo.gamecontrol.objects.IGameManager;
 import ru.boomearo.gamecontrol.objects.IGamePlayer;
-import ru.boomearo.gamecontrol.objects.RegenArena;
-import ru.boomearo.gamecontrol.objects.RegenGame;
+import ru.boomearo.gamecontrol.objects.StoredRegenArena;
+import ru.boomearo.gamecontrol.objects.StoredRegenGame;
 import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
 import ru.boomearo.gamecontrol.objects.arena.ClipboardRegenableGameArena;
 import ru.boomearo.gamecontrol.objects.defactions.GameControlDefaultAction;
@@ -31,6 +31,9 @@ import ru.boomearo.gamecontrol.objects.defactions.IDefaultAction;
 import ru.boomearo.gamecontrol.runnable.ExtendedThreadFactory;
 import ru.boomearo.gamecontrol.runnable.RegenTask;
 
+/**
+ * Главный менеджер всех игр в плагине. Только через него можно зарегистрировать игру или добавлять игроков в любые другие игры.
+ */
 public final class GameManager {
 
     private final ConcurrentMap<Class<? extends JavaPlugin>, IGameManager> gamesClasses = new ConcurrentHashMap<>();
@@ -39,7 +42,7 @@ public final class GameManager {
     private final ConcurrentMap<String, IGamePlayer> players = new ConcurrentHashMap<>();
     
     private ThreadPoolExecutor regenPool = null;
-    private ConcurrentMap<String, RegenGame> regenData = new ConcurrentHashMap<>();
+    private ConcurrentMap<String, StoredRegenGame> regenData = new ConcurrentHashMap<>();
     
     private ThreadPoolExecutor savePool = null;
     
@@ -51,11 +54,15 @@ public final class GameManager {
    
     public static final ChatColor backgroundTextColor = ChatColor.of(new Color(215, 215, 215));
     public static final ChatColor moneyColor = ChatColor.of(new Color(166, 255, 0));
-    
+
     public IDefaultAction getDefaultAction() {
         return this.defaultAction;
     }
-    
+
+    /**
+     * Добавить действие по умолчанию
+     * @throws ConsoleGameException если действие null
+     */
     public void setDefaultAction(IDefaultAction action) throws ConsoleGameException {
         if (action == null) {
             throw new ConsoleGameException("Действие по умолчанию не может быть нулем!");
@@ -88,8 +95,11 @@ public final class GameManager {
            this.savePool.awaitTermination(1, TimeUnit.MINUTES);
         }
     }
-    
-    //Добавляет в очередь реализацию runnable в которой требуется сама арены и действие после регенерации
+
+    /**
+     * Добавить в очередь задачу RegenTask для регенерации арены
+     * @throws ConsoleGameException если задача null, пул регенераций не был создан или пул регенераций выключен.
+     */
     public void queueRegenArena(RegenTask task) throws ConsoleGameException {
         if (task == null) {
             throw new ConsoleGameException("Задача не может быть нулем!");
@@ -105,7 +115,7 @@ public final class GameManager {
 
         this.regenPool.execute(task);
     }
-    
+
     public void queueSaveTask(Runnable task) throws ConsoleGameException {
         if (task == null) {
             throw new ConsoleGameException("Задача не может быть нулем!");
@@ -121,7 +131,13 @@ public final class GameManager {
         
         this.savePool.execute(task);
     }
-    
+
+    /**
+     * Зарегистрировать игру, используя главный класс плагина (JavaPlugin) и свою реализацию IGameManager.
+     * Следует вызывать этот метод в своем методе onEnable().
+     * Если плагин имеет арены, реализующие регенерацию, будет выполнена попытка регенерации если это требуется.
+     * @throws ConsoleGameException если класс или реализация null, или игра уже зарегистрирована
+     */
     public void registerGame(Class<? extends JavaPlugin> clazz, IGameManager manager) throws ConsoleGameException {
         if (clazz == null || manager == null) {
             throw new ConsoleGameException("Аргументы не должны быть нулевые!");
@@ -137,10 +153,10 @@ public final class GameManager {
             this.gamesNames.put(manager.getGameName(), manager);
             
             //Если находим эту игру в списке игр где есть инфа о регенерации
-            RegenGame rg = this.regenData.get(manager.getGameName());
+            StoredRegenGame rg = this.regenData.get(manager.getGameName());
             if (rg != null) {
                 //Получаем все арены которые были записаны в этой игре для регенераций
-                for (RegenArena ra : rg.getAllArenas()) {
+                for (StoredRegenArena ra : rg.getAllArenas()) {
                     //убеждаемся что арена есть, она поддерживает регенерацию и самое главное, требует ли регенерацию.
                     AbstractGameArena aga = manager.getGameArena(ra.getName());
                     if (aga == null) {
@@ -164,7 +180,12 @@ public final class GameManager {
             GameControl.getInstance().getLogger().info("Игра " + manager.getGameName() + " успешно зарегистрирована!");
         }
     }
-    
+
+    /**
+     * Удалить регистрацию игры, используя главный класс плагина (JavaPlugin).
+     * При удалении регистрации, пытается отключить от игры всех игроков в этой игре.
+     * @throws ConsoleGameException если класс null или не был зарегистрирован
+     */
     public void unregisterGame(Class<? extends JavaPlugin> clazz) throws ConsoleGameException {
         if (clazz == null) {
             throw new ConsoleGameException("Аргументы не должны быть нулевые!");
@@ -190,21 +211,39 @@ public final class GameManager {
             GameControl.getInstance().getLogger().info("Игра " + igm.getGameName() + " больше не зарегистрирована.");
         }
     }
-    
+
+    /**
+     * @return игру по указанному классу плагина (JavaPlugin)
+     */
     public IGameManager getGameByClass(Class<? extends JavaPlugin> clazz) {
         return this.gamesClasses.get(clazz);
     }
+    /**
+     * @return коллекцию, в которой все зарегистрированные игры
+     */
     public Collection<IGameManager> getAllGameManagers() {
         return this.gamesClasses.values();
     }
+    /**
+     * @return коллекцию, в которой все зарегистрированные главные классы плагинов (JavaPlugin) этих игр
+     */
     public Set<Class<? extends JavaPlugin>> getAllGameClasses() {
         return this.gamesClasses.keySet();
     }
-    
+
+    /**
+     * @return игру по имени игры
+     */
     public IGameManager getGameByName(String game) {
         return this.gamesNames.get(game);
     }
-    
+
+    /**
+     * Добавляет игрока в арену игры по классу главного плагина который зарегистрировал эту игру.
+     * Следует вызывать только этот метод для присоединения любого игрока к любой арене в любой игре.
+     * @throws ConsoleGameException если один из аргументов является null или игра не зарегистрирована
+     * @throws PlayerGameException если игрок уже в игре или произошло другая ошибка в методе IGameManager#join
+     */
     public void joinGame(Player pl, Class<? extends JavaPlugin> clazz, String arena) throws ConsoleGameException, PlayerGameException {
         if (clazz == null || pl == null || arena == null) {
             throw new ConsoleGameException("Аргументы не должны быть нулевые!");
@@ -230,7 +269,13 @@ public final class GameManager {
             this.players.put(pl.getName(), newIgp);
         }
     }
-    
+
+    /**
+     * Удаляет игрока из этой игры.
+     * Следует вызывать только этот метод для удаления любого игрока к любой арене в любой игре.
+     * @throws ConsoleGameException если аргумент null
+     * @throws PlayerGameException если игрок не в игре
+     */
     public void leaveGame(Player pl) throws ConsoleGameException, PlayerGameException {
         if (pl == null) {
             throw new ConsoleGameException("Аргументы не должны быть нулевые!");
@@ -252,16 +297,22 @@ public final class GameManager {
             this.defaultAction.performDefaultLeaveAction(pl);
         }
     }
-    
+
+    /**
+     * @return игрока, который находится под контролем одной из зарегистрированных игр
+     */
     public IGamePlayer getGamePlayer(String name) {
         return this.players.get(name);
     }
-    
+
+    /**
+     * @return коллекцию, содержащую всех игроков, которые под контролем разных игр
+     */
     public Collection<IGamePlayer> getAllPlayers() {
         return this.players.values();
     }
-    
-    public RegenGame getRegenGameByName(String name) {
+
+    public StoredRegenGame getRegenGameByName(String name) {
         return this.regenData.get(name);
     }
     
@@ -271,16 +322,16 @@ public final class GameManager {
         }
         
         String gameName = arena.getManager().getGameName();
-        RegenGame rg = this.regenData.get(gameName);
+        StoredRegenGame rg = this.regenData.get(gameName);
         if (rg == null) {
-            RegenGame newRg = new RegenGame(gameName, new ConcurrentHashMap<>());
+            StoredRegenGame newRg = new StoredRegenGame(gameName, new ConcurrentHashMap<>());
             this.regenData.put(gameName, newRg);
             rg = newRg;
         }
         
-        RegenArena ra = rg.getRegenArena(arena.getName());
+        StoredRegenArena ra = rg.getRegenArena(arena.getName());
         if (ra == null) {
-            RegenArena newRa = new RegenArena(arena.getName(), false);
+            StoredRegenArena newRa = new StoredRegenArena(arena.getName(), false);
             rg.addRegenArena(newRa);
             ra = newRa;
         }
@@ -295,14 +346,14 @@ public final class GameManager {
    
     @SuppressWarnings("unchecked")
     public void loadRegenData() {
-        ConcurrentMap<String, RegenGame> regenData = new ConcurrentHashMap<>();
+        ConcurrentMap<String, StoredRegenGame> regenData = new ConcurrentHashMap<>();
         
         GameControl gc = GameControl.getInstance();
         gc.reloadConfig();
         
-        List<RegenGame> rg = (List<RegenGame>) gc.getConfig().getList("regenData");
+        List<StoredRegenGame> rg = (List<StoredRegenGame>) gc.getConfig().getList("regenData");
         if (rg != null) {
-            for (RegenGame rr : rg) {
+            for (StoredRegenGame rr : rg) {
                 regenData.put(rr.getName(), rr);
             }
         }
@@ -316,7 +367,7 @@ public final class GameManager {
         FileConfiguration fc = gc.getConfig();
         fc.set("regenData", null);
         
-        List<RegenGame> rr = new ArrayList<>(this.regenData.values());
+        List<StoredRegenGame> rr = new ArrayList<>(this.regenData.values());
         fc.set("regenData", rr);
         
         gc.saveConfig();

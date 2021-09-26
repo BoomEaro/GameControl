@@ -10,30 +10,33 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
-public class RegenGame implements ConfigurationSerializable {
+/**
+ * Класс, представляющий игру, чьи арены требуется регенерировать когда плагин только запускается.
+ */
+public class StoredRegenGame implements ConfigurationSerializable {
 
     private final String name;
     
-    private final ConcurrentMap<String, RegenArena> arenas;
+    private final ConcurrentMap<String, StoredRegenArena> arenas;
     
-    public RegenGame(String name, ConcurrentMap<String, RegenArena> arenas) {
+    public StoredRegenGame(String name, ConcurrentMap<String, StoredRegenArena> arenas) {
         this.name = name;
         this.arenas = arenas;
     }
-    
+
     public String getName() {
         return this.name;
     }
     
-    public RegenArena getRegenArena(String name) {
+    public StoredRegenArena getRegenArena(String name) {
         return this.arenas.get(name);
     }
     
-    public Collection<RegenArena> getAllArenas() {
+    public Collection<StoredRegenArena> getAllArenas() {
         return this.arenas.values();
     }
     
-    public void addRegenArena(RegenArena arena) {
+    public void addRegenArena(StoredRegenArena arena) {
         this.arenas.put(arena.getName(), arena);
     }
     
@@ -48,25 +51,25 @@ public class RegenGame implements ConfigurationSerializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static RegenGame deserialize(Map<String, Object> args) {
+    public static StoredRegenGame deserialize(Map<String, Object> args) {
         String name = "ga";
-        ConcurrentMap<String, RegenArena> arenas = new ConcurrentHashMap<>();
+        ConcurrentMap<String, StoredRegenArena> arenas = new ConcurrentHashMap<>();
 
         Object n = args.get("name");
         if (n != null) {
             name = (String) n;
         }
 
-        List<RegenArena> rrr = new ArrayList<RegenArena>();
+        List<StoredRegenArena> rrr = new ArrayList<>();
         Object ar = args.get("arenas");
         if (ar != null) {
-            rrr = (List<RegenArena>) ar;
+            rrr = (List<StoredRegenArena>) ar;
         }
 
-        for (RegenArena aaa : rrr) {
+        for (StoredRegenArena aaa : rrr) {
             arenas.put(aaa.getName(), aaa);
         }
         
-        return new RegenGame(name, arenas);
+        return new StoredRegenGame(name, arenas);
     }
 }

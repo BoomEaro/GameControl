@@ -5,12 +5,15 @@ import java.util.Map;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
-public class RegenArena implements ConfigurationSerializable {
+/**
+ * Класс, представляющий арену, которую нужно регенерировать после запуска плагина
+ */
+public class StoredRegenArena implements ConfigurationSerializable {
 
     private final String name;
     private volatile boolean needRegen;
     
-    public RegenArena(String name, boolean needRegen) {
+    public StoredRegenArena(String name, boolean needRegen) {
         this.name = name;
         this.needRegen = needRegen;
     }
@@ -37,7 +40,7 @@ public class RegenArena implements ConfigurationSerializable {
         return result;
     }
 
-    public static RegenArena deserialize(Map<String, Object> args) {
+    public static StoredRegenArena deserialize(Map<String, Object> args) {
         String name = "ar";
         boolean needRegen = true;
 
@@ -51,6 +54,6 @@ public class RegenArena implements ConfigurationSerializable {
             needRegen = (boolean) nr;
         }
 
-        return new RegenArena(name, needRegen);
+        return new StoredRegenArena(name, needRegen);
     }
 }
