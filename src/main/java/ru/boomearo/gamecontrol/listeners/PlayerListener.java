@@ -32,21 +32,22 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent e) {
         Player pl = e.getPlayer();
-        
+
         try {
             GameControl.getInstance().getGameManager().leaveGame(pl);
-        } 
-        catch (Exception e1) {}
+        }
+        catch (Exception e1) {
+        }
     }
-    
+
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent e) {
         Player pl = e.getPlayer();
-        
+
         //Выполняем "выход" игрока, телепортируя на спавн и прочее на всякий случай
         GameControl.getInstance().getGameManager().getDefaultAction().performDefaultLeaveAction(pl);
     }
-    
+
     @EventHandler
     public void onPlayerArmorStandManipulateEvent(PlayerArmorStandManipulateEvent e) {
         if (e.isCancelled()) {
@@ -57,7 +58,7 @@ public class PlayerListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onPlayerBedEnterEvent(PlayerBedEnterEvent e) {
         if (e.isCancelled()) {
@@ -65,8 +66,8 @@ public class PlayerListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
-    
+
+
     @EventHandler
     public void onPlayerBucketEmptyEvent(PlayerBucketEmptyEvent e) {
         if (e.isCancelled()) {
@@ -77,7 +78,7 @@ public class PlayerListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onPlayerBucketFillEvent(PlayerBucketFillEvent e) {
         if (e.isCancelled()) {
@@ -88,7 +89,7 @@ public class PlayerListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onPlayerDropItemEvent(PlayerDropItemEvent e) {
         if (e.isCancelled()) {
@@ -96,8 +97,8 @@ public class PlayerListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
-    
+
+
     @EventHandler
     public void onPlayerEditBookEvent(PlayerEditBookEvent e) {
         if (e.isCancelled()) {
@@ -105,7 +106,7 @@ public class PlayerListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onPlayerFishEvent(PlayerFishEvent e) {
         if (e.isCancelled()) {
@@ -113,7 +114,7 @@ public class PlayerListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onPlayerHarvestBlockEvent(PlayerHarvestBlockEvent e) {
         if (e.isCancelled()) {
@@ -124,7 +125,7 @@ public class PlayerListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onPlayerInteractEvent(PlayerInteractEvent e) {
         if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
@@ -134,7 +135,7 @@ public class PlayerListener implements Listener {
         e.setUseInteractedBlock(Result.DENY);
         e.setUseItemInHand(Result.DENY);
     }
-    
+
     @EventHandler
     public void onPlayerItemConsumeEvent(PlayerItemConsumeEvent e) {
         if (e.isCancelled()) {
@@ -145,7 +146,7 @@ public class PlayerListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onPlayerItemDamageEvent(PlayerItemDamageEvent e) {
         if (e.isCancelled()) {
@@ -153,7 +154,7 @@ public class PlayerListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onPlayerPortalEvent(PlayerPortalEvent e) {
         if (e.isCancelled()) {
@@ -161,7 +162,7 @@ public class PlayerListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onPlayerShearEntityEvent(PlayerShearEntityEvent e) {
         if (e.isCancelled()) {
@@ -172,7 +173,7 @@ public class PlayerListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onPlayerSwapHandItemsEvent(PlayerSwapHandItemsEvent e) {
         if (e.isCancelled()) {
@@ -183,7 +184,7 @@ public class PlayerListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onPlayerTakeLecternBookEvent(PlayerTakeLecternBookEvent e) {
         if (e.isCancelled()) {
@@ -194,7 +195,7 @@ public class PlayerListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onPlayerUnleashEntityEvent(PlayerUnleashEntityEvent e) {
         if (e.isCancelled()) {
@@ -205,7 +206,7 @@ public class PlayerListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onPlayerStartSpectatingEntityEvent(PlayerStartSpectatingEntityEvent e) {
         if (e.isCancelled()) {

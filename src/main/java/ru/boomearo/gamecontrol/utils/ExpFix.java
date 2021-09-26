@@ -23,7 +23,8 @@ public class ExpFix {
             if (amount >= 0) {
                 // give until next level
                 player.giveExp(expToLevel);
-            } else {
+            }
+            else {
                 // give the rest
                 amount += expToLevel;
                 player.giveExp(amount);
@@ -47,19 +48,19 @@ public class ExpFix {
         return (9 * level) - 158;
 
     }
-    
-	public static double getLevelFromExp(long exp) {
-		if (exp > 1395) {
-			return (Math.sqrt(72 * exp - 54215) + 325) / 18;
-		}
-		if (exp > 315) {
-			return Math.sqrt(40 * exp - 7839) / 10 + 8.1;
-		}
-		if (exp > 0) {
-			return Math.sqrt(exp + 9) - 3;
-		}
-		return 0;
-	}
+
+    public static double getLevelFromExp(long exp) {
+        if (exp > 1395) {
+            return (Math.sqrt(72 * exp - 54215) + 325) / 18;
+        }
+        if (exp > 315) {
+            return Math.sqrt(40 * exp - 7839) / 10 + 8.1;
+        }
+        if (exp > 0) {
+            return Math.sqrt(exp + 9) - 3;
+        }
+        return 0;
+    }
 
     public static int getExpToLevel(final int level) {
         int currentLevel = 0;
@@ -74,7 +75,7 @@ public class ExpFix {
         }
         return exp;
     }
-    
+
 
     //This method is required because the bukkit player.getTotalExperience() method, shows exp that has been 'spent'.
     //Without this people would be able to use exp and then still sell it.
@@ -91,7 +92,7 @@ public class ExpFix {
         }
         return exp;
     }
-    
+
 
     public static int getExpUntilNextLevel(final Player player) {
         int exp = (int) Math.round(getExpAtLevel(player) * player.getExp());

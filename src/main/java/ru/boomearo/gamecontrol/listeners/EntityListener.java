@@ -34,7 +34,7 @@ import org.bukkit.event.entity.SlimeSplitEvent;
 import org.bukkit.event.entity.SpawnerSpawnEvent;
 
 public class EntityListener implements Listener {
-    
+
     @EventHandler
     public void onBatToggleSleepEvent(BatToggleSleepEvent e) {
         if (e.isCancelled()) {
@@ -42,7 +42,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onCreatureSpawnEvent(CreatureSpawnEvent e) {
         if (e.isCancelled()) {
@@ -50,7 +50,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntityBreakDoorEvent(EntityBreakDoorEvent e) {
         if (e.isCancelled()) {
@@ -58,8 +58,8 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
-    
+
+
     @EventHandler
     public void onEntityBreedEvent(EntityBreedEvent e) {
         if (e.isCancelled()) {
@@ -67,7 +67,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntityChangeBlockEvent(EntityChangeBlockEvent e) {
         if (e.isCancelled()) {
@@ -75,7 +75,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntityDamageByBlockEvent(EntityDamageByBlockEvent e) {
         if (e.isCancelled()) {
@@ -83,7 +83,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
         if (e.isCancelled()) {
@@ -93,7 +93,7 @@ public class EntityListener implements Listener {
         if (en != null) {
             if (en instanceof Player) {
                 Player pl = (Player) en;
-                
+
                 if (pl.hasPermission("gamecontrol.bypass")) {
                     return;
                 }
@@ -101,7 +101,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntityDamageEvent(EntityDamageEvent e) {
         if (e.isCancelled()) {
@@ -109,7 +109,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntityDropItemEvent(EntityDropItemEvent e) {
         if (e.isCancelled()) {
@@ -117,7 +117,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntityEnterBlockEvent(EntityEnterBlockEvent e) {
         if (e.isCancelled()) {
@@ -125,7 +125,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntityEnterLoveModeEvent(EntityEnterLoveModeEvent e) {
         if (e.isCancelled()) {
@@ -133,7 +133,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntityExplodeEvent(EntityExplodeEvent e) {
         if (e.isCancelled()) {
@@ -141,7 +141,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntityInteractEvent(EntityInteractEvent e) {
         if (e.isCancelled()) {
@@ -149,7 +149,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntityPickupItemEvent(EntityPickupItemEvent e) {
         if (e.isCancelled()) {
@@ -157,7 +157,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntityPortalEvent(EntityPortalEvent e) {
         if (e.isCancelled()) {
@@ -165,7 +165,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntityPortalExitEvent(EntityPortalExitEvent e) {
         if (e.isCancelled()) {
@@ -173,7 +173,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntityShootBowEvent(EntityShootBowEvent e) {
         if (e.isCancelled()) {
@@ -181,7 +181,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntitySpawnEvent(EntitySpawnEvent e) {
         if (e.isCancelled()) {
@@ -189,7 +189,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntitySpellCastEvent(EntitySpellCastEvent e) {
         if (e.isCancelled()) {
@@ -197,7 +197,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntityTameEvent(EntityTameEvent e) {
         if (e.isCancelled()) {
@@ -205,7 +205,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onEntityTransformEvent(EntityTransformEvent e) {
         if (e.isCancelled()) {
@@ -213,7 +213,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onFoodLevelChangeEvent(FoodLevelChangeEvent e) {
         if (e.isCancelled()) {
@@ -221,7 +221,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onPigZombieAngerEvent(PigZombieAngerEvent e) {
         if (e.isCancelled()) {
@@ -229,7 +229,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onPlayerLeashEntityEvent(PlayerLeashEntityEvent e) {
         if (e.isCancelled()) {
@@ -237,7 +237,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onSheepDyeWoolEvent(SheepDyeWoolEvent e) {
         if (e.isCancelled()) {
@@ -245,7 +245,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onSheepRegrowWoolEvent(SheepRegrowWoolEvent e) {
         if (e.isCancelled()) {
@@ -253,7 +253,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onSlimeSplitEvent(SlimeSplitEvent e) {
         if (e.isCancelled()) {
@@ -261,7 +261,7 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onSpawnerSpawnEvent(SpawnerSpawnEvent e) {
         if (e.isCancelled()) {
@@ -269,5 +269,5 @@ public class EntityListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
 }

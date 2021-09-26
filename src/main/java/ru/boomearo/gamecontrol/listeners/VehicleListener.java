@@ -10,7 +10,7 @@ import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 
 public class VehicleListener implements Listener {
- 
+
     @EventHandler
     public void onVehicleCreateEvent(VehicleCreateEvent e) {
         if (e.isCancelled()) {
@@ -18,7 +18,7 @@ public class VehicleListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onVehicleDamageEvent(VehicleDamageEvent e) {
         if (e.isCancelled()) {
@@ -26,9 +26,8 @@ public class VehicleListener implements Listener {
         }
         Entity en = e.getAttacker();
         if (en != null) {
-            if (en instanceof Player) {
-                Player pl = (Player) en;
-                
+            if (en instanceof Player pl) {
+
                 if (pl.hasPermission("gamecontrol.bypass")) {
                     return;
                 }
@@ -36,7 +35,7 @@ public class VehicleListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onVehicleDestroyEvent(VehicleDestroyEvent e) {
         if (e.isCancelled()) {
@@ -44,9 +43,8 @@ public class VehicleListener implements Listener {
         }
         Entity en = e.getAttacker();
         if (en != null) {
-            if (en instanceof Player) {
-                Player pl = (Player) en;
-                
+            if (en instanceof Player pl) {
+
                 if (pl.hasPermission("gamecontrol.bypass")) {
                     return;
                 }
@@ -54,7 +52,7 @@ public class VehicleListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onVehicleEnterEvent(VehicleEnterEvent e) {
         if (e.isCancelled()) {
@@ -62,9 +60,8 @@ public class VehicleListener implements Listener {
         }
         Entity en = e.getEntered();
         if (en != null) {
-            if (en instanceof Player) {
-                Player pl = (Player) en;
-                
+            if (en instanceof Player pl) {
+
                 if (pl.hasPermission("gamecontrol.bypass")) {
                     return;
                 }

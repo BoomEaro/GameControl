@@ -12,24 +12,24 @@ public class StoredRegenArena implements ConfigurationSerializable {
 
     private final String name;
     private volatile boolean needRegen;
-    
+
     public StoredRegenArena(String name, boolean needRegen) {
         this.name = name;
         this.needRegen = needRegen;
     }
-    
+
     public String getName() {
         return this.name;
     }
-    
+
     public boolean isNeedRegen() {
         return this.needRegen;
     }
-    
+
     public void setNeedRegen(boolean need) {
         this.needRegen = need;
     }
-    
+
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> result = new LinkedHashMap<>();

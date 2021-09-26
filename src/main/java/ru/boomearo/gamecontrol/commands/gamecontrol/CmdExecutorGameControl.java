@@ -18,31 +18,29 @@ import ru.boomearo.gamecontrol.objects.arena.RegenableGameArena;
 
 public class CmdExecutorGameControl extends AbstractExecutor {
 
-	public CmdExecutorGameControl() {
-		super(new GameControlUse());
-	}
+    public CmdExecutorGameControl() {
+        super(new GameControlUse());
+    }
 
-	@Override
-	public boolean zeroArgument(CommandSender sender, CmdList cmds) {
-		cmds.sendUsageCmds(sender);
-		return true;
-	}
+    @Override
+    public boolean zeroArgument(CommandSender sender, CmdList cmds) {
+        cmds.sendUsageCmds(sender);
+        return true;
+    }
 
-	private static final List<String> empty = new ArrayList<>();
+    private static final List<String> empty = new ArrayList<>();
 
-	@Override
-	public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
-	    if (!arg0.hasPermission("gamecontrol.admin")) {
-	        return empty;
-	    }
+    @Override
+    public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
+        if (!arg0.hasPermission("gamecontrol.admin")) {
+            return empty;
+        }
         if (arg3.length == 1) {
             List<String> ss = new ArrayList<>(Arrays.asList("list", "regen", "forcestart"));
             List<String> matches = new ArrayList<>();
             String search = arg3[0].toLowerCase();
-            for (String se : ss)
-            {
-                if (se.toLowerCase().startsWith(search))
-                {
+            for (String se : ss) {
+                if (se.toLowerCase().startsWith(search)) {
                     matches.add(se);
                 }
             }
@@ -56,10 +54,8 @@ public class CmdExecutorGameControl extends AbstractExecutor {
                 }
                 List<String> matches = new ArrayList<>();
                 String search = arg3[1].toLowerCase();
-                for (String se : ss)
-                {
-                    if (se.toLowerCase().startsWith(search))
-                    {
+                for (String se : ss) {
+                    if (se.toLowerCase().startsWith(search)) {
                         matches.add(se);
                     }
                 }
@@ -78,10 +74,8 @@ public class CmdExecutorGameControl extends AbstractExecutor {
                     }
                     List<String> matches = new ArrayList<>();
                     String search = arg3[2].toLowerCase();
-                    for (String se : ss)
-                    {
-                        if (se.toLowerCase().startsWith(search))
-                        {
+                    for (String se : ss) {
+                        if (se.toLowerCase().startsWith(search)) {
                             matches.add(se);
                         }
                     }
@@ -99,10 +93,8 @@ public class CmdExecutorGameControl extends AbstractExecutor {
                     }
                     List<String> matches = new ArrayList<>();
                     String search = arg3[2].toLowerCase();
-                    for (String se : ss)
-                    {
-                        if (se.toLowerCase().startsWith(search))
-                        {
+                    for (String se : ss) {
+                        if (se.toLowerCase().startsWith(search)) {
                             matches.add(se);
                         }
                     }
@@ -111,15 +103,15 @@ public class CmdExecutorGameControl extends AbstractExecutor {
             }
         }
         return empty;
-	}
+    }
 
-	@Override
-	public String getPrefix() {
-		return GameManager.prefix;
-	}
+    @Override
+    public String getPrefix() {
+        return GameManager.prefix;
+    }
 
-	@Override
-	public String getSuffix() {
-		return " §8-§9 ";
-	}
+    @Override
+    public String getSuffix() {
+        return " §8-§9 ";
+    }
 }

@@ -12,36 +12,36 @@ public class ExtendedThreadFactory implements ThreadFactory {
 
     private final String factoryName;
     private final int priority;
-    
+
     public ExtendedThreadFactory(String factoryName, int priority) {
         this.factoryName = factoryName;
         this.priority = priority;
-        
+
         SecurityManager s = System.getSecurityManager();
         this.group = (s != null) ? s.getThreadGroup() :
-                              Thread.currentThread().getThreadGroup();
+                Thread.currentThread().getThreadGroup();
         this.namePrefix = this.factoryName + "-pool-" +
-                      poolNumber.getAndIncrement() +
-                     "-thread-";
+                poolNumber.getAndIncrement() +
+                "-thread-";
     }
 
     public String getFactoryName() {
         return this.factoryName;
     }
-    
+
     public int getPriority() {
         return this.priority;
     }
-    
+
     @Override
     public Thread newThread(Runnable r) {
         Thread t = new Thread(this.group, r,
-                              this.namePrefix + this.threadNumber.getAndIncrement(),
-                              0);
-        
+                this.namePrefix + this.threadNumber.getAndIncrement(),
+                0);
+
         t.setPriority(this.priority);
-        
+
         return t;
     }
-    
+
 }

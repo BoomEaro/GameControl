@@ -27,10 +27,10 @@ public class CuboidRegion implements IRegion, ConfigurationSerializable {
         this.loc1 = loc[0];
         this.loc2 = loc[1];
     }
-    
+
     private Location[] fixRegion(double xMin, double yMin, double zMin, double xMax, double yMax, double zMax, World world) {
         Location[] loc = new Location[2];
-                
+
         double xMin2 = (xMin < xMax ? xMin : xMax);
         double yMin2 = (yMin < yMax ? yMin : yMax);
         double zMin2 = (zMin < zMax ? zMin : zMax);
@@ -42,7 +42,7 @@ public class CuboidRegion implements IRegion, ConfigurationSerializable {
         double zMax2 = (zMin > zMax ? zMin : zMax);
 
         loc[1] = new Location(world, xMax2, yMax2, zMax2);
-        
+
         return loc;
     }
 
@@ -58,7 +58,7 @@ public class CuboidRegion implements IRegion, ConfigurationSerializable {
     public boolean isInRegionPoint(Location loc) {
         return isInRegionPoint(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ());
     }
-    
+
     @Override
     public boolean isInRegionPoint(World world, double x, double y, double z) {
         if (!world.getName().equals(this.loc1.getWorld().getName())) {
@@ -94,7 +94,7 @@ public class CuboidRegion implements IRegion, ConfigurationSerializable {
         }
         return chunks;
     }
-    
+
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> result = new LinkedHashMap<>();
@@ -121,5 +121,5 @@ public class CuboidRegion implements IRegion, ConfigurationSerializable {
 
         return new CuboidRegion(loc1, loc2);
     }
-    
+
 }

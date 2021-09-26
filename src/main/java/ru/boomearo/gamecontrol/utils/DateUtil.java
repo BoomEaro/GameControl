@@ -95,12 +95,12 @@ public class DateUtil {
     }
     //Мой метод :3
     //Формирование текста для бана.
-    
-    
+
+
     public static String formatedTime(long time, boolean devide) {
         return formatedTime(time, devide, false);
     }
-    
+
     public static String formatedTime(long time, boolean devide, boolean mini) {
         long timeSecond;
         if (devide) {
@@ -113,7 +113,7 @@ public class DateUtil {
         if (timeSecond <= 0) {
             return "0 секунд";
         }
-        
+
         int year = 0;
         int month = 0;
         int week = 0;
@@ -122,18 +122,18 @@ public class DateUtil {
         int min = 0;
         int sec = 0;
 
-        year = (int) ( timeSecond / 31536000 );
-        timeSecond = timeSecond-year* 31536000L;
-        month = (int) ( timeSecond / 2678400 );
-        timeSecond= timeSecond-month* 2678400L;
-        week = (int) ( timeSecond / 604800 ); 
-        timeSecond = timeSecond-week* 604800L;
-        day = (int) ( timeSecond / 86400 ); 
-        timeSecond = timeSecond-day* 86400L;
-        hour = (int) ( timeSecond / 3600 );
-        timeSecond = timeSecond-hour* 3600L;
-        min = (int) ( timeSecond / 60 );
-        timeSecond = timeSecond-min* 60L;
+        year = (int) (timeSecond / 31536000);
+        timeSecond = timeSecond - year * 31536000L;
+        month = (int) (timeSecond / 2678400);
+        timeSecond = timeSecond - month * 2678400L;
+        week = (int) (timeSecond / 604800);
+        timeSecond = timeSecond - week * 604800L;
+        day = (int) (timeSecond / 86400);
+        timeSecond = timeSecond - day * 86400L;
+        hour = (int) (timeSecond / 3600);
+        timeSecond = timeSecond - hour * 3600L;
+        min = (int) (timeSecond / 60);
+        timeSecond = timeSecond - min * 60L;
         sec = (int) timeSecond;
 
         StringBuilder sb = new StringBuilder("");
@@ -196,6 +196,7 @@ public class DateUtil {
         }
 
     }
+
     //Не мой метод. С хабра где-то нашел.
     //Нужен для склонений.
     public static String convertSu(long n, String s1, String s2, String s3) {

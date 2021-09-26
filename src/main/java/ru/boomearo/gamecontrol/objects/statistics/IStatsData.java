@@ -16,9 +16,10 @@ public interface IStatsData {
      * @return игрока статистики по указанному имени
      */
     public StatsPlayer getStatsPlayer(String name);
+
     /**
      * @return коллекцию, содержащую всех игроков этой статистики
      */
     public Collection<? extends StatsPlayer> getAllStatsPlayer();
-    
+
 }

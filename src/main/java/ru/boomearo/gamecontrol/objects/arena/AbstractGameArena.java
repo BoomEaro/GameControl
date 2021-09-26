@@ -16,9 +16,9 @@ public abstract class AbstractGameArena {
 
     private final String name;
     private final World world;
-    
+
     private final Material icon;
-    
+
     public AbstractGameArena(String name, World world, Material icon) {
         this.name = name;
         this.world = world;
@@ -56,6 +56,7 @@ public abstract class AbstractGameArena {
      * @return игрок, который находится в этой арене
      */
     public abstract IGamePlayer getGamePlayer(String name);
+
     /**
      * @return коллекция, содержащая всех игроков этой арены
      */
@@ -66,6 +67,7 @@ public abstract class AbstractGameArena {
      * @return минимальное количество игроков для старта в игре
      */
     public abstract int getMinPlayers();
+
     /**
      * @return максимальное количество игроков которое может быть одновременно в этой арене
      */
@@ -76,5 +78,5 @@ public abstract class AbstractGameArena {
      * @see IGameState
      */
     public abstract IGameState getState();
-    
+
 }

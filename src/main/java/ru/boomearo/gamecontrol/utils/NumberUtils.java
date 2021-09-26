@@ -8,6 +8,7 @@ import java.util.Locale;
 
 public class NumberUtils {
     static final NumberFormat PRETTY_FORMAT = NumberFormat.getInstance(Locale.US);
+
     static {
         PRETTY_FORMAT.setRoundingMode(RoundingMode.FLOOR);
         PRETTY_FORMAT.setGroupingUsed(true);
@@ -24,7 +25,7 @@ public class NumberUtils {
     }
 
     public static String displayCurrency(final double value) {
-		BigDecimal bd = new BigDecimal(value);
+        BigDecimal bd = new BigDecimal(value);
         String currency = formatAsPrettyCurrency(bd);
         if (bd.signum() < 0) {
             currency = currency.substring(1);

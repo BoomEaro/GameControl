@@ -27,33 +27,33 @@ public class RegenTask implements Runnable {
 
     private final ClipboardRegenableGameArena arena;
     private final Runnable afterTask;
-    
+
     public RegenTask(ClipboardRegenableGameArena arena, Runnable afterTask) {
         this.arena = arena;
         this.afterTask = afterTask;
     }
-    
+
     @Override
     public void run() {
         String gameName = this.arena.getManager().getGameName();
-        
+
         try {
-            
+
             GameControl.getInstance().getLogger().info("Начинаю регенерацию арены '" + this.arena.getName() + "' в игре '" + gameName + "'");
             long start = System.currentTimeMillis();
 
             File schFile = new File(GameControl.getInstance().getDataFolder(), File.separator + "schematics" + File.separator + gameName.toLowerCase() + "_" + this.arena.getName().toLowerCase() + ".schem");
-            
+
             if (!schFile.exists()) {
                 throw new ConsoleGameException("Файл арены '" + this.arena.getName() + "' в игре '" + gameName + "' не найден!");
             }
-            
+
             if (!schFile.isFile()) {
                 throw new ConsoleGameException("Файл арены '" + this.arena.getName() + "' в игре '" + gameName + "' не является файлом!");
             }
-            
+
             Clipboard cb = FaweAPI.load(schFile);
-             
+
             if (cb == null) {
                 throw new ConsoleGameException("Схема арены '" + this.arena.getName() + "' игры '" + gameName + "' является нулем!");
             }
@@ -82,12 +82,12 @@ public class RegenTask implements Runnable {
 
                 Operations.complete(op);
             }
-            
+
             long end = System.currentTimeMillis();
-            
+
             //Меняем статус регенерации этой арены, довольно важно
             GameControl.getInstance().getGameManager().setRegenGame(this.arena, false);
-            
+
             GameControl.getInstance().getLogger().info("Регенерация арены '" + this.arena.getName() + "' в игре '" + gameName + "' успешно завершена за " + (end - start) + "мс.");
         }
         catch (Throwable e) {

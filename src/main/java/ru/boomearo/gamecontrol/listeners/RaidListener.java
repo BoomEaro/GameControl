@@ -13,5 +13,5 @@ public class RaidListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
 }

@@ -13,6 +13,7 @@ public interface IGamePlayer {
      * @return ник игрока
      */
     public String getName();
+
     /**
      * @return объект игрока
      * @see Player

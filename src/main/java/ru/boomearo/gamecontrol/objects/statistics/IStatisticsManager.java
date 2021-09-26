@@ -11,6 +11,7 @@ public interface IStatisticsManager {
      * @return тип статистики по указанному имени
      */
     public IStatsData getStatsData(String name);
+
     /**
      * @return коллекцию, содержащую все типы статистик
      */

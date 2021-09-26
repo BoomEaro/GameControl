@@ -19,7 +19,7 @@ public class HangingListener implements Listener {
         if (remover != null) {
             if (remover instanceof Player) {
                 Player pl = (Player) remover;
-                
+
                 if (pl.hasPermission("gamecontrol.bypass")) {
                     return;
                 }
@@ -27,7 +27,7 @@ public class HangingListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onHangingBreakEvent(HangingBreakEvent e) {
         if (e.isCancelled()) {
@@ -35,7 +35,7 @@ public class HangingListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onHangingPlaceEvent(HangingPlaceEvent e) {
         if (e.isCancelled()) {
@@ -46,5 +46,5 @@ public class HangingListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
 }

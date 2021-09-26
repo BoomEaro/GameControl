@@ -4,20 +4,20 @@ public class StatsPlayer implements Comparable<StatsPlayer> {
 
     private final String name;
     private double value;
-    
+
     public StatsPlayer(String name, double value) {
         this.name = name;
         this.value = value;
     }
-    
+
     public String getName() {
         return this.name;
     }
-    
+
     public double getValue() {
         return this.value;
     }
-    
+
     public void setValue(double value) {
         this.value = value;
     }

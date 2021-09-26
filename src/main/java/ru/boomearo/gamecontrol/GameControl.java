@@ -30,40 +30,40 @@ import ru.boomearo.gamecontrol.utils.Vault;
 public class GameControl extends JavaPlugin {
 
     private GameManager manager = null;
-    
+
     private EssentialsSpawn essSpawn = null;
-    
+
     private static GameControl instance = null;
-    
+
     @Override
     public void onEnable() {
         instance = this;
-        
+
         this.essSpawn = (EssentialsSpawn) Bukkit.getPluginManager().getPlugin("EssentialsSpawn");
-        
+
         ConfigurationSerialization.registerClass(CuboidRegion.class);
         ConfigurationSerialization.registerClass(StoredRegenGame.class);
         ConfigurationSerialization.registerClass(StoredRegenArena.class);
-        
+
         File configFile = new File(getDataFolder() + File.separator + "config.yml");
-        if(!configFile.exists()) {
+        if (!configFile.exists()) {
             getLogger().info("Конфиг не найден, создаю новый...");
             saveDefaultConfig();
         }
-        
+
         Vault.setupEconomy();
-        
+
         if (this.manager == null) {
             this.manager = new GameManager();
-            
+
             this.manager.loadRegenData();
-            
+
             this.manager.initRegenPool();
             this.manager.initSavePool();
         }
-        
+
         getCommand("gamecontrol").setExecutor(new CmdExecutorGameControl());
-        
+
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
         getServer().getPluginManager().registerEvents(new EntityListener(), this);
         getServer().getPluginManager().registerEvents(new HangingListener(), this);
@@ -72,51 +72,51 @@ public class GameControl extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new RaidListener(), this);
         getServer().getPluginManager().registerEvents(new VehicleListener(), this);
         getServer().getPluginManager().registerEvents(new WeatherListener(), this);
-        
+
         getLogger().info("Плагин успешно запущен.");
     }
-    
+
     @Override
     public void onDisable() {
         this.manager.saveRegenData();
-        
+
         //this.manager.stopRegenPool();
         try {
             this.manager.stopSavePool();
-        } 
+        }
         catch (InterruptedException e1) {
             e1.printStackTrace();
         }
-        
-        
+
+
         for (Class<? extends JavaPlugin> cl : new HashSet<>(this.manager.getAllGameClasses())) {
             try {
                 this.manager.unregisterGame(cl);
-            } 
+            }
             catch (ConsoleGameException e) {
                 e.printStackTrace();
             }
         }
-        
+
         ConfigurationSerialization.unregisterClass(CuboidRegion.class);
         ConfigurationSerialization.unregisterClass(StoredRegenGame.class);
         ConfigurationSerialization.unregisterClass(StoredRegenArena.class);
-        
+
         getLogger().info("Плагин успешно выключен.");
     }
-    
+
     public GameManager getGameManager() {
         return this.manager;
     }
-    
+
     public EssentialsSpawn getEssentialsSpawn() {
         return this.essSpawn;
     }
-    
+
     public static GameControl getInstance() {
         return instance;
     }
-    
+
     public static String getFormatedEco(double price) {
         String c = GameManager.moneyColor.toString();
         return miniForm(price, c) + c + "§lⵥ";
@@ -149,11 +149,11 @@ public class GameControl extends JavaPlugin {
         }
         return (isNegative ? "§c-" : "") + color + NumberUtils.displayCurrency(newMoney);
     }
-    
+
     public static Location normalizeLocation(Location loc) {
         return new Location(loc.getWorld(), loc.getBlockX() + 0.5f, loc.getBlockY(), loc.getBlockZ() + 0.5f);
     }
-    
+
     public static Location normalizeRotation(Location loc) {
         float yaw = loc.getYaw();
         if (yaw < 0) {
@@ -162,15 +162,15 @@ public class GameControl extends JavaPlugin {
         if (yaw >= 315 || yaw < 45) {
             return new Location(loc.getWorld(), loc.getBlockX() + 0.5f, loc.getBlockY(), loc.getBlockZ() + 0.5f, 0f, 0f);
             //BedWars.getInstance().getLogger().info("test south " + yaw);
-        } 
+        }
         else if (yaw < 135) {
             return new Location(loc.getWorld(), loc.getBlockX() + 0.5f, loc.getBlockY(), loc.getBlockZ() + 0.5f, 90f, 0f);
             //BedWars.getInstance().getLogger().info("test west " + yaw);
-        } 
+        }
         else if (yaw < 225) {
             return new Location(loc.getWorld(), loc.getBlockX() + 0.5f, loc.getBlockY(), loc.getBlockZ() + 0.5f, 180f, 0f);
             //BedWars.getInstance().getLogger().info("test north " + yaw);
-        } 
+        }
         else if (yaw < 315) {
             return new Location(loc.getWorld(), loc.getBlockX() + 0.5f, loc.getBlockY(), loc.getBlockZ() + 0.5f, -90f, 0f);
             //BedWars.getInstance().getLogger().info("test east " + yaw);
@@ -180,5 +180,5 @@ public class GameControl extends JavaPlugin {
             //BedWars.getInstance().getLogger().info("test north " + yaw);  
         }
     }
-    
+
 }

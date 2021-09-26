@@ -21,7 +21,7 @@ public class InventoryListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClickEvent(InventoryClickEvent e) {
         if (e.isCancelled()) {
@@ -31,7 +31,7 @@ public class InventoryListener implements Listener {
         if (en != null) {
             if (en instanceof Player) {
                 Player pl = (Player) en;
-                
+
                 if (pl.hasPermission("gamecontrol.bypass")) {
                     return;
                 }
@@ -40,7 +40,7 @@ public class InventoryListener implements Listener {
         e.setCancelled(true);
         e.setResult(Result.DENY);
     }
-    
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryDragEvent(InventoryDragEvent e) {
         if (e.isCancelled()) {
@@ -50,7 +50,7 @@ public class InventoryListener implements Listener {
         if (en != null) {
             if (en instanceof Player) {
                 Player pl = (Player) en;
-                
+
                 if (pl.hasPermission("gamecontrol.bypass")) {
                     return;
                 }
@@ -59,7 +59,7 @@ public class InventoryListener implements Listener {
         e.setCancelled(true);
         e.setResult(Result.DENY);
     }
-    
+
     @EventHandler
     public void onInventoryPickupItemEvent(InventoryPickupItemEvent e) {
         if (e.isCancelled()) {
@@ -67,7 +67,7 @@ public class InventoryListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
+
     @EventHandler
     public void onTradeSelectEvent(TradeSelectEvent e) {
         if (e.isCancelled()) {

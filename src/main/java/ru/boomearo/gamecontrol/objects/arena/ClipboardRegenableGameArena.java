@@ -11,7 +11,7 @@ import org.bukkit.World;
 public abstract class ClipboardRegenableGameArena extends RegenableGameArena {
 
     private final Location originCenter;
-    
+
     public ClipboardRegenableGameArena(String name, World world, Material icon, Location originCenter) {
         super(name, world, icon);
         this.originCenter = originCenter;
