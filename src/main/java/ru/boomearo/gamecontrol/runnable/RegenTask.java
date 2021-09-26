@@ -3,8 +3,8 @@ package ru.boomearo.gamecontrol.runnable;
 import java.io.File;
 
 import com.fastasyncworldedit.core.FaweAPI;
-import com.fastasyncworldedit.core.util.EditSessionBuilder;
 
+import com.sk89q.worldedit.WorldEdit;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -61,13 +61,16 @@ public class RegenTask implements Runnable {
                 throw new ConsoleGameException("Центральная точка схемы арены '" + this.arena.getName() + "' игры '" + gameName + "' является нулем!");
             }
 
-            ClipboardHolder ch = new ClipboardHolder(cb);
-
             World w = FaweAPI.getWorld(this.arena.getWorld().getName());
-            
+
+            if (w == null) {
+                throw new ConsoleGameException("Мир арены '" + this.arena.getName() + "' игры '" + gameName + "' является нулем!");
+            }
+
             //Если при операции появляется исключение, прерываем выполнение всего
-            try (EditSession es = new EditSessionBuilder(w).build()) {
-                Operation op = ch.createPaste(es)
+            try (EditSession es = WorldEdit.getInstance().newEditSession(w)) {
+                Operation op = new ClipboardHolder(cb)
+                        .createPaste(es)
                         .to(BlockVector3.at(loc.getX(), loc.getY(), loc.getZ()))
                         .ignoreAirBlocks(false)
                         .copyEntities(false)
