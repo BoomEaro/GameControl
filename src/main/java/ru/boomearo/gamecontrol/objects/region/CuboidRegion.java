@@ -86,7 +86,7 @@ public class CuboidRegion implements IRegion, ConfigurationSerializable {
 
     @Override
     public List<ChunkCords> getAllChunks() {
-        List<ChunkCords> chunks = new ArrayList<ChunkCords>();
+        List<ChunkCords> chunks = new ArrayList<>();
         for (int x = (this.loc1.getBlockX() >> 4); x <= (this.loc2.getBlockX() >> 4); x++) {
             for (int z = (this.loc1.getBlockZ() >> 4); z <= (this.loc2.getBlockZ() >> 4); z++) {
                 chunks.add(new ChunkCords(x, z));
@@ -97,7 +97,7 @@ public class CuboidRegion implements IRegion, ConfigurationSerializable {
     
     @Override
     public Map<String, Object> serialize() {
-        Map<String, Object> result = new LinkedHashMap<String, Object>();
+        Map<String, Object> result = new LinkedHashMap<>();
 
         result.put("first", this.loc1);
         result.put("second", this.loc2);

@@ -39,10 +39,10 @@ public class RegenGame implements ConfigurationSerializable {
     
     @Override
     public Map<String, Object> serialize() {
-        Map<String, Object> result = new LinkedHashMap<String, Object>();
+        Map<String, Object> result = new LinkedHashMap<>();
 
         result.put("name", this.name);
-        result.put("arenas", new ArrayList<RegenArena>(this.arenas.values()));
+        result.put("arenas", new ArrayList<>(this.arenas.values()));
 
         return result;
     }
@@ -50,7 +50,7 @@ public class RegenGame implements ConfigurationSerializable {
     @SuppressWarnings("unchecked")
     public static RegenGame deserialize(Map<String, Object> args) {
         String name = "ga";
-        ConcurrentMap<String, RegenArena> arenas = new ConcurrentHashMap<String, RegenArena>();
+        ConcurrentMap<String, RegenArena> arenas = new ConcurrentHashMap<>();
 
         Object n = args.get("name");
         if (n != null) {

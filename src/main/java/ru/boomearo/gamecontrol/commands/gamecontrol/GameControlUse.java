@@ -65,13 +65,11 @@ public class GameControlUse {
             return true;
         }
         
-        if (!(aga instanceof ClipboardRegenableGameArena)) {
+        if (!(aga instanceof ClipboardRegenableGameArena crga)) {
             cs.sendMessage(GameManager.prefix + "Арена '§9" + a + "§7' не поддерживает регенерацию!");
             return true;
         }
-        
-        ClipboardRegenableGameArena crga = (ClipboardRegenableGameArena) aga;
-        
+
         RegenTask task = new RegenTask(crga, null);
         
         try {
@@ -110,13 +108,11 @@ public class GameControlUse {
             return true;
         }
         
-        if (!(aga instanceof IForceStartable)) {
+        if (!(aga instanceof IForceStartable ifs)) {
             cs.sendMessage(GameManager.prefix + "Арена '§9" + a + "§7' не поддерживает принудительный запуск игры!");
             return true;
         }
-        
-        IForceStartable ifs = (IForceStartable) aga;
-        
+
         if (ifs.isForceStarted()) {
             cs.sendMessage(GameManager.prefix + "Принудительный запуск уже установлен а арене '§9" + a + "§7'!");
             return true;

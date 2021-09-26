@@ -28,18 +28,18 @@ import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
 import ru.boomearo.gamecontrol.objects.arena.ClipboardRegenableGameArena;
 import ru.boomearo.gamecontrol.objects.defactions.GameControlDefaultAction;
 import ru.boomearo.gamecontrol.objects.defactions.IDefaultAction;
-import ru.boomearo.gamecontrol.runnable.AdvThreadFactory;
+import ru.boomearo.gamecontrol.runnable.ExtendedThreadFactory;
 import ru.boomearo.gamecontrol.runnable.RegenTask;
 
 public final class GameManager {
 
-    private final ConcurrentMap<Class<? extends JavaPlugin>, IGameManager> gamesClasses = new ConcurrentHashMap<Class<? extends JavaPlugin>, IGameManager>();
-    private final ConcurrentMap<String, IGameManager> gamesNames = new ConcurrentHashMap<String, IGameManager>();
+    private final ConcurrentMap<Class<? extends JavaPlugin>, IGameManager> gamesClasses = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, IGameManager> gamesNames = new ConcurrentHashMap<>();
     
-    private final ConcurrentMap<String, IGamePlayer> players = new ConcurrentHashMap<String, IGamePlayer>();
+    private final ConcurrentMap<String, IGamePlayer> players = new ConcurrentHashMap<>();
     
     private ThreadPoolExecutor regenPool = null;
-    private ConcurrentMap<String, RegenGame> regenData = new ConcurrentHashMap<String, RegenGame>();
+    private ConcurrentMap<String, RegenGame> regenData = new ConcurrentHashMap<>();
     
     private ThreadPoolExecutor savePool = null;
     
@@ -66,7 +66,7 @@ public final class GameManager {
     
     public void initRegenPool() {
         if (this.regenPool == null) {
-            this.regenPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1, new AdvThreadFactory("ArenaRegen", 3));
+            this.regenPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1, new ExtendedThreadFactory("ArenaRegen", 3));
         }
     }
     
@@ -78,7 +78,7 @@ public final class GameManager {
     
     public void initSavePool() {
         if (this.savePool == null) {
-            this.savePool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1, new AdvThreadFactory("SaveData", 3));
+            this.savePool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1, new ExtendedThreadFactory("SaveData", 3));
         }
     }
     
@@ -141,13 +141,13 @@ public final class GameManager {
             if (rg != null) {
                 //Получаем все арены которые были записаны в этой игре для регенераций
                 for (RegenArena ra : rg.getAllArenas()) {
-                    //убеждаемся что арена есть, она поддерживает регенерацию и самое главное, требует ли регенереацию.
+                    //убеждаемся что арена есть, она поддерживает регенерацию и самое главное, требует ли регенерацию.
                     AbstractGameArena aga = manager.getGameArena(ra.getName());
                     if (aga == null) {
                         continue;
                     }
                     
-                    if (!(aga instanceof ClipboardRegenableGameArena)) {
+                    if (!(aga instanceof ClipboardRegenableGameArena crga)) {
                         continue;
                     }
                     
@@ -156,8 +156,7 @@ public final class GameManager {
                     }
                     
                     //Добавляем в очередь задачу на регенерацию
-                    ClipboardRegenableGameArena crga = (ClipboardRegenableGameArena) aga;
-                    
+
                     queueRegenArena(new RegenTask(crga, null));
                 }
             }
@@ -185,7 +184,7 @@ public final class GameManager {
                 try {
                     leaveGame(igma.getPlayer());
                 } 
-                catch (GameControlException e) {}
+                catch (GameControlException ignored) {}
             }
             
             GameControl.getInstance().getLogger().info("Игра " + igm.getGameName() + " больше не зарегистрирована.");
@@ -225,7 +224,7 @@ public final class GameManager {
             //Готовим игрока для входа в игру
             this.defaultAction.performDefaultJoinAction(pl);
             
-            //Вернет игрока если удалось войти в игру. Если войти не удалось, должено быть любое исключение этого плагина.
+            //Вернет игрока если удалось войти в игру. Если войти не удалось, должно быть любое исключение этого плагина.
             IGamePlayer newIgp = igm.join(pl, arena);
             
             this.players.put(pl.getName(), newIgp);
@@ -274,7 +273,7 @@ public final class GameManager {
         String gameName = arena.getManager().getGameName();
         RegenGame rg = this.regenData.get(gameName);
         if (rg == null) {
-            RegenGame newRg = new RegenGame(gameName, new ConcurrentHashMap<String, RegenArena>());
+            RegenGame newRg = new RegenGame(gameName, new ConcurrentHashMap<>());
             this.regenData.put(gameName, newRg);
             rg = newRg;
         }
@@ -296,7 +295,7 @@ public final class GameManager {
    
     @SuppressWarnings("unchecked")
     public void loadRegenData() {
-        ConcurrentMap<String, RegenGame> regenData = new ConcurrentHashMap<String, RegenGame>();
+        ConcurrentMap<String, RegenGame> regenData = new ConcurrentHashMap<>();
         
         GameControl gc = GameControl.getInstance();
         gc.reloadConfig();
@@ -317,7 +316,7 @@ public final class GameManager {
         FileConfiguration fc = gc.getConfig();
         fc.set("regenData", null);
         
-        List<RegenGame> rr = new ArrayList<RegenGame>(this.regenData.values());
+        List<RegenGame> rr = new ArrayList<>(this.regenData.values());
         fc.set("regenData", rr);
         
         gc.saveConfig();

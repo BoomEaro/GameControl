@@ -29,7 +29,7 @@ public class RegenArena implements ConfigurationSerializable {
     
     @Override
     public Map<String, Object> serialize() {
-        Map<String, Object> result = new LinkedHashMap<String, Object>();
+        Map<String, Object> result = new LinkedHashMap<>();
 
         result.put("name", this.name);
         result.put("needRegen", this.needRegen);

@@ -123,49 +123,49 @@ public class DateUtil {
         int sec = 0;
 
         year = (int) ( timeSecond / 31536000 );
-        timeSecond = timeSecond-year*31536000;
+        timeSecond = timeSecond-year* 31536000L;
         month = (int) ( timeSecond / 2678400 );
-        timeSecond= timeSecond-month*2678400;
+        timeSecond= timeSecond-month* 2678400L;
         week = (int) ( timeSecond / 604800 ); 
-        timeSecond = timeSecond-week*604800;
+        timeSecond = timeSecond-week* 604800L;
         day = (int) ( timeSecond / 86400 ); 
-        timeSecond = timeSecond-day*86400;
+        timeSecond = timeSecond-day* 86400L;
         hour = (int) ( timeSecond / 3600 );
-        timeSecond = timeSecond-hour*3600;
+        timeSecond = timeSecond-hour* 3600L;
         min = (int) ( timeSecond / 60 );
-        timeSecond = timeSecond-min*60;
+        timeSecond = timeSecond-min* 60L;
         sec = (int) timeSecond;
 
         StringBuilder sb = new StringBuilder("");
         if (year > 0) {
-            sb.append(year + " " + (mini ? "г." : convertSu(year, "год", "года", "лет")) + (month > 0 || week > 0 || day > 0 || hour > 0 || min > 0 || sec > 0 ? " " : ""));
+            sb.append(year).append(" ").append(mini ? "г." : convertSu(year, "год", "года", "лет")).append(month > 0 || week > 0 || day > 0 || hour > 0 || min > 0 || sec > 0 ? " " : "");
         }
         if (month > 0) {
-            sb.append(month + " " + (mini ? "М." :  convertSu(month, "месяц", "месяца", "месяцев")) + (week > 0 || day > 0 || hour > 0 || min > 0 || sec > 0 ? " " : ""));
+            sb.append(month).append(" ").append(mini ? "М." : convertSu(month, "месяц", "месяца", "месяцев")).append(week > 0 || day > 0 || hour > 0 || min > 0 || sec > 0 ? " " : "");
         }
         if (week > 0) {
-            sb.append(week + " " + (mini ? "н." : convertSu(week, "неделю", "недели", "недель")) + (day > 0 || hour > 0 || min > 0 || sec > 0 ? " " : ""));
+            sb.append(week).append(" ").append(mini ? "н." : convertSu(week, "неделю", "недели", "недель")).append(day > 0 || hour > 0 || min > 0 || sec > 0 ? " " : "");
         }
         if (day > 0) {
-            sb.append(day + " " + (mini ? "д." : convertSu(day, "день", "дня", "дней"))  + (hour > 0 || min > 0 || sec > 0 ? " " : ""));
+            sb.append(day).append(" ").append(mini ? "д." : convertSu(day, "день", "дня", "дней")).append(hour > 0 || min > 0 || sec > 0 ? " " : "");
         }
         if (hour > 0) {
-            sb.append(hour + " " + (mini ? "ч." : convertSu(hour, "час", "часа", "часов")) + (min > 0 || sec > 0 ? " " : ""));
+            sb.append(hour).append(" ").append(mini ? "ч." : convertSu(hour, "час", "часа", "часов")).append(min > 0 || sec > 0 ? " " : "");
         }
         if (min > 0) {
-            sb.append(min + " " + (mini ? "м." : convertSu(min, "минуту", "минуты", "минут")) + (sec > 0 ? " " : ""));
+            sb.append(min).append(" ").append(mini ? "м." : convertSu(min, "минуту", "минуты", "минут")).append(sec > 0 ? " " : "");
         }
         if (sec > 0) {
-            sb.append(sec + " " + (mini ? "с." : convertSu(sec, "секунду", "секунды", "секунд")));
+            sb.append(sec).append(" ").append(mini ? "с." : convertSu(sec, "секунду", "секунды", "секунд"));
         }
 
         return sb.toString();
 
     }
 
-    public static String formatedTimeOnce(long time, boolean devide, boolean min) {
+    public static String formatedTimeOnce(long time, boolean divide, boolean min) {
         long timeSecond;
-        if (devide) {
+        if (divide) {
             timeSecond = time / 1000;
         }
         else {
@@ -196,7 +196,7 @@ public class DateUtil {
         }
 
     }
-    //Не мой метод. С хабра где то нашел.
+    //Не мой метод. С хабра где-то нашел.
     //Нужен для склонений.
     public static String convertSu(long n, String s1, String s2, String s3) {
         n = Math.abs(n) % 100;

@@ -89,7 +89,7 @@ public class GameControl extends JavaPlugin {
         }
         
         
-        for (Class<? extends JavaPlugin> cl : new HashSet<Class<? extends JavaPlugin>>(this.manager.getAllGameClasses())) {
+        for (Class<? extends JavaPlugin> cl : new HashSet<>(this.manager.getAllGameClasses())) {
             try {
                 this.manager.unregisterGame(cl);
             } 

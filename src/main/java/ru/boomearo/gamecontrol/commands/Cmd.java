@@ -5,15 +5,14 @@ import java.lang.reflect.Method;
 import org.bukkit.command.CommandSender;
 
 public class Cmd implements Comparable<Cmd> {
-	private Object cmdMainObject;
-	private Method method;
-	private String
-		name,
-		description,
-		usage,
-		permission;
+	private final Object cmdMainObject;
+	private final Method method;
+	private final String name;
+	private final String description;
+	private final String usage;
+	private final String permission;
 	
-	private String[] aliases;
+	private final String[] aliases;
 	
 	public Cmd(Object cmdMainObject, Method method, CmdInfo cmdinfo) {
 		this.cmdMainObject = cmdMainObject;

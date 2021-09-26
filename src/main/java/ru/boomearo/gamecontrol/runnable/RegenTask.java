@@ -76,9 +76,6 @@ public class RegenTask implements Runnable {
 
                 Operations.complete(op);
             }
-            catch (Throwable e) {
-                throw e;
-            }
             
             long end = System.currentTimeMillis();
             
