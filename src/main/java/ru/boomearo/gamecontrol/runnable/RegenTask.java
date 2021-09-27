@@ -1,13 +1,13 @@
 package ru.boomearo.gamecontrol.runnable;
 
 import java.io.File;
-
-import com.fastasyncworldedit.core.FaweAPI;
+import java.io.FileInputStream;
 
 import com.sk89q.worldedit.WorldEdit;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.function.operation.Operation;
@@ -15,6 +15,9 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.world.World;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
@@ -52,7 +55,17 @@ public class RegenTask implements Runnable {
                 throw new ConsoleGameException("Файл арены '" + this.arena.getName() + "' в игре '" + gameName + "' не является файлом!");
             }
 
-            Clipboard cb = FaweAPI.load(schFile);
+            Clipboard cb;
+
+            ClipboardFormat format = ClipboardFormats.findByFile(schFile);
+
+            if (format == null) {
+                throw new ConsoleGameException("Файл схемы арены '" + this.arena.getName() + "' игры '" + gameName + "' не найден!");
+            }
+
+            try (ClipboardReader reader = format.getReader(new FileInputStream(schFile))) {
+                cb = reader.read();
+            }
 
             if (cb == null) {
                 throw new ConsoleGameException("Схема арены '" + this.arena.getName() + "' игры '" + gameName + "' является нулем!");
@@ -64,7 +77,7 @@ public class RegenTask implements Runnable {
                 throw new ConsoleGameException("Центральная точка схемы арены '" + this.arena.getName() + "' игры '" + gameName + "' является нулем!");
             }
 
-            World w = FaweAPI.getWorld(this.arena.getWorld().getName());
+            World w = BukkitAdapter.adapt(this.arena.getWorld());
 
             if (w == null) {
                 throw new ConsoleGameException("Мир арены '" + this.arena.getName() + "' игры '" + gameName + "' является нулем!");
