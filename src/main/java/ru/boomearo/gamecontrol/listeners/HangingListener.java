@@ -16,13 +16,10 @@ public class HangingListener implements Listener {
             return;
         }
         Entity remover = e.getRemover();
-        if (remover != null) {
-            if (remover instanceof Player) {
-                Player pl = (Player) remover;
+        if (remover instanceof Player pl) {
 
-                if (pl.hasPermission("gamecontrol.bypass")) {
-                    return;
-                }
+            if (pl.hasPermission("gamecontrol.bypass")) {
+                return;
             }
         }
         e.setCancelled(true);
@@ -41,7 +38,11 @@ public class HangingListener implements Listener {
         if (e.isCancelled()) {
             return;
         }
-        if (e.getPlayer().hasPermission("gamecontrol.bypass")) {
+        Player pl = e.getPlayer();
+        if (pl == null) {
+            return;
+        }
+        if (pl.hasPermission("gamecontrol.bypass")) {
             return;
         }
         e.setCancelled(true);

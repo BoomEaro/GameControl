@@ -36,7 +36,7 @@ public class PlayerListener implements Listener {
         try {
             GameControl.getInstance().getGameManager().leaveGame(pl);
         }
-        catch (Exception e1) {
+        catch (Exception ignored) {
         }
     }
 

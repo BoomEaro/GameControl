@@ -25,12 +25,10 @@ public class VehicleListener implements Listener {
             return;
         }
         Entity en = e.getAttacker();
-        if (en != null) {
-            if (en instanceof Player pl) {
+        if (en instanceof Player pl) {
 
-                if (pl.hasPermission("gamecontrol.bypass")) {
-                    return;
-                }
+            if (pl.hasPermission("gamecontrol.bypass")) {
+                return;
             }
         }
         e.setCancelled(true);
@@ -42,12 +40,10 @@ public class VehicleListener implements Listener {
             return;
         }
         Entity en = e.getAttacker();
-        if (en != null) {
-            if (en instanceof Player pl) {
+        if (en instanceof Player pl) {
 
-                if (pl.hasPermission("gamecontrol.bypass")) {
-                    return;
-                }
+            if (pl.hasPermission("gamecontrol.bypass")) {
+                return;
             }
         }
         e.setCancelled(true);
@@ -59,12 +55,10 @@ public class VehicleListener implements Listener {
             return;
         }
         Entity en = e.getEntered();
-        if (en != null) {
-            if (en instanceof Player pl) {
+        if (en instanceof Player pl) {
 
-                if (pl.hasPermission("gamecontrol.bypass")) {
-                    return;
-                }
+            if (pl.hasPermission("gamecontrol.bypass")) {
+                return;
             }
         }
         e.setCancelled(true);

@@ -28,13 +28,10 @@ public class InventoryListener implements Listener {
             return;
         }
         Entity en = e.getWhoClicked();
-        if (en != null) {
-            if (en instanceof Player) {
-                Player pl = (Player) en;
+        if (en instanceof Player pl) {
 
-                if (pl.hasPermission("gamecontrol.bypass")) {
-                    return;
-                }
+            if (pl.hasPermission("gamecontrol.bypass")) {
+                return;
             }
         }
         e.setCancelled(true);
@@ -47,13 +44,10 @@ public class InventoryListener implements Listener {
             return;
         }
         Entity en = e.getWhoClicked();
-        if (en != null) {
-            if (en instanceof Player) {
-                Player pl = (Player) en;
+        if (en instanceof Player pl) {
 
-                if (pl.hasPermission("gamecontrol.bypass")) {
-                    return;
-                }
+            if (pl.hasPermission("gamecontrol.bypass")) {
+                return;
             }
         }
         e.setCancelled(true);

@@ -90,13 +90,10 @@ public class EntityListener implements Listener {
             return;
         }
         Entity en = e.getDamager();
-        if (en != null) {
-            if (en instanceof Player) {
-                Player pl = (Player) en;
+        if (en instanceof Player pl) {
 
-                if (pl.hasPermission("gamecontrol.bypass")) {
-                    return;
-                }
+            if (pl.hasPermission("gamecontrol.bypass")) {
+                return;
             }
         }
         e.setCancelled(true);
