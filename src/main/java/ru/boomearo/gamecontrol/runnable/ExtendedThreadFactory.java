@@ -3,6 +3,10 @@ package ru.boomearo.gamecontrol.runnable;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Простая реализация фабрики потоков, которая по большей части была скопирована из реализации java.
+ * Отличие этой фабрики от реализации по умолчанию в том, что здесь удобно устанавливать приоритеты в потоках.
+ */
 public class ExtendedThreadFactory implements ThreadFactory {
 
     private static final AtomicInteger poolNumber = new AtomicInteger(1);

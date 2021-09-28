@@ -12,6 +12,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 /**
  * Класс, представляющий игру, чьи арены требуется регенерировать когда плагин только запускается.
+ * Используется только для хранения в конфиге.
  */
 public class StoredRegenGame implements ConfigurationSerializable {
 

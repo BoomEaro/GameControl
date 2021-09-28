@@ -29,28 +29,32 @@ public interface IGameManager {
 
     /**
      * @return основной цвет текста игры в чате
+     * @see ChatColor
      */
     public ChatColor getMainColor();
 
     /**
      * @return цвет переменных в тексте
+     * @see ChatColor
      */
     public ChatColor getVariableColor();
 
     /**
      * @return альтернативный цвет текста (для разнообразия)
+     * @see ChatColor
      */
     public ChatColor getOtherColor();
 
     /**
      * @return объект плагина, зарегистрировавший эту игру
+     * @see JavaPlugin
      */
     public JavaPlugin getPlugin();
 
     /**
      * Добавляет игрока в игру. Этот метод вызывает сам GameControl, его не нужно вызывать где-то еще.
-     *
-     * @return игрока, который успешно присоединился к игре (а то, в какую арену, уже зависит от реализации этого метода)
+     * @return игрок, который успешно присоединился к игре (а то, в какую арену, уже зависит от реализации этого метода)
+     * @see IGamePlayer
      */
     public IGamePlayer join(Player pl, String arena) throws ConsoleGameException, PlayerGameException;
 
@@ -61,6 +65,7 @@ public interface IGameManager {
 
     /**
      * @return указанного игрока, если был в игре
+     * @see IGamePlayer
      */
     public IGamePlayer getGamePlayer(String name);
 
@@ -71,6 +76,7 @@ public interface IGameManager {
 
     /**
      * @return указанную арену, если она существует в этой игре
+     * @see AbstractGameArena
      */
     public AbstractGameArena getGameArena(String name);
 
@@ -81,6 +87,7 @@ public interface IGameManager {
 
     /**
      * @return менеджер статистики, используемый для записи достижений игроков
+     * @see IStatisticsManager
      */
     public IStatisticsManager getStatisticManager();
 }

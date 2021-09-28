@@ -11,6 +11,9 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 import com.sk89q.worldedit.math.BlockVector3;
 
+/**
+ * Базовая реализация кубоидной области.
+ */
 public class CuboidRegion implements IRegion, ConfigurationSerializable {
 
     private final Location loc1;

@@ -24,7 +24,7 @@ import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.objects.arena.ClipboardRegenableGameArena;
 
 /**
- * Задача, которая выполняет регенерацию арены, а так же другую задачу в основном потоке, в конце регенерации, если требуется
+ * Задача, которая выполняет регенерацию арены, а в конце другую задачу (например восстановление состояния игры) если была.
  */
 public class RegenTask implements Runnable {
 

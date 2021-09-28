@@ -6,7 +6,8 @@ import java.util.Map;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 /**
- * Класс, представляющий арену, которую нужно регенерировать после запуска плагина
+ * Класс, представляющий арену, которую нужно регенерировать после запуска плагина.
+ * Используется только для хранения в конфиге.
  */
 public class StoredRegenArena implements ConfigurationSerializable {
 

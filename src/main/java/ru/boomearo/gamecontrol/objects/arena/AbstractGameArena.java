@@ -42,6 +42,7 @@ public abstract class AbstractGameArena {
 
     /**
      * @return иконка арены (обычно используется для меню)
+     * @see Material
      */
     public Material getIcon() {
         return this.icon;
@@ -49,11 +50,13 @@ public abstract class AbstractGameArena {
 
     /**
      * @return игра, в которой находится эта арена
+     * @see IGameManager
      */
     public abstract IGameManager getManager();
 
     /**
      * @return игрок, который находится в этой арене
+     * @see IGamePlayer
      */
     public abstract IGamePlayer getGamePlayer(String name);
 

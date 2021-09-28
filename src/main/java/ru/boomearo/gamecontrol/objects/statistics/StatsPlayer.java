@@ -1,5 +1,8 @@
 package ru.boomearo.gamecontrol.objects.statistics;
 
+/**
+ * Представляет игрока, хранящий какое-то число, обычно относящиеся к статистике.
+ */
 public class StatsPlayer implements Comparable<StatsPlayer> {
 
     private final String name;

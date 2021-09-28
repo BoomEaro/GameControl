@@ -61,7 +61,6 @@ public final class GameManager {
 
     /**
      * Добавить действие по умолчанию
-     *
      * @throws ConsoleGameException если действие null
      */
     public void setDefaultAction(IDefaultAction action) throws ConsoleGameException {
@@ -99,7 +98,6 @@ public final class GameManager {
 
     /**
      * Добавить в очередь задачу RegenTask для регенерации арены
-     *
      * @throws ConsoleGameException если задача null, пул регенераций не был создан или пул регенераций выключен.
      */
     public void queueRegenArena(RegenTask task) throws ConsoleGameException {
@@ -138,7 +136,6 @@ public final class GameManager {
      * Зарегистрировать игру, используя главный класс плагина (JavaPlugin) и свою реализацию IGameManager.
      * Следует вызывать этот метод в своем методе onEnable().
      * Если плагин имеет арены, реализующие регенерацию, будет выполнена попытка регенерации если это требуется.
-     *
      * @throws ConsoleGameException если класс или реализация null, или игра уже зарегистрирована
      */
     public void registerGame(Class<? extends JavaPlugin> clazz, IGameManager manager) throws ConsoleGameException {
@@ -187,7 +184,6 @@ public final class GameManager {
     /**
      * Удалить регистрацию игры, используя главный класс плагина (JavaPlugin).
      * При удалении регистрации, пытается отключить от игры всех игроков в этой игре.
-     *
      * @throws ConsoleGameException если класс null или не был зарегистрирован
      */
     public void unregisterGame(Class<? extends JavaPlugin> clazz) throws ConsoleGameException {
@@ -219,6 +215,7 @@ public final class GameManager {
 
     /**
      * @return игру по указанному классу плагина (JavaPlugin)
+     * @see IGameManager
      */
     public IGameManager getGameByClass(Class<? extends JavaPlugin> clazz) {
         return this.gamesClasses.get(clazz);
@@ -240,6 +237,7 @@ public final class GameManager {
 
     /**
      * @return игру по имени игры
+     * @see IGameManager
      */
     public IGameManager getGameByName(String game) {
         return this.gamesNames.get(game);
@@ -248,9 +246,8 @@ public final class GameManager {
     /**
      * Добавляет игрока в арену игры по классу главного плагина который зарегистрировал эту игру.
      * Следует вызывать только этот метод для присоединения любого игрока к любой арене в любой игре.
-     *
      * @throws ConsoleGameException если один из аргументов является null или игра не зарегистрирована
-     * @throws PlayerGameException  если игрок уже в игре или произошло другая ошибка в методе IGameManager#join
+     * @throws PlayerGameException если игрок уже в игре или произошла другая ошибка в методе {@link IGameManager#join(Player, String) }
      */
     public void joinGame(Player pl, Class<? extends JavaPlugin> clazz, String arena) throws ConsoleGameException, PlayerGameException {
         if (clazz == null || pl == null || arena == null) {
@@ -281,9 +278,8 @@ public final class GameManager {
     /**
      * Удаляет игрока из этой игры.
      * Следует вызывать только этот метод для удаления любого игрока к любой арене в любой игре.
-     *
      * @throws ConsoleGameException если аргумент null
-     * @throws PlayerGameException  если игрок не в игре
+     * @throws PlayerGameException если игрок не в игре
      */
     public void leaveGame(Player pl) throws ConsoleGameException, PlayerGameException {
         if (pl == null) {
@@ -309,6 +305,7 @@ public final class GameManager {
 
     /**
      * @return игрока, который находится под контролем одной из зарегистрированных игр
+     * @see IGamePlayer
      */
     public IGamePlayer getGamePlayer(String name) {
         return this.players.get(name);

@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 
 /**
- * Абстрактное представление арены, в которой более точно описано то, каким образом она должна регенерировать.
+ * Абстрактное представление арены, в которой более точно описано то, каким образом она должна регенерироваться.
  * Эта абстракция предполагает, что арена является разрушаемой и ее требуется регенерировать соответственно.
  */
 public abstract class ClipboardRegenableGameArena extends RegenableGameArena {
@@ -19,6 +19,7 @@ public abstract class ClipboardRegenableGameArena extends RegenableGameArena {
 
     /**
      * @return центр, относительно которого будет вставлен схематик от FastAsyncWorldEdit для регенерации.
+     * @see Location
      */
     public Location getOriginCenter() {
         return this.originCenter;

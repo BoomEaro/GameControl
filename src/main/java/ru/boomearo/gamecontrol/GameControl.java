@@ -161,23 +161,18 @@ public class GameControl extends JavaPlugin {
         }
         if (yaw >= 315 || yaw < 45) {
             return new Location(loc.getWorld(), loc.getBlockX() + 0.5f, loc.getBlockY(), loc.getBlockZ() + 0.5f, 0f, 0f);
-            //BedWars.getInstance().getLogger().info("test south " + yaw);
         }
         else if (yaw < 135) {
             return new Location(loc.getWorld(), loc.getBlockX() + 0.5f, loc.getBlockY(), loc.getBlockZ() + 0.5f, 90f, 0f);
-            //BedWars.getInstance().getLogger().info("test west " + yaw);
         }
         else if (yaw < 225) {
             return new Location(loc.getWorld(), loc.getBlockX() + 0.5f, loc.getBlockY(), loc.getBlockZ() + 0.5f, 180f, 0f);
-            //BedWars.getInstance().getLogger().info("test north " + yaw);
         }
         else if (yaw < 315) {
             return new Location(loc.getWorld(), loc.getBlockX() + 0.5f, loc.getBlockY(), loc.getBlockZ() + 0.5f, -90f, 0f);
-            //BedWars.getInstance().getLogger().info("test east " + yaw);
         }
         else {
             return new Location(loc.getWorld(), loc.getBlockX() + 0.5f, loc.getBlockY(), loc.getBlockZ() + 0.5f, 180f, 0f);
-            //BedWars.getInstance().getLogger().info("test north " + yaw);  
         }
     }
 

@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 
 /**
- * Абстрактное представление арены, которая может регенерировать любым способом
+ * Абстрактное представление арены, которая может регенерироваться любым способом
  */
 public abstract class RegenableGameArena extends AbstractGameArena {
 

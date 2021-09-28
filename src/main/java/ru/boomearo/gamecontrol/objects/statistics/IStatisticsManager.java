@@ -9,6 +9,7 @@ public interface IStatisticsManager {
 
     /**
      * @return тип статистики по указанному имени
+     * @see IStatsData
      */
     public IStatsData getStatsData(String name);
 

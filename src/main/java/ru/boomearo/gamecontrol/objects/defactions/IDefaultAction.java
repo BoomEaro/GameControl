@@ -10,6 +10,7 @@ public interface IDefaultAction {
 
     /**
      * @return локацию спавна, куда будут попадать игроки после выхода из игры
+     * @see Location
      */
     public Location getDefaultSpawnLocation();
 

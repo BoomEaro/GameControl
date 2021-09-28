@@ -14,6 +14,7 @@ public interface IStatsData {
 
     /**
      * @return игрока статистики по указанному имени
+     * @see StatsPlayer
      */
     public StatsPlayer getStatsPlayer(String name);
 
