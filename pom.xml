@@ -24,11 +24,6 @@
 
     <repositories>
         <repository>
-            <id>project.local</id>
-            <name>project</name>
-            <url>file:C:/Users/mm123/repo</url>
-        </repository>
-        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
