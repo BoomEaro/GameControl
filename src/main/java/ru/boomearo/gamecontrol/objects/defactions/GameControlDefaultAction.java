@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
 import ru.boomearo.gamecontrol.GameControl;
-import ru.boomearo.gamecontrol.utils.ExpFix;
+import ru.boomearo.serverutils.utils.other.ExpFix;
 
 /**
  * Реализация IDefaultAction, которая используется по умолчанию, если никакой плагин не зарегистрировал свою реализацию.

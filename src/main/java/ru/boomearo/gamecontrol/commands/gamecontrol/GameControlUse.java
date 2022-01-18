@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.bukkit.command.CommandSender;
 
 import ru.boomearo.gamecontrol.GameControl;
-import ru.boomearo.gamecontrol.commands.CmdInfo;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.managers.GameManager;
 import ru.boomearo.gamecontrol.objects.IForceStartable;
@@ -13,8 +12,10 @@ import ru.boomearo.gamecontrol.objects.IGameManager;
 import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
 import ru.boomearo.gamecontrol.objects.arena.ClipboardRegenableGameArena;
 import ru.boomearo.gamecontrol.runnable.RegenTask;
+import ru.boomearo.serverutils.utils.other.commands.CmdInfo;
+import ru.boomearo.serverutils.utils.other.commands.Commands;
 
-public class GameControlUse {
+public class GameControlUse implements Commands {
 
     @CmdInfo(name = "list", description = "Показать список всех игр.", usage = "/gamecontrol list", permission = "gamecontrol.admin")
     public boolean list(CommandSender cs, String[] args) {

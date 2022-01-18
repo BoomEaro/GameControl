@@ -24,8 +24,8 @@ import ru.boomearo.gamecontrol.managers.GameManager;
 import ru.boomearo.gamecontrol.objects.StoredRegenArena;
 import ru.boomearo.gamecontrol.objects.StoredRegenGame;
 import ru.boomearo.gamecontrol.objects.region.CuboidRegion;
-import ru.boomearo.gamecontrol.utils.NumberUtils;
 import ru.boomearo.gamecontrol.utils.Vault;
+import ru.boomearo.serverutils.utils.other.NumberUtils;
 
 public class GameControl extends JavaPlugin {
 

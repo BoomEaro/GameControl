@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.md_5.bungee.api.ChatColor;
+
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.exceptions.GameControlException;
@@ -28,8 +29,8 @@ import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
 import ru.boomearo.gamecontrol.objects.arena.ClipboardRegenableGameArena;
 import ru.boomearo.gamecontrol.objects.defactions.GameControlDefaultAction;
 import ru.boomearo.gamecontrol.objects.defactions.IDefaultAction;
-import ru.boomearo.gamecontrol.runnable.ExtendedThreadFactory;
 import ru.boomearo.gamecontrol.runnable.RegenTask;
+import ru.boomearo.serverutils.utils.other.ExtendedThreadFactory;
 
 /**
  * Главный менеджер всех игр в плагине. Только через него можно зарегистрировать игру или добавлять игроков в любые другие игры.
@@ -345,12 +346,9 @@ public final class GameManager {
         ra.setNeedRegen(needRegen);
 
         //Сохраняем это дело в другом потоке отведенным под это
-        queueSaveTask(() -> {
-            saveRegenData();
-        });
+        queueSaveTask(this::saveRegenData);
     }
 
-    @SuppressWarnings("unchecked")
     public void loadRegenData() {
         ConcurrentMap<String, StoredRegenGame> regenData = new ConcurrentHashMap<>();
 

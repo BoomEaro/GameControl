@@ -24,6 +24,11 @@
 
     <repositories>
         <repository>
+            <id>project.local</id>
+            <name>project</name>
+            <url>file:C:/Users/mm123/repo</url>
+        </repository>
+        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
@@ -93,6 +98,13 @@
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>ServerUtils</groupId>
+            <artifactId>ServerUtils</artifactId>
+            <version>1</version>
+            <scope>system</scope>
+            <systemPath>C:/Users/mm123/git/minecraft/BoomEaro/ServerUtils/target/ServerUtils.jar</systemPath>
         </dependency>
     </dependencies>
 
