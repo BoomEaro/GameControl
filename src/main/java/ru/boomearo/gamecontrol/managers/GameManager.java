@@ -265,13 +265,21 @@ public final class GameManager {
                 throw new ConsoleGameException("Игра " + clazz.getName() + " не найдена!");
             }
 
-            //Готовим игрока для входа в игру
-            this.defaultAction.performDefaultJoinAction(pl);
+            try {
+                //Готовим игрока для входа в игру
+                this.defaultAction.performDefaultJoinAction(pl);
 
-            //Вернет игрока если удалось войти в игру. Если войти не удалось, должно быть любое исключение этого плагина.
-            IGamePlayer newIgp = igm.join(pl, arena);
+                //Вернет игрока если удалось войти в игру. Если войти не удалось, должно быть любое исключение этого плагина.
+                IGamePlayer newIgp = igm.join(pl, arena);
 
-            this.players.put(pl.getName(), newIgp);
+                this.players.put(pl.getName(), newIgp);
+            }
+            catch (PlayerGameException e) {
+                //Если не удалось добавить игрока в игру, вызываем действие выхода из игры.
+                //TODO на данный момент это костыль и я пока не хочу решать эту проблему.
+                this.defaultAction.performDefaultLeaveAction(pl);
+                throw e;
+            }
         }
     }
 
