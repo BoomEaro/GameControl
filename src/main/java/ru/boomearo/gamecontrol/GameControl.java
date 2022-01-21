@@ -24,8 +24,6 @@ import ru.boomearo.gamecontrol.managers.GameManager;
 import ru.boomearo.gamecontrol.objects.StoredRegenArena;
 import ru.boomearo.gamecontrol.objects.StoredRegenGame;
 import ru.boomearo.gamecontrol.objects.region.CuboidRegion;
-import ru.boomearo.gamecontrol.utils.Vault;
-import ru.boomearo.serverutils.utils.other.NumberUtils;
 
 public class GameControl extends JavaPlugin {
 
@@ -50,8 +48,6 @@ public class GameControl extends JavaPlugin {
             getLogger().info("Конфиг не найден, создаю новый...");
             saveDefaultConfig();
         }
-
-        Vault.setupEconomy();
 
         if (this.manager == null) {
             this.manager = new GameManager();
@@ -115,39 +111,6 @@ public class GameControl extends JavaPlugin {
 
     public static GameControl getInstance() {
         return instance;
-    }
-
-    public static String getFormatedEco(double price) {
-        String c = GameManager.moneyColor.toString();
-        return miniForm(price, c) + c + "§lⵥ";
-    }
-
-    private static String miniForm(double money, String color) {
-        boolean isNegative = false;
-        if (money < 0) {
-            isNegative = true;
-        }
-        double newMoney = money;
-
-        if (isNegative) {
-            newMoney = -money;
-        }
-        if (newMoney < 1000000.0D) {
-            return (isNegative ? "§c-" : "") + color + NumberUtils.displayCurrency(newMoney);
-        }
-        if (newMoney < 1.0E9D) {
-            return (isNegative ? "§c-" : "") + color + NumberUtils.displayCurrency(newMoney / 1000000.0D) + "M";
-        }
-        if (newMoney < 1.0E12D) {
-            return (isNegative ? "§c-" : "") + color + NumberUtils.displayCurrency(newMoney / 1.0E9D) + "B";
-        }
-        if (newMoney < 1.0E15D) {
-            return (isNegative ? "§c-" : "") + color + NumberUtils.displayCurrency(newMoney / 1.0E12D) + "T";
-        }
-        if (newMoney < 1.0E18D) {
-            return (isNegative ? "§c-" : "") + color + NumberUtils.displayCurrency(newMoney / 1.0E15D) + "Q";
-        }
-        return (isNegative ? "§c-" : "") + color + NumberUtils.displayCurrency(newMoney);
     }
 
     public static Location normalizeLocation(Location loc) {
