@@ -54,7 +54,6 @@ public final class GameManager {
     public static final String prefix = "§8[§9GameControl§8]: §7";
 
     public static final ChatColor backgroundTextColor = ChatColor.of(new Color(215, 215, 215));
-    public static final ChatColor moneyColor = ChatColor.of(new Color(166, 255, 0));
 
     public IDefaultAction getDefaultAction() {
         return this.defaultAction;
