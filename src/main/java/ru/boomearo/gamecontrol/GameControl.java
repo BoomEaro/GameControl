@@ -24,10 +24,12 @@ import ru.boomearo.gamecontrol.managers.GameManager;
 import ru.boomearo.gamecontrol.objects.StoredRegenArena;
 import ru.boomearo.gamecontrol.objects.StoredRegenGame;
 import ru.boomearo.gamecontrol.objects.region.CuboidRegion;
+import ru.boomearo.gamecontrol.runnable.ArenaHandler;
 
 public class GameControl extends JavaPlugin {
 
     private GameManager manager = null;
+    private ArenaHandler handler = null;
 
     private EssentialsSpawn essSpawn = null;
 
@@ -56,6 +58,10 @@ public class GameControl extends JavaPlugin {
 
             this.manager.initRegenPool();
             this.manager.initSavePool();
+        }
+
+        if (this.handler == null) {
+            this.handler = new ArenaHandler();
         }
 
         getCommand("gamecontrol").setExecutor(new CmdExecutorGameControl());
