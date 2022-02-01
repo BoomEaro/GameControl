@@ -247,7 +247,7 @@ public final class GameManager {
      * Добавляет игрока в арену игры по классу главного плагина который зарегистрировал эту игру.
      * Следует вызывать только этот метод для присоединения любого игрока к любой арене в любой игре.
      * @throws ConsoleGameException если один из аргументов является null или игра не зарегистрирована
-     * @throws PlayerGameException если игрок уже в игре или произошла другая ошибка в методе {@link IGameManager#join(Player, String) }
+     * @throws PlayerGameException если игрок уже в игре или произошла другая ошибка в методе {@link IGameManager#join(Player, String, IDefaultAction) }
      */
     public void joinGame(Player pl, Class<? extends JavaPlugin> clazz, String arena) throws ConsoleGameException, PlayerGameException {
         if (clazz == null || pl == null || arena == null) {
@@ -265,21 +265,10 @@ public final class GameManager {
                 throw new ConsoleGameException("Игра " + clazz.getName() + " не найдена!");
             }
 
-            try {
-                //Готовим игрока для входа в игру
-                this.defaultAction.performDefaultJoinAction(pl);
+            //Вернет игрока если удалось войти в игру. Если войти не удалось, должно быть любое исключение этого плагина.
+            IGamePlayer newIgp = igm.join(pl, arena, this.defaultAction);
 
-                //Вернет игрока если удалось войти в игру. Если войти не удалось, должно быть любое исключение этого плагина.
-                IGamePlayer newIgp = igm.join(pl, arena);
-
-                this.players.put(pl.getName(), newIgp);
-            }
-            catch (PlayerGameException e) {
-                //Если не удалось добавить игрока в игру, вызываем действие выхода из игры.
-                //TODO на данный момент это костыль и я пока не хочу решать эту проблему.
-                this.defaultAction.performDefaultLeaveAction(pl);
-                throw e;
-            }
+            this.players.put(pl.getName(), newIgp);
         }
     }
 
@@ -304,10 +293,7 @@ public final class GameManager {
             this.players.remove(pl.getName());
 
             //Выполняем выход самой мини игры
-            igp.getArena().getManager().leave(pl);
-
-            //Выполняем выход по умолчанию (например телепортация на спавн, выдача предмета)
-            this.defaultAction.performDefaultLeaveAction(pl);
+            igp.getArena().getManager().leave(pl, this.defaultAction);
         }
     }
 

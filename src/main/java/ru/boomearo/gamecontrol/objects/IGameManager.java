@@ -10,6 +10,7 @@ import net.md_5.bungee.api.ChatColor;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.exceptions.PlayerGameException;
 import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
+import ru.boomearo.gamecontrol.objects.defactions.IDefaultAction;
 import ru.boomearo.gamecontrol.objects.statistics.IStatisticsManager;
 
 /**
@@ -56,12 +57,12 @@ public interface IGameManager {
      * @return игрок, который успешно присоединился к игре (а то, в какую арену, уже зависит от реализации этого метода)
      * @see IGamePlayer
      */
-    public IGamePlayer join(Player pl, String arena) throws ConsoleGameException, PlayerGameException;
+    public IGamePlayer join(Player pl, String arena, IDefaultAction action) throws ConsoleGameException, PlayerGameException;
 
     /**
      * Удаляет игрока из игры. Этот метод вызывает сам GameControl, его не нужно вызывать где-то еще.
      */
-    public void leave(Player pl) throws ConsoleGameException, PlayerGameException;
+    public void leave(Player pl, IDefaultAction action) throws ConsoleGameException, PlayerGameException;
 
     /**
      * @return указанного игрока, если был в игре
