@@ -11,7 +11,6 @@ import ru.boomearo.gamecontrol.objects.IForceStartable;
 import ru.boomearo.gamecontrol.objects.IGameManager;
 import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
 import ru.boomearo.gamecontrol.objects.arena.ClipboardRegenableGameArena;
-import ru.boomearo.gamecontrol.runnable.RegenTask;
 import ru.boomearo.serverutils.utils.other.commands.CmdInfo;
 import ru.boomearo.serverutils.utils.other.commands.Commands;
 
@@ -71,10 +70,8 @@ public class GameControlUse implements Commands {
             return true;
         }
 
-        RegenTask task = new RegenTask(crga);
-
         try {
-            gm.queueRegenArena(task);
+            gm.queueRegenArena(crga);
 
             cs.sendMessage(GameManager.prefix + "Регенерация отправлена в очередь для арены '§9" + a + "§7'!");
         }

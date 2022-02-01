@@ -35,14 +35,6 @@
             <id>essentials</id>
             <url>https://repo.essentialsx.net/releases/</url>
         </repository>
-        <repository>
-            <id>IntellectualSites Releases</id>
-            <url>https://mvn.intellectualsites.com/content/repositories/releases/</url>
-        </repository>
-        <repository>
-            <id>IntellectualSites Snapshots</id>
-            <url>https://mvn.intellectualsites.com/content/repositories/snapshots/</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -64,16 +56,19 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- FAWE Core API -->
         <dependency>
             <groupId>com.fastasyncworldedit</groupId>
             <artifactId>FastAsyncWorldEdit-Core</artifactId>
-            <version>1.17-327</version>
+            <version>2.0.1</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- FAWE Bukkit API -->
         <dependency>
             <groupId>com.fastasyncworldedit</groupId>
             <artifactId>FastAsyncWorldEdit-Bukkit</artifactId>
-            <version>1.17-327</version>
+            <version>2.0.1</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>

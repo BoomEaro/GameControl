@@ -1,6 +1,8 @@
 package ru.boomearo.gamecontrol.managers;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,6 +13,21 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import com.fastasyncworldedit.core.extent.processor.lighting.RelightMode;
+
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
+import com.sk89q.worldedit.function.operation.Operation;
+import com.sk89q.worldedit.function.operation.Operations;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.session.ClipboardHolder;
+import com.sk89q.worldedit.world.World;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,7 +46,8 @@ import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
 import ru.boomearo.gamecontrol.objects.arena.ClipboardRegenableGameArena;
 import ru.boomearo.gamecontrol.objects.defactions.GameControlDefaultAction;
 import ru.boomearo.gamecontrol.objects.defactions.IDefaultAction;
-import ru.boomearo.gamecontrol.runnable.RegenTask;
+import ru.boomearo.gamecontrol.objects.states.IGameState;
+import ru.boomearo.gamecontrol.objects.states.IRegenState;
 import ru.boomearo.serverutils.utils.other.ExtendedThreadFactory;
 
 /**
@@ -44,6 +62,8 @@ public final class GameManager {
 
     private ThreadPoolExecutor regenPool = null;
     private ConcurrentMap<String, StoredRegenGame> regenData = new ConcurrentHashMap<>();
+
+    private ConcurrentMap<String, Clipboard> cachedClipboards = new ConcurrentHashMap<>();
 
     private ThreadPoolExecutor savePool = null;
 
@@ -97,12 +117,12 @@ public final class GameManager {
     }
 
     /**
-     * Добавить в очередь задачу RegenTask для регенерации арены
-     * @throws ConsoleGameException если задача null, пул регенераций не был создан или пул регенераций выключен.
+     * Добавить в очередь указанную арену на регенерацию
+     * @throws ConsoleGameException если арена null, пул регенераций не был создан или пул регенераций выключен.
      */
-    public void queueRegenArena(RegenTask task) throws ConsoleGameException {
-        if (task == null) {
-            throw new ConsoleGameException("Задача не может быть нулем!");
+    public void queueRegenArena(ClipboardRegenableGameArena arena) throws ConsoleGameException {
+        if (arena == null) {
+            throw new ConsoleGameException("Арена не может быть нулем!");
         }
 
         if (this.regenPool == null) {
@@ -113,7 +133,100 @@ public final class GameManager {
             throw new ConsoleGameException("Пул регенераций выключился!");
         }
 
-        this.regenPool.execute(task);
+        this.regenPool.execute(() -> {
+            String gameName = arena.getManager().getGameName();
+
+            try {
+
+                GameControl.getInstance().getLogger().info("Начинаю регенерацию арены '" + arena.getName() + "' в игре '" + gameName + "'");
+                long start = System.currentTimeMillis();
+
+                String schematicName = gameName.toLowerCase() + "_" + arena.getName().toLowerCase();
+
+                File schFile = new File(GameControl.getInstance().getDataFolder(), File.separator + "schematics" + File.separator + schematicName + ".schem");
+
+                if (!schFile.exists()) {
+                    throw new ConsoleGameException("Файл арены '" + arena.getName() + "' в игре '" + gameName + "' не найден!");
+                }
+
+                if (!schFile.isFile()) {
+                    throw new ConsoleGameException("Файл арены '" + arena.getName() + "' в игре '" + gameName + "' не является файлом!");
+                }
+
+                Clipboard clipBoard = this.cachedClipboards.get(schematicName);
+                if (clipBoard == null) {
+                    Clipboard cb;
+
+                    ClipboardFormat format = ClipboardFormats.findByFile(schFile);
+
+                    if (format == null) {
+                        throw new ConsoleGameException("Файл схемы арены '" + arena.getName() + "' игры '" + gameName + "' не найден!");
+                    }
+
+                    try (ClipboardReader reader = format.getReader(new FileInputStream(schFile))) {
+                        cb = reader.read();
+                    }
+
+                    if (cb == null) {
+                        throw new ConsoleGameException("Схема арены '" + arena.getName() + "' игры '" + gameName + "' является нулем!");
+                    }
+
+                    cb.flush();
+
+                    this.cachedClipboards.put(schematicName, cb);
+
+                    clipBoard = cb;
+                }
+
+                Location loc = arena.getOriginCenter();
+
+                if (loc == null) {
+                    throw new ConsoleGameException("Центральная точка схемы арены '" + arena.getName() + "' игры '" + gameName + "' является нулем!");
+                }
+
+                World w = BukkitAdapter.adapt(arena.getWorld());
+
+                if (w == null) {
+                    throw new ConsoleGameException("Мир арены '" + arena.getName() + "' игры '" + gameName + "' является нулем!");
+                }
+
+                //Если при операции появляется исключение, прерываем выполнение всего
+                try (EditSession es = WorldEdit.getInstance().newEditSessionBuilder()
+                        .world(w)
+                        .fastMode(true)
+                        .relightMode(RelightMode.NONE)
+                        .build()) {
+                    Operation op = new ClipboardHolder(clipBoard)
+                            .createPaste(es)
+                            .to(BlockVector3.at(loc.getX(), loc.getY(), loc.getZ()))
+                            .ignoreAirBlocks(false)
+                            .copyEntities(false)
+                            .copyBiomes(false)
+                            .build();
+
+                    Operations.complete(op);
+                }
+
+                long end = System.currentTimeMillis();
+
+                //Арена теперь считается восстановленной, поэтому снимаем глобальный статус о том что ее надо восстановить.
+                GameControl.getInstance().getGameManager().setRegenGame(arena, false);
+
+                GameControl.getInstance().getLogger().info("Регенерация арены '" + arena.getName() + "' в игре '" + gameName + "' успешно завершена за " + (end - start) + "мс.");
+            }
+            catch (Throwable e) {
+                GameControl.getInstance().getLogger().warning("Произошла ошибка при регенерации арены '" + arena.getName() + "' в игре '" + gameName + "'");
+                e.printStackTrace();
+            }
+            finally {
+                //После регенерации арены, получаем ее состояние
+                IGameState state = arena.getState();
+                //Снимаем ожидание регенерации
+                if (state instanceof IRegenState regenState) {
+                    regenState.setWaitingRegen(false);
+                }
+            }
+        });
     }
 
     public void queueSaveTask(Runnable task) throws ConsoleGameException {
@@ -173,7 +286,7 @@ public final class GameManager {
 
                     //Добавляем в очередь задачу на регенерацию
 
-                    queueRegenArena(new RegenTask(crga));
+                    queueRegenArena(crga);
                 }
             }
 
