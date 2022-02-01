@@ -173,7 +173,7 @@ public final class GameManager {
 
                     //Добавляем в очередь задачу на регенерацию
 
-                    queueRegenArena(new RegenTask(crga, null));
+                    queueRegenArena(new RegenTask(crga));
                 }
             }
 

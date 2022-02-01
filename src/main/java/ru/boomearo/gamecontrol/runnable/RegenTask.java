@@ -22,18 +22,18 @@ import org.bukkit.Location;
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.objects.arena.ClipboardRegenableGameArena;
+import ru.boomearo.gamecontrol.objects.states.IGameState;
+import ru.boomearo.gamecontrol.objects.states.IRegenState;
 
 /**
- * Задача, которая выполняет регенерацию арены, а в конце другую задачу (например восстановление состояния игры) если была.
+ * Задача, которая выполняет регенерацию арены, а затем снимаем флаг на ожидание регенерации.
  */
 public class RegenTask implements Runnable {
 
     private final ClipboardRegenableGameArena arena;
-    private final Runnable afterTask;
 
-    public RegenTask(ClipboardRegenableGameArena arena, Runnable afterTask) {
+    public RegenTask(ClipboardRegenableGameArena arena) {
         this.arena = arena;
-        this.afterTask = afterTask;
     }
 
     @Override
@@ -98,7 +98,7 @@ public class RegenTask implements Runnable {
 
             long end = System.currentTimeMillis();
 
-            //Меняем статус регенерации этой арены, довольно важно
+            //Арена теперь считается восстановленной, поэтому снимаем глобальный статус о том что ее надо восстановить.
             GameControl.getInstance().getGameManager().setRegenGame(this.arena, false);
 
             GameControl.getInstance().getLogger().info("Регенерация арены '" + this.arena.getName() + "' в игре '" + gameName + "' успешно завершена за " + (end - start) + "мс.");
@@ -108,9 +108,11 @@ public class RegenTask implements Runnable {
             e.printStackTrace();
         }
         finally {
-            //Как только регенерация произойдет, не важно, была ошибка или нет, выполняем действие после, а именно в ОСНОВНОМ потоке.
-            if (this.afterTask != null) {
-                Bukkit.getScheduler().runTask(GameControl.getInstance(), this.afterTask);
+            //После регенерации арены, получаем ее состояние
+            IGameState state = this.arena.getState();
+            //Снимаем ожидание регенерации
+            if (state instanceof IRegenState regenState) {
+                regenState.setWaitingRegen(false);
             }
         }
     }

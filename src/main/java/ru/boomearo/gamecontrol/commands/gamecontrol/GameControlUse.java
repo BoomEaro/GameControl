@@ -71,7 +71,7 @@ public class GameControlUse implements Commands {
             return true;
         }
 
-        RegenTask task = new RegenTask(crga, null);
+        RegenTask task = new RegenTask(crga);
 
         try {
             gm.queueRegenArena(task);
