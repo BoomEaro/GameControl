@@ -5,7 +5,7 @@ package ru.boomearo.gamecontrol.objects.states;
  */
 public abstract class AbstractRegenState implements IRegenState {
 
-    private boolean waitingRegen = false;
+    private volatile boolean waitingRegen = false;
 
     @Override
     public boolean isWaitingRegen() {
