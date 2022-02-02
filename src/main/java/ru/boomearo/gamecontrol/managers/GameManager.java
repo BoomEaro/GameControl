@@ -27,6 +27,7 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.world.World;
+
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -63,7 +64,7 @@ public final class GameManager {
     private ThreadPoolExecutor regenPool = null;
     private ConcurrentMap<String, StoredRegenGame> regenData = new ConcurrentHashMap<>();
 
-    private ConcurrentMap<String, Clipboard> cachedClipboards = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Clipboard> cachedClipboards = new ConcurrentHashMap<>();
 
     private ThreadPoolExecutor savePool = null;
 
@@ -425,10 +426,18 @@ public final class GameManager {
         return this.players.values();
     }
 
+
     public StoredRegenGame getRegenGameByName(String name) {
         return this.regenData.get(name);
     }
 
+    /**
+     * Сохраняет глобальное состояние регенереации арены. Используется для полного контроля регенерации.
+     * Например, если игра не успела восстановить арену, и установить здесь значение false, при регистрации игры, арена будет автоматически восстановлена.
+     * @param arena Арена
+     * @param needRegen Требуется ли восстановить арену
+     * @throws ConsoleGameException Если арена является null
+     */
     public void setRegenGame(ClipboardRegenableGameArena arena, boolean needRegen) throws ConsoleGameException {
         if (arena == null) {
             throw new ConsoleGameException("Арена не может быть нулем!");

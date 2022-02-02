@@ -82,14 +82,12 @@ public class GameControl extends JavaPlugin {
     public void onDisable() {
         this.manager.saveRegenData();
 
-        //this.manager.stopRegenPool();
         try {
             this.manager.stopSavePool();
         }
         catch (InterruptedException e1) {
             e1.printStackTrace();
         }
-
 
         for (Class<? extends JavaPlugin> cl : new HashSet<>(this.manager.getAllGameClasses())) {
             try {
@@ -119,10 +117,20 @@ public class GameControl extends JavaPlugin {
         return instance;
     }
 
+    /**
+     * Центрирует локацию относительно блока (добавляет оси 'X' и 'Z' значение 0.5)
+     * @param loc Локация которую нужно центрировать
+     * @return Нормализованную локацию
+     */
     public static Location normalizeLocation(Location loc) {
         return new Location(loc.getWorld(), loc.getBlockX() + 0.5f, loc.getBlockY(), loc.getBlockZ() + 0.5f);
     }
 
+    /**
+     * Центрирует направления взгляда локации строго по одной из четырех сторон света, а так же центрирует локацию относительно блока.
+     * @param loc Локация которую нужно центрировать
+     * @return Нормализованную локацию
+     */
     public static Location normalizeRotation(Location loc) {
         float yaw = loc.getYaw();
         if (yaw < 0) {
