@@ -8,13 +8,13 @@ import java.util.Collection;
 public interface IStatisticsManager {
 
     /**
-     * @return тип статистики по указанному имени
+     * @return Всех игроков этой статистики
      * @see IStatsData
      */
     public IStatsData getStatsData(String name);
 
     /**
-     * @return коллекцию, содержащую все типы статистик
+     * @return Коллекцию, содержащую все типы статистик
      */
     public Collection<? extends IStatsData> getAllStatsData();
 }

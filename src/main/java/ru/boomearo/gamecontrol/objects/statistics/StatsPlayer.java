@@ -13,10 +13,16 @@ public class StatsPlayer implements Comparable<StatsPlayer> {
         this.value = value;
     }
 
+    /**
+     * @return Ник игрока
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * @return Значение статистики
+     */
     public double getValue() {
         return this.value;
     }
