@@ -7,7 +7,6 @@ import ru.boomearo.board.exceptions.BoardException;
 import ru.boomearo.board.objects.IPageListFactory;
 import ru.boomearo.board.objects.PlayerBoard;
 import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
-import ru.boomearo.gamecontrol.objects.playertype.IPlayerType;
 
 /**
  * Базовое представление об игроке, который будет участвовать в любых играх.
@@ -30,16 +29,6 @@ public interface IGamePlayer {
      * @see AbstractGameArena
      */
     public AbstractGameArena<? extends IGamePlayer> getArena();
-
-    /**
-     * @return Тип игрока
-     */
-    public IPlayerType getPlayerType();
-
-    /**
-     * Устанавливает тип игрока для гибкого определения роли каждого игрока на арене
-     */
-    public void setPlayerType(IPlayerType playerType);
 
     /**
      * Устанавливает правую панель статистики этому игроку.
