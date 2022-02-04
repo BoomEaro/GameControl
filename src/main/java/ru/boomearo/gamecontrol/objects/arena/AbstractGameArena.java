@@ -26,11 +26,10 @@ public abstract class AbstractGameArena<T extends IGamePlayer> {
 
     private final ConcurrentMap<String, T> players = new ConcurrentHashMap<>();
 
-    public AbstractGameArena(String name, World world, Material icon, IGameState state) {
+    public AbstractGameArena(String name, World world, Material icon) {
         this.name = name;
         this.world = world;
         this.icon = icon;
-        this.state = state;
     }
 
     /**

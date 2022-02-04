@@ -4,7 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import ru.boomearo.gamecontrol.objects.IGamePlayer;
-import ru.boomearo.gamecontrol.objects.states.IGameState;
 
 /**
  * Абстрактное представление арены, в которой более точно описано то, каким образом она должна регенерироваться.
@@ -14,8 +13,8 @@ public abstract class ClipboardRegenableGameArena<T extends IGamePlayer> extends
 
     private final Location originCenter;
 
-    public ClipboardRegenableGameArena(String name, World world, Material icon, IGameState state, Location originCenter) {
-        super(name, world, icon, state);
+    public ClipboardRegenableGameArena(String name, World world, Material icon, Location originCenter) {
+        super(name, world, icon);
         this.originCenter = originCenter;
     }
 
