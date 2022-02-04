@@ -3,6 +3,7 @@ package ru.boomearo.gamecontrol.runnable;
 import org.bukkit.scheduler.BukkitRunnable;
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.objects.IGameManager;
+import ru.boomearo.gamecontrol.objects.IGamePlayer;
 import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
 import ru.boomearo.gamecontrol.objects.states.IGameState;
 
@@ -22,8 +23,8 @@ public class ArenaHandler extends BukkitRunnable {
     @Override
     public void run() {
         try {
-            for (IGameManager<?> game : GameControl.getInstance().getGameManager().getAllGameManagers()) {
-                for (AbstractGameArena<?> arena : game.getAllArenas()) {
+            for (IGameManager<? extends IGamePlayer> game : GameControl.getInstance().getGameManager().getAllGameManagers()) {
+                for (AbstractGameArena<? extends IGamePlayer> arena : game.getAllArenas()) {
                     try {
                         IGameState state = arena.getState();
 
