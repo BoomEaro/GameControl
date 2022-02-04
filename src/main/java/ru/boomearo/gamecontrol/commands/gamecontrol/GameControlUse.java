@@ -9,6 +9,7 @@ import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.managers.GameManager;
 import ru.boomearo.gamecontrol.objects.IForceStartable;
 import ru.boomearo.gamecontrol.objects.IGameManager;
+import ru.boomearo.gamecontrol.objects.IGamePlayer;
 import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
 import ru.boomearo.gamecontrol.objects.arena.ClipboardRegenableGameArena;
 import ru.boomearo.serverutils.utils.other.commands.CmdInfo;
@@ -22,7 +23,7 @@ public class GameControlUse implements Commands {
             return false;
         }
 
-        Collection<IGameManager> igm = GameControl.getInstance().getGameManager().getAllGameManagers();
+        Collection<IGameManager<? extends IGamePlayer>> igm = GameControl.getInstance().getGameManager().getAllGameManagers();
         if (igm.isEmpty()) {
             cs.sendMessage(GameManager.prefix + "Ни одна игра не зарегистрирована!");
             return true;
@@ -32,7 +33,7 @@ public class GameControlUse implements Commands {
         final String sep = GameManager.prefix + "§8============================";
 
         cs.sendMessage(sep);
-        for (IGameManager gm : igm) {
+        for (IGameManager<? extends IGamePlayer> gm : igm) {
             cs.sendMessage(GameManager.prefix + "Игра '§9" + gm.getGameDisplayName() + "§7'");
             cs.sendMessage(GameManager.prefix + "Арен: §9" + gm.getAllArenas().size() + "§7. Игроков: §9" + gm.getAllPlayers().size());
             cs.sendMessage(sep);
@@ -51,7 +52,7 @@ public class GameControlUse implements Commands {
 
         GameManager gm = GameControl.getInstance().getGameManager();
 
-        IGameManager igm = gm.getGameByName(g);
+        IGameManager<? extends IGamePlayer> igm = gm.getGameByName(g);
         if (igm == null) {
             cs.sendMessage(GameManager.prefix + "Игра '§9" + g + "§7' не найдена!");
             return true;
@@ -59,7 +60,7 @@ public class GameControlUse implements Commands {
 
         String a = args[1];
 
-        AbstractGameArena aga = igm.getGameArena(a);
+        AbstractGameArena<? extends IGamePlayer> aga = igm.getGameArena(a);
         if (aga == null) {
             cs.sendMessage(GameManager.prefix + "Арена '§9" + a + "§7' не найдена!");
             return true;
@@ -92,7 +93,7 @@ public class GameControlUse implements Commands {
 
         GameManager gm = GameControl.getInstance().getGameManager();
 
-        IGameManager igm = gm.getGameByName(g);
+        IGameManager<? extends IGamePlayer> igm = gm.getGameByName(g);
         if (igm == null) {
             cs.sendMessage(GameManager.prefix + "Игра '§9" + g + "§7' не найдена!");
             return true;
@@ -100,7 +101,7 @@ public class GameControlUse implements Commands {
 
         String a = args[1];
 
-        AbstractGameArena aga = igm.getGameArena(a);
+        AbstractGameArena<? extends IGamePlayer> aga = igm.getGameArena(a);
         if (aga == null) {
             cs.sendMessage(GameManager.prefix + "Арена '§9" + a + "§7' не найдена!");
             return true;

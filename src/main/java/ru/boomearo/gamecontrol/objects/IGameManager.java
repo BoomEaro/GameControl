@@ -16,7 +16,7 @@ import ru.boomearo.gamecontrol.objects.statistics.IStatisticsManager;
 /**
  * Базовое представление об любой игре.
  */
-public interface IGameManager {
+public interface IGameManager<T extends IGamePlayer> {
 
     /**
      * @return имя игры
@@ -79,12 +79,12 @@ public interface IGameManager {
      * @return указанную арену, если она существует в этой игре
      * @see AbstractGameArena
      */
-    public AbstractGameArena getGameArena(String name);
+    public AbstractGameArena<T> getGameArena(String name);
 
     /**
      * @return коллекцию, содержащую все арены этой игры
      */
-    public Collection<? extends AbstractGameArena> getAllArenas();
+    public Collection<? extends AbstractGameArena<T>> getAllArenas();
 
     /**
      * @return менеджер статистики, используемый для записи достижений игроков

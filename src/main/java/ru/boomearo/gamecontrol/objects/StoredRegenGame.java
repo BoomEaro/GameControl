@@ -51,7 +51,6 @@ public class StoredRegenGame implements ConfigurationSerializable {
         return result;
     }
 
-    @SuppressWarnings("unchecked")
     public static StoredRegenGame deserialize(Map<String, Object> args) {
         String name = "ga";
         ConcurrentMap<String, StoredRegenArena> arenas = new ConcurrentHashMap<>();

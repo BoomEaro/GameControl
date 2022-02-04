@@ -22,8 +22,8 @@ public class ArenaHandler extends BukkitRunnable {
     @Override
     public void run() {
         try {
-            for (IGameManager game : GameControl.getInstance().getGameManager().getAllGameManagers()) {
-                for (AbstractGameArena arena : game.getAllArenas()) {
+            for (IGameManager<?> game : GameControl.getInstance().getGameManager().getAllGameManagers()) {
+                for (AbstractGameArena<?> arena : game.getAllArenas()) {
                     try {
                         IGameState state = arena.getState();
 

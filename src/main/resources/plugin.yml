@@ -4,7 +4,7 @@ version: 0.1
 author: BoomEaro
 description: GameControl
 api-version: 1.13
-depend: [EssentialsSpawn, FastAsyncWorldEdit, ServerUtils]
+depend: [EssentialsSpawn, FastAsyncWorldEdit, ServerUtils, Board]
 commands:
   gamecontrol:
     usage: /gamecontrol

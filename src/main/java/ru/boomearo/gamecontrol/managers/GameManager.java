@@ -56,8 +56,8 @@ import ru.boomearo.serverutils.utils.other.ExtendedThreadFactory;
  */
 public final class GameManager {
 
-    private final ConcurrentMap<Class<? extends JavaPlugin>, IGameManager> gamesClasses = new ConcurrentHashMap<>();
-    private final ConcurrentMap<String, IGameManager> gamesNames = new ConcurrentHashMap<>();
+    private final ConcurrentMap<Class<? extends JavaPlugin>, IGameManager<? extends IGamePlayer>> gamesClasses = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, IGameManager<? extends IGamePlayer>> gamesNames = new ConcurrentHashMap<>();
 
     private final ConcurrentMap<String, IGamePlayer> players = new ConcurrentHashMap<>();
 
@@ -252,13 +252,13 @@ public final class GameManager {
      * Если плагин имеет арены, реализующие регенерацию, будет выполнена попытка регенерации если это требуется.
      * @throws ConsoleGameException если класс или реализация null, или игра уже зарегистрирована
      */
-    public void registerGame(Class<? extends JavaPlugin> clazz, IGameManager manager) throws ConsoleGameException {
+    public void registerGame(Class<? extends JavaPlugin> clazz, IGameManager<? extends IGamePlayer> manager) throws ConsoleGameException {
         if (clazz == null || manager == null) {
             throw new ConsoleGameException("Аргументы не должны быть нулевые!");
         }
 
         synchronized (this.lock) {
-            IGameManager igm = this.gamesClasses.get(clazz);
+            IGameManager<? extends IGamePlayer> igm = this.gamesClasses.get(clazz);
             if (igm != null) {
                 throw new ConsoleGameException("Игра " + igm.getGameName() + " уже зарегистрирована!");
             }
@@ -272,7 +272,7 @@ public final class GameManager {
                 //Получаем все арены которые были записаны в этой игре для регенераций
                 for (StoredRegenArena ra : rg.getAllArenas()) {
                     //убеждаемся что арена есть, она поддерживает регенерацию и самое главное, требует ли регенерацию.
-                    AbstractGameArena aga = manager.getGameArena(ra.getName());
+                    AbstractGameArena<? extends IGamePlayer> aga = manager.getGameArena(ra.getName());
                     if (aga == null) {
                         continue;
                     }
@@ -306,7 +306,7 @@ public final class GameManager {
         }
 
         synchronized (this.lock) {
-            IGameManager igm = this.gamesClasses.get(clazz);
+            IGameManager<? extends IGamePlayer> igm = this.gamesClasses.get(clazz);
             if (igm == null) {
                 throw new ConsoleGameException("Класс " + clazz.getName() + " не был зарегистрирован!");
             }
@@ -331,14 +331,14 @@ public final class GameManager {
      * @return игру по указанному классу плагина (JavaPlugin)
      * @see IGameManager
      */
-    public IGameManager getGameByClass(Class<? extends JavaPlugin> clazz) {
+    public IGameManager<? extends IGamePlayer> getGameByClass(Class<? extends JavaPlugin> clazz) {
         return this.gamesClasses.get(clazz);
     }
 
     /**
      * @return коллекцию, в которой все зарегистрированные игры
      */
-    public Collection<IGameManager> getAllGameManagers() {
+    public Collection<IGameManager<? extends IGamePlayer>> getAllGameManagers() {
         return this.gamesClasses.values();
     }
 
@@ -353,7 +353,7 @@ public final class GameManager {
      * @return игру по имени игры
      * @see IGameManager
      */
-    public IGameManager getGameByName(String game) {
+    public IGameManager<? extends IGamePlayer> getGameByName(String game) {
         return this.gamesNames.get(game);
     }
 
@@ -374,7 +374,7 @@ public final class GameManager {
                 throw new PlayerGameException("Вы уже в игре!");
             }
 
-            IGameManager igm = this.gamesClasses.get(clazz);
+            IGameManager<? extends IGamePlayer> igm = this.gamesClasses.get(clazz);
             if (igm == null) {
                 throw new ConsoleGameException("Игра " + clazz.getName() + " не найдена!");
             }

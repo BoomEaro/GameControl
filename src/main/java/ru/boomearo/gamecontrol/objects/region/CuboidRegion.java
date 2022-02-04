@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -34,15 +35,15 @@ public class CuboidRegion implements IRegion, ConfigurationSerializable {
     private Location[] fixRegion(double xMin, double yMin, double zMin, double xMax, double yMax, double zMax, World world) {
         Location[] loc = new Location[2];
 
-        double xMin2 = (xMin < xMax ? xMin : xMax);
-        double yMin2 = (yMin < yMax ? yMin : yMax);
-        double zMin2 = (zMin < zMax ? zMin : zMax);
+        double xMin2 = Math.min(xMin, xMax);
+        double yMin2 = Math.min(yMin, yMax);
+        double zMin2 = Math.min(zMin, zMax);
 
         loc[0] = new Location(world, xMin2, yMin2, zMin2);
 
-        double xMax2 = (xMin > xMax ? xMin : xMax);
-        double yMax2 = (yMin > yMax ? yMin : yMax);
-        double zMax2 = (zMin > zMax ? zMin : zMax);
+        double xMax2 = Math.max(xMin, xMax);
+        double yMax2 = Math.max(yMin, yMax);
+        double zMax2 = Math.max(zMin, zMax);
 
         loc[1] = new Location(world, xMax2, yMax2, zMax2);
 
@@ -68,10 +69,6 @@ public class CuboidRegion implements IRegion, ConfigurationSerializable {
             return false;
         }
 
-        double xLocIn = x;
-        double yLocIn = y;
-        double zLocIn = z;
-
         double Xl = this.loc1.getX();
         double Yl = this.loc1.getY();
         double Zl = this.loc1.getZ();
@@ -80,11 +77,7 @@ public class CuboidRegion implements IRegion, ConfigurationSerializable {
         double Yr = this.loc2.getY();
         double Zr = this.loc2.getZ();
 
-        if ((xLocIn >= Xl) && (xLocIn <= Xr + 1.0D) && (yLocIn >= Yl) && (yLocIn <= Yr + 1.0D) && (zLocIn >= Zl) && (zLocIn <= Zr + 1.0D)) {
-            return true;
-        }
-
-        return false;
+        return (x >= Xl) && (x <= Xr + 1.0D) && (y >= Yl) && (y <= Yr + 1.0D) && (z >= Zl) && (z <= Zr + 1.0D);
     }
 
     @Override
@@ -109,8 +102,8 @@ public class CuboidRegion implements IRegion, ConfigurationSerializable {
     }
 
     public static CuboidRegion deserialize(Map<String, Object> args) {
-        Location loc1 = null;
-        Location loc2 = null;
+        Location loc1 = new Location(Bukkit.getWorld("world"), 1, 1, 1);
+        Location loc2 = new Location(Bukkit.getWorld("world"), 2, 2, 2);
 
         Object fir = args.get("first");
         if (fir != null) {

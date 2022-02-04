@@ -1,5 +1,6 @@
 package ru.boomearo.gamecontrol.objects.states;
 
+import ru.boomearo.gamecontrol.objects.IGamePlayer;
 import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
 
 /**
@@ -16,7 +17,7 @@ public interface IGameState {
      * @return арена, в которой это состояние имеется
      * @see AbstractGameArena
      */
-    public AbstractGameArena getArena();
+    public AbstractGameArena<? extends IGamePlayer> getArena();
 
     /**
      * Описывает действие, которое должно произойти когда арена сменила свое состояние на текущее.

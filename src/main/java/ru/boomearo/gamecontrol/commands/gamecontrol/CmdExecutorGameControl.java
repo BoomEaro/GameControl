@@ -49,7 +49,7 @@ public class CmdExecutorGameControl extends AbstractExecutor implements TabCompl
             if (args[0].equalsIgnoreCase("regen") || args[0].equalsIgnoreCase("forcestart")) {
                 List<String> matches = new ArrayList<>();
                 String search = args[1].toLowerCase();
-                for (IGameManager igm : GameControl.getInstance().getGameManager().getAllGameManagers()) {
+                for (IGameManager<?> igm : GameControl.getInstance().getGameManager().getAllGameManagers()) {
                     if (igm.getGameName().toLowerCase().startsWith(search)) {
                         matches.add(igm.getGameName());
                     }
@@ -59,11 +59,11 @@ public class CmdExecutorGameControl extends AbstractExecutor implements TabCompl
         }
         else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("regen")) {
-                IGameManager igm = GameControl.getInstance().getGameManager().getGameByName(args[1]);
+                IGameManager<?> igm = GameControl.getInstance().getGameManager().getGameByName(args[1]);
                 if (igm != null) {
                     List<String> matches = new ArrayList<>();
                     String search = args[2].toLowerCase();
-                    for (AbstractGameArena aga : igm.getAllArenas()) {
+                    for (AbstractGameArena<?> aga : igm.getAllArenas()) {
                         if (aga instanceof RegenableGameArena) {
                             if (aga.getName().toLowerCase().startsWith(search)) {
                                 matches.add(aga.getName());
@@ -74,11 +74,11 @@ public class CmdExecutorGameControl extends AbstractExecutor implements TabCompl
                 }
             }
             else if (args[0].equalsIgnoreCase("forcestart")) {
-                IGameManager igm = GameControl.getInstance().getGameManager().getGameByName(args[1]);
+                IGameManager<?> igm = GameControl.getInstance().getGameManager().getGameByName(args[1]);
                 if (igm != null) {
                     List<String> matches = new ArrayList<>();
                     String search = args[2].toLowerCase();
-                    for (AbstractGameArena aga : igm.getAllArenas()) {
+                    for (AbstractGameArena<?> aga : igm.getAllArenas()) {
                         if (aga instanceof IForceStartable) {
                             if (aga.getName().toLowerCase().startsWith(search)) {
                                 matches.add(aga.getName());
