@@ -108,7 +108,7 @@ public abstract class AbstractGameArena<T extends IGamePlayer> {
     /**
      * @return Коллекция, содержащая всех игроков этой арены
      */
-    public Collection<? extends IGamePlayer> getAllPlayers() {
+    public Collection<T> getAllPlayers() {
         return this.players.values();
     }
     /**
