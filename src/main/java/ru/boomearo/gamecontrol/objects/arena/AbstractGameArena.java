@@ -22,7 +22,7 @@ public abstract class AbstractGameArena<T extends IGamePlayer> {
 
     private final Material icon;
 
-    private volatile IGameState state;
+    private volatile IGameState state = null;
 
     private final ConcurrentMap<String, T> players = new ConcurrentHashMap<>();
 
@@ -67,11 +67,20 @@ public abstract class AbstractGameArena<T extends IGamePlayer> {
      * Устанавливает новое состояние игры, а так же вызывает метод initState()
      */
     public void setState(IGameState state) {
+        //Игнорируем нулевые состояния игры.
+        if (state == null) {
+            return;
+        }
+        IGameState oldState = this.state;
+
         //Устанавливаем новое
         this.state = state;
 
-        //Инициализируем новое
-        this.state.initState();
+        //Вызываем метод инициализации только если убедились в том что до этого было состояние игры
+        if (oldState != null) {
+            //Инициализируем новое
+            this.state.initState();
+        }
     }
 
     /**
