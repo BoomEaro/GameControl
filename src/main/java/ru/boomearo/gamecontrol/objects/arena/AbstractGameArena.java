@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.objects.IGameManager;
 import ru.boomearo.gamecontrol.objects.IGamePlayer;
-import ru.boomearo.gamecontrol.objects.states.IGameState;
+import ru.boomearo.gamecontrol.objects.states.game.IGameState;
 
 /**
  * Абстрактное представление арены, в которой могут быть игроки и свои состояния активности

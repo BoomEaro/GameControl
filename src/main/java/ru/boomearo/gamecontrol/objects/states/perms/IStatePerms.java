@@ -1,4 +1,4 @@
-package ru.boomearo.gamecontrol.objects.states;
+package ru.boomearo.gamecontrol.objects.states.perms;
 
 /**
  * Базовое представление состояния прав на арену.

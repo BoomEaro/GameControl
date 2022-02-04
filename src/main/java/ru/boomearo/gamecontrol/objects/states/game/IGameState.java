@@ -1,4 +1,4 @@
-package ru.boomearo.gamecontrol.objects.states;
+package ru.boomearo.gamecontrol.objects.states.game;
 
 import ru.boomearo.gamecontrol.objects.IGamePlayer;
 import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;

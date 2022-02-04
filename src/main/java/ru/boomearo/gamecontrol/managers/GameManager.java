@@ -47,8 +47,8 @@ import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
 import ru.boomearo.gamecontrol.objects.arena.ClipboardRegenableGameArena;
 import ru.boomearo.gamecontrol.objects.defactions.GameControlDefaultAction;
 import ru.boomearo.gamecontrol.objects.defactions.IDefaultAction;
-import ru.boomearo.gamecontrol.objects.states.IGameState;
-import ru.boomearo.gamecontrol.objects.states.IRegenState;
+import ru.boomearo.gamecontrol.objects.states.game.IGameState;
+import ru.boomearo.gamecontrol.objects.states.game.IRegenState;
 import ru.boomearo.serverutils.utils.other.ExtendedThreadFactory;
 
 /**

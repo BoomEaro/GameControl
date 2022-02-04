@@ -5,7 +5,7 @@ import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.objects.IGameManager;
 import ru.boomearo.gamecontrol.objects.IGamePlayer;
 import ru.boomearo.gamecontrol.objects.arena.AbstractGameArena;
-import ru.boomearo.gamecontrol.objects.states.IGameState;
+import ru.boomearo.gamecontrol.objects.states.game.IGameState;
 
 /**
  * Обработчик всех игр и арен. Каждый тик обрабатывает все игры.
