@@ -39,8 +39,7 @@ public interface IGamePlayer {
         if (pb != null) {
             try {
                 if (factory == null) {
-                    pb.setNewPageList(Board.getInstance().getBoardManager().getPageListFactory().createPageList(pb));
-                    return;
+                    factory = Board.getInstance().getBoardManager().getPageListFactory();
                 }
 
                 pb.setNewPageList(factory.createPageList(pb));
