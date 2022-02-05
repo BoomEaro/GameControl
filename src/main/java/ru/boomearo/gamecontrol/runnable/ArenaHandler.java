@@ -27,8 +27,10 @@ public class ArenaHandler extends BukkitRunnable {
                 for (AbstractGameArena<? extends IGamePlayer> arena : game.getAllArenas()) {
                     try {
                         IGameState state = arena.getState();
-
-                        state.autoUpdateHandler();
+                        //TODO На всякий случай проверяем возвращаемый статус игры на нулл
+                        if (state != null) {
+                            state.autoUpdateHandler();
+                        }
                     }
                     catch (Exception e) {
                         e.printStackTrace();
