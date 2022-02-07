@@ -206,6 +206,18 @@ public abstract class AbstractGameArena<T extends IGamePlayer> {
     }
 
     /**
+     * Отправляет всем игрокам этой арены action bar
+     */
+    public void sendActionBar(String text) {
+        for (T sp : this.players.values()) {
+            Player pl = sp.getPlayer();
+            if (pl.isOnline()) {
+                pl.sendActionBar(text);
+            }
+        }
+    }
+
+    /**
      * @return игра, в которой находится эта арена
      * @see IGameManager
      */
