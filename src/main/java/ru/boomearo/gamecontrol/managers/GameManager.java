@@ -438,7 +438,7 @@ public final class GameManager {
      * @param needRegen Требуется ли восстановить арену
      * @throws ConsoleGameException Если арена является null
      */
-    public void setRegenGame(ClipboardRegenableGameArena arena, boolean needRegen) throws ConsoleGameException {
+    public void setRegenGame(ClipboardRegenableGameArena<? extends IGamePlayer> arena, boolean needRegen) throws ConsoleGameException {
         if (arena == null) {
             throw new ConsoleGameException("Арена не может быть нулем!");
         }

@@ -55,9 +55,9 @@ public interface IGameManager<T extends IGamePlayer> {
     /**
      * Добавляет игрока в игру. Этот метод вызывает сам GameControl, его не нужно вызывать где-то еще.
      * @return игрок, который успешно присоединился к игре (а то, в какую арену, уже зависит от реализации этого метода)
-     * @see IGamePlayer
+     * @see T
      */
-    public IGamePlayer join(Player pl, String arena, IDefaultAction action) throws ConsoleGameException, PlayerGameException;
+    public T join(Player pl, String arena, IDefaultAction action) throws ConsoleGameException, PlayerGameException;
 
     /**
      * Удаляет игрока из игры. Этот метод вызывает сам GameControl, его не нужно вызывать где-то еще.
@@ -66,18 +66,18 @@ public interface IGameManager<T extends IGamePlayer> {
 
     /**
      * @return указанного игрока, если был в игре
-     * @see IGamePlayer
+     * @see T
      */
-    public IGamePlayer getGamePlayer(String name);
+    public T getGamePlayer(String name);
 
     /**
      * @return коллекцию, содержащую всех игроков этой игры
      */
-    public Collection<? extends IGamePlayer> getAllPlayers();
+    public Collection<T> getAllPlayers();
 
     /**
      * @return указанную арену, если она существует в этой игре
-     * @see AbstractGameArena
+     * @see AbstractGameArena<T>
      */
     public AbstractGameArena<T> getGameArena(String name);
 
