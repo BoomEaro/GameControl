@@ -99,9 +99,9 @@ public abstract class AbstractGameArena<T extends IGamePlayer> {
 
     /**
      * @return Игрок, который находится в этой арене
-     * @see IGamePlayer
+     * @see T
      */
-    public IGamePlayer getGamePlayer(String name) {
+    public T getGamePlayer(String name) {
         return this.players.get(name);
     }
 
