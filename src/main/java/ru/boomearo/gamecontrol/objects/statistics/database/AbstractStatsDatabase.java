@@ -32,7 +32,6 @@ public abstract class AbstractStatsDatabase {
     }
 
     public void initDatabase() throws SQLException {
-        //TODO как то исправить
         DriverManager.registerDriver(new JDBC());
 
         this.executor = Executors.newFixedThreadPool(1, new ExtendedThreadFactory(this.plugin.getName() + "-SQL", 3));

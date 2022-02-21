@@ -8,6 +8,8 @@ public class DefaultStatsPlayer implements IStatsPlayer, Comparable<DefaultStats
     private final String name;
     private double value;
 
+    private boolean changes = false;
+
     public DefaultStatsPlayer(String name, double value) {
         this.name = name;
         this.value = value;
@@ -16,6 +18,16 @@ public class DefaultStatsPlayer implements IStatsPlayer, Comparable<DefaultStats
     @Override
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public boolean hasChanges() {
+        return this.changes;
+    }
+
+    @Override
+    public void setChanges(boolean changes) {
+        this.changes = changes;
     }
 
     /**

@@ -2,11 +2,9 @@ package ru.boomearo.gamecontrol.objects.statistics;
 
 import ru.boomearo.gamecontrol.objects.statistics.database.DefaultStatsDatabase;
 
-import java.sql.SQLException;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutionException;
 
 public class DefaultStatsManager implements IStatisticsManager {
 
@@ -28,14 +26,38 @@ public class DefaultStatsManager implements IStatisticsManager {
         return this.stats.values();
     }
 
-    public void loadData() throws ExecutionException, InterruptedException, SQLException {
-        this.database.initDatabase();
+    @Override
+    public void loadAllStatsData() {
+        try {
+            this.database.initDatabase();
 
-        for (IStatsType type : this.database.getTables()) {
-            DefaultStatsData data = getStatsData(type);
-            for (DefaultStatsDatabase.SectionStats stats : this.database.getAllStatsData(type).get()) {
-                data.addStatsPlayer(new DefaultStatsPlayer(stats.name, stats.value));
+            for (IStatsType type : this.database.getTables()) {
+                DefaultStatsData data = getStatsData(type);
+                for (DefaultStatsDatabase.SectionStats stats : this.database.getAllStatsData(type).get()) {
+                    data.addStatsPlayer(new DefaultStatsPlayer(stats.name, stats.value));
+                }
             }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void saveAllStatsData() {
+        try {
+            for (DefaultStatsData dsd : this.stats.values()) {
+                for (DefaultStatsPlayer dsp : dsd.getAllStatsPlayer()) {
+                    if (dsp.hasChanges()) {
+                        this.database.insertOrUpdateStatsData(dsd.getStatsType(), dsp.getName(), dsp.getValue());
+
+                        dsp.setChanges(false);
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -49,7 +71,7 @@ public class DefaultStatsManager implements IStatisticsManager {
         }
         sp.setValue(sp.getValue() + 1);
 
-        this.database.insertOrUpdateStatsData(type, name, sp.getValue());
+        sp.setChanges(true);
     }
 
     public double getStatsFromPlayer(IStatsType type, String name) {

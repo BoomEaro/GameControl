@@ -17,4 +17,14 @@ public interface IStatisticsManager {
      * @return Коллекцию, содержащую все типы статистик
      */
     public Collection<? extends IStatsData> getAllStatsData();
+
+    /**
+     * Загрузить всю текущую статистику с диска
+     */
+    public void loadAllStatsData();
+
+    /**
+     * Сохранить всю текущую статистику на диск
+     */
+    public void saveAllStatsData();
 }
