@@ -3,24 +3,24 @@ package ru.boomearo.gamecontrol.objects.statistics;
 import java.util.Collection;
 
 /**
- * Базовое представление всех игроков этой типа статистики
+ * Базовое представление всех игроков этой статистики
  */
 public interface IStatsData {
 
     /**
      * @return Название статистики
      */
-    public String getName();
+    public IStatsType getStatsType();
 
     /**
      * @return Игрока статистики по указанному имени
-     * @see StatsPlayer
+     * @see IStatsPlayer
      */
-    public StatsPlayer getStatsPlayer(String name);
+    public IStatsPlayer getStatsPlayer(String name);
 
     /**
      * @return Коллекцию, содержащую всех игроков этой статистики
      */
-    public Collection<? extends StatsPlayer> getAllStatsPlayer();
+    public Collection<? extends IStatsPlayer> getAllStatsPlayer();
 
 }

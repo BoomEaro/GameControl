@@ -11,7 +11,7 @@ public interface IStatisticsManager {
      * @return Всех игроков этой статистики
      * @see IStatsData
      */
-    public IStatsData getStatsData(String name);
+    public IStatsData getStatsData(IStatsType type);
 
     /**
      * @return Коллекцию, содержащую все типы статистик

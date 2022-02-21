@@ -3,19 +3,17 @@ package ru.boomearo.gamecontrol.objects.statistics;
 /**
  * Представляет игрока, хранящий какое-то число, обычно относящиеся к статистике.
  */
-public class StatsPlayer implements Comparable<StatsPlayer> {
+public class DefaultStatsPlayer implements IStatsPlayer, Comparable<DefaultStatsPlayer> {
 
     private final String name;
     private double value;
 
-    public StatsPlayer(String name, double value) {
+    public DefaultStatsPlayer(String name, double value) {
         this.name = name;
         this.value = value;
     }
 
-    /**
-     * @return Ник игрока
-     */
+    @Override
     public String getName() {
         return this.name;
     }
@@ -32,7 +30,7 @@ public class StatsPlayer implements Comparable<StatsPlayer> {
     }
 
     @Override
-    public int compareTo(StatsPlayer o) {
+    public int compareTo(DefaultStatsPlayer o) {
         int d = Double.compare(o.getValue(), this.value);
         if (d == 0) {
             d = -1;
