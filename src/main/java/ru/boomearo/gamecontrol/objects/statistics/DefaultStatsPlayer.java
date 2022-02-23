@@ -3,7 +3,7 @@ package ru.boomearo.gamecontrol.objects.statistics;
 /**
  * Представляет игрока, хранящий какое-то число, обычно относящиеся к статистике.
  */
-public class DefaultStatsPlayer implements IStatsPlayer, Comparable<DefaultStatsPlayer> {
+public class DefaultStatsPlayer implements IStatsPlayer {
 
     private final String name;
     private double value;
@@ -42,11 +42,14 @@ public class DefaultStatsPlayer implements IStatsPlayer, Comparable<DefaultStats
     }
 
     @Override
-    public int compareTo(DefaultStatsPlayer o) {
-        int d = Double.compare(o.getValue(), this.value);
-        if (d == 0) {
-            d = -1;
+    public int compareTo(IStatsPlayer other) {
+        if (other instanceof DefaultStatsPlayer dsp) {
+            int d = Double.compare(dsp.getValue(), this.value);
+            if (d == 0) {
+                d = -1;
+            }
+            return d;
         }
-        return d;
+        return 0;
     }
 }

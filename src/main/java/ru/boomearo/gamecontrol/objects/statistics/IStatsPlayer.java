@@ -1,6 +1,6 @@
 package ru.boomearo.gamecontrol.objects.statistics;
 
-public interface IStatsPlayer {
+public interface IStatsPlayer extends Comparable<IStatsPlayer> {
 
     String getName();
 
