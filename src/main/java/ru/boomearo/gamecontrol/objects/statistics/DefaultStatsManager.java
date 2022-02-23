@@ -1,5 +1,6 @@
 package ru.boomearo.gamecontrol.objects.statistics;
 
+import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.objects.IGameManager;
 import ru.boomearo.gamecontrol.objects.IGamePlayer;
 import ru.boomearo.gamecontrol.objects.statistics.database.DefaultStatsDatabase;
@@ -77,7 +78,11 @@ public class DefaultStatsManager implements IStatisticsManager {
     public void onSaveAllData() {
         try {
             for (DefaultStatsData statsData : this.stats.values()) {
+                //TODO TEST1
+                GameControl.getInstance().getLogger().info("TEST1 " + statsData.getStatsType().getName());
                 for (DefaultStatsPlayer playerData : statsData.getAllStatsPlayer()) {
+                    //TODO TEST2
+                    GameControl.getInstance().getLogger().info("TEST2 " + playerData.getName() + " " + playerData.hasChanges());
                     if (playerData.hasChanges()) {
                         this.database.insertOrUpdateStatsData(statsData.getStatsType(), playerData.getName(), playerData.getValue());
                         playerData.setChanges(false);
