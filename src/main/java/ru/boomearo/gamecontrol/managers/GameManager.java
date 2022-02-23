@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -49,6 +50,7 @@ import ru.boomearo.gamecontrol.objects.defactions.GameControlDefaultAction;
 import ru.boomearo.gamecontrol.objects.defactions.IDefaultAction;
 import ru.boomearo.gamecontrol.objects.states.game.IGameState;
 import ru.boomearo.gamecontrol.objects.states.game.IRegenState;
+import ru.boomearo.gamecontrol.objects.statistics.IStatisticsManager;
 import ru.boomearo.serverutils.utils.other.ExtendedThreadFactory;
 
 /**
@@ -66,7 +68,7 @@ public final class GameManager {
 
     private final ConcurrentMap<String, Clipboard> cachedClipboards = new ConcurrentHashMap<>();
 
-    private ThreadPoolExecutor savePool = null;
+    private ScheduledThreadPoolExecutor savePool = null;
 
     private IDefaultAction defaultAction = new GameControlDefaultAction();
 
@@ -106,8 +108,30 @@ public final class GameManager {
 
     public void initSavePool() {
         if (this.savePool == null) {
-            this.savePool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1, new ExtendedThreadFactory("SaveData", 3));
+            this.savePool = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool(1, new ExtendedThreadFactory("SaveData", 3));
+
+            loadScheduledSaveTasks();
         }
+    }
+
+    private void loadScheduledSaveTasks() {
+        //TODO Сделать каждые 5 минут
+        //Инициализируем шедулер с задачей, которая сохраняет статистику от всех игр
+        this.savePool.scheduleAtFixedRate(() -> {
+            try {
+                for (IGameManager<? extends IGamePlayer> igm : this.gamesClasses.values()) {
+                    IStatisticsManager statisticsManager = igm.getStatisticManager();
+                    if (statisticsManager == null) {
+                        continue;
+                    }
+
+                    statisticsManager.onSaveAllData();
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, 20, 20, TimeUnit.SECONDS);
     }
 
     public void stopSavePool() throws InterruptedException {
@@ -230,6 +254,7 @@ public final class GameManager {
         });
     }
 
+    //TODO НЕ ИЗВЕСТНО, будет ли работать так как надо
     public void queueSaveTask(Runnable task) throws ConsoleGameException {
         if (task == null) {
             throw new ConsoleGameException("Задача не может быть нулем!");
@@ -291,6 +316,12 @@ public final class GameManager {
                 }
             }
 
+            //Если у игры есть статистика, то загружаем ее
+            IStatisticsManager statisticsManager = manager.getStatisticManager();
+            if (statisticsManager != null) {
+                statisticsManager.onEnable();
+            }
+
             GameControl.getInstance().getLogger().info("Игра " + manager.getGameName() + " успешно зарегистрирована!");
         }
     }
@@ -321,6 +352,12 @@ public final class GameManager {
                 }
                 catch (GameControlException ignored) {
                 }
+            }
+
+            //Если у игры была статистика, то выключаем ее
+            IStatisticsManager statisticsManager = igm.getStatisticManager();
+            if (statisticsManager != null) {
+                statisticsManager.onDisable();
             }
 
             GameControl.getInstance().getLogger().info("Игра " + igm.getGameName() + " больше не зарегистрирована.");

@@ -9,11 +9,14 @@ import java.util.concurrent.ConcurrentMap;
 public class DefaultStatsManager implements IStatisticsManager {
 
     private final DefaultStatsDatabase database;
-
     private final ConcurrentMap<IStatsType, DefaultStatsData> stats = new ConcurrentHashMap<>();
 
     public DefaultStatsManager(DefaultStatsDatabase database) {
         this.database = database;
+
+        for (IStatsType type : this.database.getTables()) {
+            this.stats.put(type, new DefaultStatsData(type));
+        }
     }
 
     @Override
@@ -27,13 +30,13 @@ public class DefaultStatsManager implements IStatisticsManager {
     }
 
     @Override
-    public void loadAllStatsData() {
+    public void onEnable() {
         try {
             this.database.initDatabase();
 
             for (IStatsType type : this.database.getTables()) {
                 DefaultStatsData data = getStatsData(type);
-                for (DefaultStatsDatabase.SectionStats stats : this.database.getAllStatsData(type).get()) {
+                for (DefaultStatsDatabase.SectionStats stats : this.database.getAllStatsData(type)) {
                     data.addStatsPlayer(new DefaultStatsPlayer(stats.name, stats.value));
                 }
             }
@@ -44,14 +47,23 @@ public class DefaultStatsManager implements IStatisticsManager {
     }
 
     @Override
-    public void saveAllStatsData() {
+    public void onDisable() {
         try {
-            for (DefaultStatsData dsd : this.stats.values()) {
-                for (DefaultStatsPlayer dsp : dsd.getAllStatsPlayer()) {
-                    if (dsp.hasChanges()) {
-                        this.database.insertOrUpdateStatsData(dsd.getStatsType(), dsp.getName(), dsp.getValue());
+            this.database.disconnect();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-                        dsp.setChanges(false);
+    @Override
+    public void onSaveAllData() {
+        try {
+            for (DefaultStatsData statsData : this.stats.values()) {
+                for (DefaultStatsPlayer playerData : statsData.getAllStatsPlayer()) {
+                    if (playerData.hasChanges()) {
+                        this.database.insertOrUpdateStatsData(statsData.getStatsType(), playerData.getName(), playerData.getValue());
+                        playerData.setChanges(false);
                     }
                 }
             }
@@ -70,11 +82,10 @@ public class DefaultStatsManager implements IStatisticsManager {
             sp = newSp;
         }
         sp.setValue(sp.getValue() + 1);
-
         sp.setChanges(true);
     }
 
-    public double getStatsFromPlayer(IStatsType type, String name) {
+    public double getStatsValueFromPlayer(IStatsType type, String name) {
         DefaultStatsData data = this.stats.get(type);
         if (data == null) {
             return 0;

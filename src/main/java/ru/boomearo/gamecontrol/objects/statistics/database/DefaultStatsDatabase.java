@@ -12,7 +12,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Future;
 
 public class DefaultStatsDatabase extends AbstractStatsDatabase {
 
@@ -50,35 +49,31 @@ public class DefaultStatsDatabase extends AbstractStatsDatabase {
         }
     }
 
-    public Future<List<SectionStats>> getAllStatsData(IStatsType tableType) {
-        return this.executor.submit(() -> {
-            try (Statement statement = this.connection.createStatement()) {
-                List<SectionStats> collections = new ArrayList<>();
-                ResultSet resSet = statement.executeQuery("SELECT id, name, value FROM " + tableType.getTableName());
-                while (resSet.next()) {
-                    collections.add(new SectionStats(resSet.getInt("id"), resSet.getString("name"), resSet.getInt("value")));
-                }
-                return collections;
+    public List<SectionStats> getAllStatsData(IStatsType tableType) {
+        try (Statement statement = this.connection.createStatement()) {
+            List<SectionStats> collections = new ArrayList<>();
+            ResultSet resSet = statement.executeQuery("SELECT id, name, value FROM " + tableType.getTableName());
+            while (resSet.next()) {
+                collections.add(new SectionStats(resSet.getInt("id"), resSet.getString("name"), resSet.getInt("value")));
             }
-            catch (SQLException e) {
-                e.printStackTrace();
-                return Collections.emptyList();
-            }
-        });
+            return collections;
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
     }
 
     public void insertOrUpdateStatsData(IStatsType tableType, String name, double value) {
-        this.executor.execute(() -> {
-            try (PreparedStatement statement = this.connection.prepareStatement(
-                    "INSERT INTO " + tableType.getTableName() + "(`name`, `value`) VALUES(?, ?) ON CONFLICT (name) DO UPDATE SET value = EXCLUDED.value")) {
-                statement.setString(1, name);
-                statement.setDouble(2, value);
-                statement.executeUpdate();
-            }
-            catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
+        try (PreparedStatement statement = this.connection.prepareStatement(
+                "INSERT INTO " + tableType.getTableName() + "(`name`, `value`) VALUES(?, ?) ON CONFLICT (name) DO UPDATE SET value = EXCLUDED.value")) {
+            statement.setString(1, name);
+            statement.setDouble(2, value);
+            statement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static class SectionStats {

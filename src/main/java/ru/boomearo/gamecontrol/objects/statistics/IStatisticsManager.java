@@ -19,12 +19,18 @@ public interface IStatisticsManager {
     public Collection<? extends IStatsData> getAllStatsData();
 
     /**
-     * Загрузить всю текущую статистику с диска
+     * Логика запуска менеджера статистики
      */
-    public void loadAllStatsData();
+    public void onEnable();
 
     /**
-     * Сохранить всю текущую статистику на диск
+     * Логика выключения менеджера статистики
      */
-    public void saveAllStatsData();
+    public void onDisable();
+
+    /**
+     * Логика сохранения всех данных статистики на диск. Обычно выполняется шедулером каждые 5 минут.
+     * Сохраняет все данные в ТЕКУЩЕМ потоке, поэтому рекомендуется выполнять этот метод в любом месте, но не в основном потоке.
+     */
+    public void onSaveAllData();
 }
