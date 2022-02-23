@@ -115,7 +115,7 @@ public final class GameManager {
     }
 
     private void loadScheduledSaveTasks() {
-        //TODO Сделать каждые 5 минут
+        //TODO TEST Сделать каждые 5 минут
         //Инициализируем шедулер с задачей, которая сохраняет статистику от всех игр
         this.savePool.scheduleAtFixedRate(() -> {
             try {
@@ -124,6 +124,9 @@ public final class GameManager {
                     if (statisticsManager == null) {
                         continue;
                     }
+
+                    //TODO TEST
+                    GameControl.getInstance().getLogger().info("TEST. SAVE " + igm.getGameName());
 
                     statisticsManager.onSaveAllData();
                 }
@@ -145,7 +148,7 @@ public final class GameManager {
      * Добавить в очередь указанную арену на регенерацию
      * @throws ConsoleGameException если арена null, пул регенераций не был создан или пул регенераций выключен.
      */
-    public void queueRegenArena(ClipboardRegenableGameArena arena) throws ConsoleGameException {
+    public void queueRegenArena(ClipboardRegenableGameArena<? extends IGamePlayer> arena) throws ConsoleGameException {
         if (arena == null) {
             throw new ConsoleGameException("Арена не может быть нулем!");
         }
@@ -302,7 +305,7 @@ public final class GameManager {
                         continue;
                     }
 
-                    if (!(aga instanceof ClipboardRegenableGameArena crga)) {
+                    if (!(aga instanceof ClipboardRegenableGameArena<? extends IGamePlayer> crga)) {
                         continue;
                     }
 
