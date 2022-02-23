@@ -1,5 +1,7 @@
 package ru.boomearo.gamecontrol.objects.statistics;
 
+import ru.boomearo.gamecontrol.objects.IGameManager;
+import ru.boomearo.gamecontrol.objects.IGamePlayer;
 import ru.boomearo.gamecontrol.objects.statistics.database.DefaultStatsDatabase;
 
 import java.util.Collection;
@@ -9,14 +11,17 @@ import java.util.concurrent.ConcurrentMap;
 public class DefaultStatsManager implements IStatisticsManager {
 
     private final DefaultStatsDatabase database;
+    private final IStatsType[] types;
     private final ConcurrentMap<IStatsType, DefaultStatsData> stats = new ConcurrentHashMap<>();
 
-    public DefaultStatsManager(DefaultStatsDatabase database) {
-        this.database = database;
+    public DefaultStatsManager(IGameManager<? extends IGamePlayer> gameManager, IStatsType[] types) {
+        this.types = types;
 
-        for (IStatsType type : this.database.getTables()) {
+        for (IStatsType type : this.types) {
             this.stats.put(type, new DefaultStatsData(type));
         }
+
+        this.database = new DefaultStatsDatabase(gameManager.getPlugin(), types);
     }
 
     @Override
@@ -30,11 +35,16 @@ public class DefaultStatsManager implements IStatisticsManager {
     }
 
     @Override
+    public IStatsType[] getAllStatsType() {
+        return this.types;
+    }
+
+    @Override
     public void onEnable() {
         try {
             this.database.initDatabase();
 
-            for (IStatsType type : this.database.getTables()) {
+            for (IStatsType type : this.types) {
                 DefaultStatsData data = getStatsData(type);
                 for (DefaultStatsDatabase.SectionStats stats : this.database.getAllStatsData(type)) {
                     data.addStatsPlayer(new DefaultStatsPlayer(stats.name, stats.value));

@@ -19,6 +19,11 @@ public interface IStatisticsManager {
     public Collection<? extends IStatsData> getAllStatsData();
 
     /**
+     * Получить все типы статистики
+     */
+    public IStatsType[] getAllStatsType();
+
+    /**
      * Логика запуска менеджера статистики
      */
     public void onEnable();
