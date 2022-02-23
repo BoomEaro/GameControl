@@ -322,7 +322,15 @@ public final class GameManager {
             //Если у игры есть статистика, то загружаем ее
             IStatisticsManager statisticsManager = manager.getStatisticManager();
             if (statisticsManager != null) {
-                statisticsManager.onEnable();
+                try {
+                    GameControl.getInstance().getLogger().info("Загружаем базу данных игры " + manager.getGameName() + "..");
+                    statisticsManager.onEnable();
+                    GameControl.getInstance().getLogger().info("База данных игры " + manager.getGameName() + " успешно загружена.");
+                }
+                catch (Exception e) {
+                    GameControl.getInstance().getLogger().info("Не удалось загрузить базу данных игры " + manager.getGameName() + "..");
+                    e.printStackTrace();
+                }
             }
 
             GameControl.getInstance().getLogger().info("Игра " + manager.getGameName() + " успешно зарегистрирована!");
@@ -360,7 +368,15 @@ public final class GameManager {
             //Если у игры была статистика, то выключаем ее
             IStatisticsManager statisticsManager = igm.getStatisticManager();
             if (statisticsManager != null) {
-                statisticsManager.onDisable();
+                try {
+                    GameControl.getInstance().getLogger().info("Отключаюсь от базы данных игры " + igm.getGameName() + "..");
+                    statisticsManager.onDisable();
+                    GameControl.getInstance().getLogger().info("Успешное отключение от базы данных игры " + igm.getGameName() + "..");
+                }
+                catch (Exception e) {
+                    GameControl.getInstance().getLogger().info("Не удалось отключиться от базы данных игры" + igm.getGameName() + "..");
+                    e.printStackTrace();
+                }
             }
 
             GameControl.getInstance().getLogger().info("Игра " + igm.getGameName() + " больше не зарегистрирована.");
