@@ -1,11 +1,19 @@
 package ru.boomearo.gamecontrol.objects.statistics;
 
+import ru.boomearo.gamecontrol.objects.IGameManager;
+import ru.boomearo.gamecontrol.objects.IGamePlayer;
+
 import java.util.Collection;
 
 /**
  * Базовое представление о статистике в любой игре
  */
 public interface IStatisticsManager {
+
+    /**
+     * @return Менеджер игры, который использует эту статистику
+     */
+    public IGameManager<? extends IGamePlayer> getGameManager();
 
     /**
      * @return Всех игроков этой статистики
@@ -19,7 +27,7 @@ public interface IStatisticsManager {
     public Collection<? extends IStatsData> getAllStatsData();
 
     /**
-     * Получить все типы статистики
+     * @return Все типы статистики
      */
     public IStatsType[] getAllStatsType();
 

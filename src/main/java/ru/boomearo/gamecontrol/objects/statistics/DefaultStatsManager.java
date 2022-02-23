@@ -10,11 +10,13 @@ import java.util.concurrent.ConcurrentMap;
 
 public class DefaultStatsManager implements IStatisticsManager {
 
-    private final DefaultStatsDatabase database;
+    private final IGameManager<? extends IGamePlayer> gameManager;
     private final IStatsType[] types;
+    private final DefaultStatsDatabase database;
     private final ConcurrentMap<IStatsType, DefaultStatsData> stats = new ConcurrentHashMap<>();
 
     public DefaultStatsManager(IGameManager<? extends IGamePlayer> gameManager, IStatsType[] types) {
+        this.gameManager = gameManager;
         this.types = types;
 
         for (IStatsType type : this.types) {
@@ -22,6 +24,11 @@ public class DefaultStatsManager implements IStatisticsManager {
         }
 
         this.database = new DefaultStatsDatabase(gameManager.getPlugin(), types);
+    }
+
+    @Override
+    public IGameManager<? extends IGamePlayer> getGameManager() {
+        return this.gameManager;
     }
 
     @Override
