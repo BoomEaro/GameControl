@@ -368,6 +368,10 @@ public final class GameManager {
             //Если у игры была статистика, то выключаем ее
             IStatisticsManager statisticsManager = igm.getStatisticManager();
             if (statisticsManager != null) {
+                //Принудительно сохраняем сначала данные
+                statisticsManager.onSaveAllData();
+
+                //Затем выключаемся с базы данных
                 try {
                     GameControl.getInstance().getLogger().info("Отключаюсь от базы данных игры " + igm.getGameName() + "..");
                     statisticsManager.onDisable();
