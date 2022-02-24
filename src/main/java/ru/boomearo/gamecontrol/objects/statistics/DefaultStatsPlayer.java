@@ -21,6 +21,11 @@ public class DefaultStatsPlayer implements IStatsPlayer {
     }
 
     @Override
+    public String getDisplayName() {
+        return this.name + ": " + this.value;
+    }
+
+    @Override
     public boolean hasChanges() {
         return this.changes;
     }
