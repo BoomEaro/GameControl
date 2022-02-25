@@ -254,7 +254,6 @@ public final class GameManager {
         });
     }
 
-    //TODO НЕ ИЗВЕСТНО, будет ли работать так как надо
     public void queueSaveTask(Runnable task) throws ConsoleGameException {
         if (task == null) {
             throw new ConsoleGameException("Задача не может быть нулем!");
