@@ -20,9 +20,10 @@ public class DefaultStatsPlayer implements IStatsPlayer {
         return this.name;
     }
 
+    //TODO Костыль в некотором роде, из-за значение double.
     @Override
-    public String getDisplayName() {
-        return this.name + ": " + this.value;
+    public String getFormattedValues() {
+        return "" + (long) this.value;
     }
 
     @Override

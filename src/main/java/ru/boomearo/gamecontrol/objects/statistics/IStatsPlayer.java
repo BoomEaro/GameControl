@@ -4,7 +4,7 @@ public interface IStatsPlayer extends Comparable<IStatsPlayer> {
 
     String getName();
 
-    String getDisplayName();
+    String getFormattedValues();
 
     boolean hasChanges();
 
