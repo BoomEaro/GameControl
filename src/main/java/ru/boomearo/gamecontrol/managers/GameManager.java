@@ -116,20 +116,22 @@ public final class GameManager {
 
     private void loadScheduledSaveTasks() {
         //Инициализируем шедулер с задачей, которая сохраняет статистику от всех игр
-        this.savePool.scheduleAtFixedRate(() -> {
-            try {
-                for (IGameManager<? extends IGamePlayer> igm : this.gamesClasses.values()) {
-                    IStatisticsManager statisticsManager = igm.getStatisticManager();
-                    if (statisticsManager == null) {
-                        continue;
-                    }
-                    statisticsManager.onSaveAllData();
+        this.savePool.scheduleAtFixedRate(this::saveAllGameStats, 300, 300, TimeUnit.SECONDS);
+    }
+
+    public void saveAllGameStats() {
+        try {
+            for (IGameManager<? extends IGamePlayer> igm : this.gamesClasses.values()) {
+                IStatisticsManager statisticsManager = igm.getStatisticManager();
+                if (statisticsManager == null) {
+                    continue;
                 }
+                statisticsManager.onSaveAllData();
             }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }, 300, 300, TimeUnit.SECONDS);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void stopSavePool() throws InterruptedException {

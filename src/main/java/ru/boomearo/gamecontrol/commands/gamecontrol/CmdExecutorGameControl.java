@@ -39,7 +39,7 @@ public class CmdExecutorGameControl extends AbstractExecutor implements TabCompl
         if (args.length == 1) {
             List<String> matches = new ArrayList<>();
             String search = args[0].toLowerCase();
-            for (String se : Arrays.asList("list", "regen", "forcestart")) {
+            for (String se : Arrays.asList("list", "regen", "forcestart", "forcesavestats")) {
                 if (se.toLowerCase().startsWith(search)) {
                     matches.add(se);
                 }

@@ -2,6 +2,7 @@ package ru.boomearo.gamecontrol.commands.gamecontrol;
 
 import java.util.Collection;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import ru.boomearo.gamecontrol.GameControl;
@@ -120,6 +121,22 @@ public class GameControlUse implements Commands {
         ifs.setForceStarted(true);
 
         cs.sendMessage(GameManager.prefix + "Игра успешно принудительно запущена в арене '§9" + a + "§7'!");
+
+        return true;
+    }
+
+    @CmdInfo(name = "forcesavestats", description = "Принудительно сохранить статистику всех игр.", usage = "/gamecontrol forcesavestats", permission = "gamecontrol.admin")
+    public boolean forcesavestats(CommandSender cs, String[] args) {
+        GameManager gm = GameControl.getInstance().getGameManager();
+
+        try {
+            gm.queueSaveTask(gm::saveAllGameStats);
+
+            cs.sendMessage(GameManager.prefix + "Сохранение всех статистик игр успешно запущено!");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return true;
     }
