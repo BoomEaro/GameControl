@@ -2,7 +2,6 @@ package ru.boomearo.gamecontrol.commands.gamecontrol;
 
 import java.util.Collection;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import ru.boomearo.gamecontrol.GameControl;
@@ -67,7 +66,7 @@ public class GameControlUse implements Commands {
             return true;
         }
 
-        if (!(aga instanceof ClipboardRegenableGameArena crga)) {
+        if (!(aga instanceof ClipboardRegenableGameArena<? extends IGamePlayer> crga)) {
             cs.sendMessage(GameManager.prefix + "Арена '§9" + a + "§7' не поддерживает регенерацию!");
             return true;
         }
@@ -114,7 +113,7 @@ public class GameControlUse implements Commands {
         }
 
         if (ifs.isForceStarted()) {
-            cs.sendMessage(GameManager.prefix + "Принудительный запуск уже установлен а арене '§9" + a + "§7'!");
+            cs.sendMessage(GameManager.prefix + "Принудительный запуск уже установлен в арене '§9" + a + "§7'!");
             return true;
         }
 
