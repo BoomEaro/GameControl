@@ -115,7 +115,6 @@ public final class GameManager {
     }
 
     private void loadScheduledSaveTasks() {
-        //TODO TEST Сделать каждые 5 минут
         //Инициализируем шедулер с задачей, которая сохраняет статистику от всех игр
         this.savePool.scheduleAtFixedRate(() -> {
             try {
@@ -124,17 +123,13 @@ public final class GameManager {
                     if (statisticsManager == null) {
                         continue;
                     }
-
-                    //TODO TEST
-                    GameControl.getInstance().getLogger().info("TEST. SAVE " + igm.getGameName());
-
                     statisticsManager.onSaveAllData();
                 }
             }
             catch (Exception e) {
                 e.printStackTrace();
             }
-        }, 20, 20, TimeUnit.SECONDS);
+        }, 300, 300, TimeUnit.SECONDS);
     }
 
     public void stopSavePool() throws InterruptedException {
