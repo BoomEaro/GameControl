@@ -1,6 +1,6 @@
 name: GameControl
 main: ru.boomearo.gamecontrol.GameControl
-version: 0.1
+version: ${project.version}
 author: BoomEaro
 description: GameControl
 api-version: 1.13
