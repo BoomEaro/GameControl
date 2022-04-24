@@ -97,6 +97,7 @@
             <groupId>com.github.BoomEaro</groupId>
             <artifactId>ServerUtils</artifactId>
             <version>v0.2.2</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
