@@ -100,13 +100,6 @@
             <scope>system</scope>
             <systemPath>C:/Users/mm123/git/minecraft/BoomEaro/ServerUtils/target/ServerUtils.jar</systemPath>
         </dependency>
-        <dependency>
-            <groupId>Board</groupId>
-            <artifactId>Board</artifactId>
-            <version>1</version>
-            <scope>system</scope>
-            <systemPath>C:/Users/mm123/git/minecraft/BoomEaro/Board/target/Board.jar</systemPath>
-        </dependency>
     </dependencies>
 
 </project>
