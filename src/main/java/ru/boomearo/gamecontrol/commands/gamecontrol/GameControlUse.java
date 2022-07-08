@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import org.bukkit.command.CommandSender;
 
-import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.exceptions.ConsoleGameException;
 import ru.boomearo.gamecontrol.managers.GameManager;
 import ru.boomearo.gamecontrol.objects.IForceStartable;
@@ -17,13 +16,19 @@ import ru.boomearo.serverutils.utils.other.commands.Commands;
 
 public class GameControlUse implements Commands {
 
+    private final GameManager gameManager;
+
+    public GameControlUse(GameManager gameManager) {
+        this.gameManager = gameManager;
+    }
+
     @CmdInfo(name = "list", description = "Показать список всех игр.", usage = "/gamecontrol list", permission = "gamecontrol.admin")
     public boolean list(CommandSender cs, String[] args) {
         if (args.length != 0) {
             return false;
         }
 
-        Collection<IGameManager<? extends IGamePlayer>> igm = GameControl.getInstance().getGameManager().getAllGameManagers();
+        Collection<IGameManager<? extends IGamePlayer>> igm = this.gameManager.getAllGameManagers();
         if (igm.isEmpty()) {
             cs.sendMessage(GameManager.prefix + "Ни одна игра не зарегистрирована!");
             return true;
@@ -50,9 +55,7 @@ public class GameControlUse implements Commands {
 
         String g = args[0];
 
-        GameManager gm = GameControl.getInstance().getGameManager();
-
-        IGameManager<? extends IGamePlayer> igm = gm.getGameByName(g);
+        IGameManager<? extends IGamePlayer> igm = this.gameManager.getGameByName(g);
         if (igm == null) {
             cs.sendMessage(GameManager.prefix + "Игра '§9" + g + "§7' не найдена!");
             return true;
@@ -72,7 +75,7 @@ public class GameControlUse implements Commands {
         }
 
         try {
-            gm.queueRegenArena(crga);
+            this.gameManager.queueRegenArena(crga);
 
             cs.sendMessage(GameManager.prefix + "Регенерация отправлена в очередь для арены '§9" + a + "§7'!");
         }
@@ -91,9 +94,7 @@ public class GameControlUse implements Commands {
 
         String g = args[0];
 
-        GameManager gm = GameControl.getInstance().getGameManager();
-
-        IGameManager<? extends IGamePlayer> igm = gm.getGameByName(g);
+        IGameManager<? extends IGamePlayer> igm = this.gameManager.getGameByName(g);
         if (igm == null) {
             cs.sendMessage(GameManager.prefix + "Игра '§9" + g + "§7' не найдена!");
             return true;
@@ -126,10 +127,8 @@ public class GameControlUse implements Commands {
 
     @CmdInfo(name = "forcesavestats", description = "Принудительно сохранить статистику всех игр.", usage = "/gamecontrol forcesavestats", permission = "gamecontrol.admin")
     public boolean forcesavestats(CommandSender cs, String[] args) {
-        GameManager gm = GameControl.getInstance().getGameManager();
-
         try {
-            gm.queueSaveTask(gm::saveAllGameStats);
+            this.gameManager.queueSaveTask(this.gameManager::saveAllGameStats);
 
             cs.sendMessage(GameManager.prefix + "Сохранение всех статистик игр успешно запущено!");
         }

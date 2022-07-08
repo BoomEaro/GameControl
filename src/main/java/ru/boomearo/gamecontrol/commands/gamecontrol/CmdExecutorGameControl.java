@@ -8,7 +8,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-import ru.boomearo.gamecontrol.GameControl;
 import ru.boomearo.gamecontrol.managers.GameManager;
 import ru.boomearo.gamecontrol.objects.IForceStartable;
 import ru.boomearo.gamecontrol.objects.IGameManager;
@@ -19,10 +18,12 @@ import ru.boomearo.serverutils.utils.other.commands.AbstractExecutor;
 
 public class CmdExecutorGameControl extends AbstractExecutor implements TabCompleter {
 
+    private final GameManager gameManager;
     private static final List<String> empty = new ArrayList<>();
 
-    public CmdExecutorGameControl() {
-        super(new GameControlUse());
+    public CmdExecutorGameControl(GameManager gameManager) {
+        super(new GameControlUse(gameManager));
+        this.gameManager = gameManager;
     }
 
     @Override
@@ -50,7 +51,7 @@ public class CmdExecutorGameControl extends AbstractExecutor implements TabCompl
             if (args[0].equalsIgnoreCase("regen") || args[0].equalsIgnoreCase("forcestart")) {
                 List<String> matches = new ArrayList<>();
                 String search = args[1].toLowerCase();
-                for (IGameManager<? extends IGamePlayer> igm : GameControl.getInstance().getGameManager().getAllGameManagers()) {
+                for (IGameManager<? extends IGamePlayer> igm : this.gameManager.getAllGameManagers()) {
                     if (igm.getGameName().toLowerCase().startsWith(search)) {
                         matches.add(igm.getGameName());
                     }
@@ -60,7 +61,7 @@ public class CmdExecutorGameControl extends AbstractExecutor implements TabCompl
         }
         else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("regen")) {
-                IGameManager<? extends IGamePlayer> igm = GameControl.getInstance().getGameManager().getGameByName(args[1]);
+                IGameManager<? extends IGamePlayer> igm = this.gameManager.getGameByName(args[1]);
                 if (igm != null) {
                     List<String> matches = new ArrayList<>();
                     String search = args[2].toLowerCase();
@@ -75,7 +76,7 @@ public class CmdExecutorGameControl extends AbstractExecutor implements TabCompl
                 }
             }
             else if (args[0].equalsIgnoreCase("forcestart")) {
-                IGameManager<? extends IGamePlayer> igm = GameControl.getInstance().getGameManager().getGameByName(args[1]);
+                IGameManager<? extends IGamePlayer> igm = this.gameManager.getGameByName(args[1]);
                 if (igm != null) {
                     List<String> matches = new ArrayList<>();
                     String search = args[2].toLowerCase();

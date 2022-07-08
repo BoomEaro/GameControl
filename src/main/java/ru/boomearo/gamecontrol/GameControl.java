@@ -28,10 +28,8 @@ import ru.boomearo.gamecontrol.runnable.ArenaHandler;
 
 public class GameControl extends JavaPlugin {
 
-    private GameManager manager = null;
-    private ArenaHandler handler = null;
-
-    private EssentialsSpawn essSpawn = null;
+    private GameManager gameManager = null;
+    private ArenaHandler arenaHandler = null;
 
     private static GameControl instance = null;
 
@@ -39,7 +37,7 @@ public class GameControl extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        this.essSpawn = (EssentialsSpawn) Bukkit.getPluginManager().getPlugin("EssentialsSpawn");
+        EssentialsSpawn essentialsSpawn = (EssentialsSpawn) Bukkit.getPluginManager().getPlugin("EssentialsSpawn");
 
         ConfigurationSerialization.registerClass(CuboidRegion.class);
         ConfigurationSerialization.registerClass(StoredRegenGame.class);
@@ -51,26 +49,26 @@ public class GameControl extends JavaPlugin {
             saveDefaultConfig();
         }
 
-        if (this.manager == null) {
-            this.manager = new GameManager();
+        if (this.gameManager == null) {
+            this.gameManager = new GameManager(essentialsSpawn.getSpawn("default"));
 
-            this.manager.loadRegenData();
+            this.gameManager.loadRegenData();
 
-            this.manager.initRegenPool();
-            this.manager.initSavePool();
+            this.gameManager.initRegenPool();
+            this.gameManager.initSavePool();
         }
 
-        if (this.handler == null) {
-            this.handler = new ArenaHandler();
+        if (this.arenaHandler == null) {
+            this.arenaHandler = new ArenaHandler(this.gameManager);
         }
 
-        getCommand("gamecontrol").setExecutor(new CmdExecutorGameControl());
+        getCommand("gamecontrol").setExecutor(new CmdExecutorGameControl(this.gameManager));
 
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
         getServer().getPluginManager().registerEvents(new EntityListener(), this);
         getServer().getPluginManager().registerEvents(new HangingListener(), this);
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(this.gameManager), this);
         getServer().getPluginManager().registerEvents(new RaidListener(), this);
         getServer().getPluginManager().registerEvents(new VehicleListener(), this);
         getServer().getPluginManager().registerEvents(new WeatherListener(), this);
@@ -80,18 +78,18 @@ public class GameControl extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        this.manager.saveRegenData();
+        this.gameManager.saveRegenData();
 
         try {
-            this.manager.stopSavePool();
+            this.gameManager.stopSavePool();
         }
         catch (InterruptedException e1) {
             e1.printStackTrace();
         }
 
-        for (Class<? extends JavaPlugin> cl : new HashSet<>(this.manager.getAllGameClasses())) {
+        for (Class<? extends JavaPlugin> cl : new HashSet<>(this.gameManager.getAllGameClasses())) {
             try {
-                this.manager.unregisterGame(cl);
+                this.gameManager.unregisterGame(cl);
             }
             catch (ConsoleGameException e) {
                 e.printStackTrace();
@@ -106,11 +104,7 @@ public class GameControl extends JavaPlugin {
     }
 
     public GameManager getGameManager() {
-        return this.manager;
-    }
-
-    public EssentialsSpawn getEssentialsSpawn() {
-        return this.essSpawn;
+        return this.gameManager;
     }
 
     public static GameControl getInstance() {

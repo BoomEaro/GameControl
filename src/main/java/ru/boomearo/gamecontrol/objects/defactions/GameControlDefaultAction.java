@@ -15,9 +15,15 @@ import ru.boomearo.serverutils.utils.other.ExpFix;
  */
 public class GameControlDefaultAction implements IDefaultAction {
 
+    private final Location spawnLocation;
+
+    public GameControlDefaultAction(Location spawnLocation) {
+        this.spawnLocation = spawnLocation;
+    }
+
     @Override
     public Location getDefaultSpawnLocation() {
-        Location loc = GameControl.getInstance().getEssentialsSpawn().getSpawn("default");
+        Location loc = this.spawnLocation;
         if (loc == null) {
             return new Location(Bukkit.getWorld("world"), 0, 90, 0);
         }

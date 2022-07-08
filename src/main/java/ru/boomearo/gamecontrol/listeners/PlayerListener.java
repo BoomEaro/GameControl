@@ -25,16 +25,22 @@ import org.bukkit.event.player.PlayerUnleashEntityEvent;
 
 import com.destroystokyo.paper.event.player.PlayerStartSpectatingEntityEvent;
 
-import ru.boomearo.gamecontrol.GameControl;
+import ru.boomearo.gamecontrol.managers.GameManager;
 
 public class PlayerListener implements Listener {
+
+    private final GameManager gameManager;
+
+    public PlayerListener(GameManager gameManager) {
+        this.gameManager = gameManager;
+    }
 
     @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent e) {
         Player pl = e.getPlayer();
 
         try {
-            GameControl.getInstance().getGameManager().leaveGame(pl);
+            this.gameManager.leaveGame(pl);
         }
         catch (Exception ignored) {
         }
@@ -45,7 +51,7 @@ public class PlayerListener implements Listener {
         Player pl = e.getPlayer();
 
         //Выполняем "выход" игрока, телепортируя на спавн и прочее на всякий случай
-        GameControl.getInstance().getGameManager().getDefaultAction().performDefaultLeaveAction(pl);
+        this.gameManager.getDefaultAction().performDefaultLeaveAction(pl);
     }
 
     @EventHandler

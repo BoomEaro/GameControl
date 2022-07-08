@@ -70,13 +70,17 @@ public final class GameManager {
 
     private ScheduledThreadPoolExecutor savePool = null;
 
-    private IDefaultAction defaultAction = new GameControlDefaultAction();
+    private IDefaultAction defaultAction;
 
     private final Object lock = new Object();
 
     public static final String prefix = "§8[§9GameControl§8]: §7";
 
     public static final ChatColor backgroundTextColor = ChatColor.of(new Color(215, 215, 215));
+
+    public GameManager(Location spawnLocation) {
+       this.defaultAction = new GameControlDefaultAction(spawnLocation);
+    }
 
     public IDefaultAction getDefaultAction() {
         return this.defaultAction;
@@ -235,7 +239,7 @@ public final class GameManager {
                 long end = System.currentTimeMillis();
 
                 //Арена теперь считается восстановленной, поэтому снимаем глобальный статус о том что ее надо восстановить.
-                GameControl.getInstance().getGameManager().setRegenGame(arena, false);
+                setRegenGame(arena, false);
 
                 GameControl.getInstance().getLogger().info("Регенерация арены '" + arena.getName() + "' в игре '" + gameName + "' успешно завершена за " + (end - start) + "мс.");
             }
